@@ -1,7 +1,7 @@
 # Define the image you want to build from.
 # In this case, we are using the latest LTS (long term support) version of Node.
 FROM node:18
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # The image comes with Node.js and NPM already installed.
 # We just need to install the rest of our dependencies.
