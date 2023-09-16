@@ -4,8 +4,8 @@ WORKDIR /app
 
 ENV PATH /app/node_modules/.bin:$PATH
 
-COPY package.json ./
-COPY package-lock.json ./
+COPY ./peer-prep/package.json ./
+COPY ./peer-prep/package-lock.json ./
 
 RUN npm ci
 
