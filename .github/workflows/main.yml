@@ -1,6 +1,7 @@
 name: Build and Push to GitLab Container Registry
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master  # Adjust this to the branch you want to trigger the workflow on
