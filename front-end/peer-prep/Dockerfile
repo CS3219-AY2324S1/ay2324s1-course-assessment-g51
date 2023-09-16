@@ -7,7 +7,6 @@ WORKDIR /usr/src/app
 # We just need to install the rest of our dependencies.
 # Copy package.json and package-lock.json to the app directory on the image.
 COPY package*.json ./
-COPY package-lock.json ./
 
 # Install dependencies.
 RUN npm install
