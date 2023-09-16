@@ -1,13 +1,10 @@
 FROM node:18
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-ENV PATH /app/node_modules/.bin:$PATH
+COPY package*.json ./
 
-COPY ./peer-prep/package.json ./
-COPY ./peer-prep/package-lock.json ./
-
-RUN npm ci
+RUN npm i
 
 COPY . .
 
