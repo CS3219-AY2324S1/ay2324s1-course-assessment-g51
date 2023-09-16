@@ -1,11 +1,13 @@
 # Define the image you want to build from.
 # In this case, we are using the latest LTS (long term support) version of Node.
 FROM node:18
+WORKDIR /usr/src/app
 
 # The image comes with Node.js and NPM already installed.
 # We just need to install the rest of our dependencies.
 # Copy package.json and package-lock.json to the app directory on the image.
 COPY package*.json ./
+COPY package-lock.json ./
 
 # Install dependencies.
 RUN npm install
