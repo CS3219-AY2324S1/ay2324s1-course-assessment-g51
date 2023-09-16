@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Login to GitLab Container Registry
-      run: docker login registry.gitlab.com -u ${{ secrets.DOCKER}} -p ${{ secrets.GITLAB_USERNAME }}
+      run: docker login registry.gitlab.com -u ${{ secrets.GITLAB_USERNAME }} -p ${{ secrets.DOCKER}}
       
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1     
