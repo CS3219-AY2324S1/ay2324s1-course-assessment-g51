@@ -25,7 +25,7 @@ jobs:
     - name: Build and push        
       uses: docker/build-push-action@v2
       with: 
-        context: frontend/peer-prep
+        context: /frontend/peer-prep
         file: ./front-end/peer-prep/Dockerfile          
         push: true
         tags: registry.gitlab.com/peerprepgroup51sem1y2023/frontend:latest
