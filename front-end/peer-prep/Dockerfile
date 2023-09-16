@@ -2,7 +2,9 @@ FROM node:18
 
 WORKDIR /usr/src/app
 
-COPY ./src/package.json ./
+ENV PATH /app/node_modules/.bin:$PATH
+
+COPY package*.json ./
 
 RUN npm install
 
