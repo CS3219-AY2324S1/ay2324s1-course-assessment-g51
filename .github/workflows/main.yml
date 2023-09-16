@@ -28,5 +28,5 @@ jobs:
         context: front-end/peer-prep
         file: ./front-end/peer-prep/Dockerfile          
         push: true
-        tags: registry.gitlab.com/PeerPrepGroup51Sem1Y2023/frontend:latest
+        tags: registry.gitlab.com/peerprepgroup51sem1y2023/docker/frontend:latest
     
