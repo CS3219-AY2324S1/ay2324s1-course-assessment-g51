@@ -18,6 +18,8 @@ router.post("/questions", async (req, res) => {
 
 // route parameters:
 // GET /api/questions?q=query+string
+// GET /api/questions?difficulty=easy
+// GET /api/questions?limit=10&skip=10
 router.get("/questions", async (req, res) => {
   // TODO
 });

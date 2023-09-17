@@ -20,3 +20,5 @@ All endpoints are prefixed with `/api`
 2. `GET /questions`: gets >= 0 questions according to the supplied parameters listed below
    1. `q`: query string
    2. `difficulty`: difficulty of the question
+   3. `limit`: limits the number of results returned by the query
+   4. `skip`: skips the first `n` results of the query
