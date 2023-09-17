@@ -2,7 +2,21 @@ import express from "express";
 
 import Question from "../models/question";
 
+import sampleData from "../scripts/synthetic.json";
+
 const router = express.Router();
+
+// FOR DEV PURPOSES ONLY
+// BULK IMPORTS SYNTHETIC DATA INTO DATABASE
+// REMOVE ASAP
+router.post("/questions-bulk", async (req, res) => {
+  try {
+    const bulkData = await Question.insertMany(sampleData);
+    res.status(201).send(bulkData);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 router.post("/questions", async (req, res) => {
   try {
