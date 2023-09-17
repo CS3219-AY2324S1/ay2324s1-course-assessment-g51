@@ -1,7 +1,11 @@
-import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
 
-const app = express();
+import app from "./app";
+import "./db/mongoose";
 
-app.listen(8080, () => {
-  console.log(`server running on port 8080`);
+const port = process.env.PORT_NUMBER || 8080;
+
+app.listen(port, () => {
+  console.log(`server running on port ${port}`);
 });
