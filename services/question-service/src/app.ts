@@ -4,6 +4,7 @@ import questionRouter from "./routers/questions";
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/api", questionRouter);
 
 // catch-all route handling
