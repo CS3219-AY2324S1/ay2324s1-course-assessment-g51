@@ -10,9 +10,9 @@ router.post("/questions", async (req, res) => {
       ...req.body,
     });
     await question.save();
-    res.status(201).send(question);
+    res.status(201).json(question);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).json(error);
   }
 });
 
@@ -51,9 +51,9 @@ router.get("/questions", async (req, res) => {
 
   try {
     const questions = await Question.find(queryObject, null, queryOptions);
-    res.status(200).send(questions);
+    res.status(200).json(questions);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -61,12 +61,14 @@ router.get("/questions/:id", async (req, res) => {
   try {
     const question = await Question.findById(req.params.id);
     if (!question) {
-      res.status(404).send();
+      res.status(404).json({
+        error: "Question does not exist",
+      });
       return;
     }
-    res.send(question);
+    res.json(question);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json(error);
   }
 });
 
@@ -89,14 +91,16 @@ router.patch("/questions/:id", async (req, res) => {
       _id: req.params.id,
     });
     if (!question) {
-      res.status(404).send();
+      res.status(404).json({
+        error: "Question does not exist",
+      });
       return;
     }
     updates.forEach((update) => (question[update] = req.body[update]));
     await question.save();
     res.json(question);
   } catch (error) {
-    res.status(500).send();
+    res.status(500).json(error);
   }
 });
 
@@ -106,10 +110,12 @@ router.delete("/questions/:id", async (req, res) => {
       _id: req.params.id,
     });
     if (!question) {
-      res.status(404).send();
+      res.status(404).json({
+        error: "Question does not exist",
+      });
       return;
     }
-    res.send(question);
+    res.json(question);
   } catch (error) {
     res.status(500).json(error);
   }
