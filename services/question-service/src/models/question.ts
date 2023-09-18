@@ -11,6 +11,7 @@ const questionSchema = new Schema<IQuestion>({
   title: {
     type: String,
     required: true,
+    unique: true,
     trim: true,
   },
   description: {
