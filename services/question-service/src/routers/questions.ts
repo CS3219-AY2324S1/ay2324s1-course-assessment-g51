@@ -70,4 +70,49 @@ router.get("/questions/:id", async (req, res) => {
   }
 });
 
+router.patch("/questions/:id", async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["title", "description", "category", "complexity"];
+  const isValidOperation = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+
+  if (!isValidOperation) {
+    res.status(400).json({
+      error: "Invalid operation!",
+    });
+    return;
+  }
+
+  try {
+    const question: any = await Question.findOne({
+      _id: req.params.id,
+    });
+    if (!question) {
+      res.status(404).send();
+      return;
+    }
+    updates.forEach((update) => (question[update] = req.body[update]));
+    await question.save();
+    res.json(question);
+  } catch (error) {
+    res.status(500).send();
+  }
+});
+
+router.delete("/questions/:id", async (req, res) => {
+  try {
+    const question = await Question.findOneAndDelete({
+      _id: req.params.id,
+    });
+    if (!question) {
+      res.status(404).send();
+      return;
+    }
+    res.send(question);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 export default router;
