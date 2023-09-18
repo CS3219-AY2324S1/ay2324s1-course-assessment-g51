@@ -2,21 +2,7 @@ import express from "express";
 
 import Question from "../models/question";
 
-import sampleData from "../scripts/synthetic.json";
-
 const router = express.Router();
-
-// FOR DEV PURPOSES ONLY
-// BULK IMPORTS SYNTHETIC DATA INTO DATABASE
-// REMOVE ASAP
-router.post("/questions-bulk", async (req, res) => {
-  try {
-    const bulkData = await Question.insertMany(sampleData);
-    res.status(201).send(bulkData);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
 
 router.post("/questions", async (req, res) => {
   try {
@@ -34,13 +20,18 @@ router.post("/questions", async (req, res) => {
 // GET /api/questions?q=query+string
 // GET /api/questions?complexity=easy
 // GET /api/questions?limit=10&skip=10
+// GET /api/questions?category=databases%2Carrays (%2C = comma character)
 router.get("/questions", async (req, res) => {
   const queryObject: {
+    category?: string[];
     complexity?: string;
     $text?: {
       $search: string;
     };
   } = {};
+  if (req.query.category) {
+    queryObject.category = (req.query.category as string).split(",");
+  }
   if (req.query.complexity) {
     queryObject.complexity = req.query.complexity as string;
   }
@@ -75,7 +66,7 @@ router.get("/questions/:id", async (req, res) => {
     }
     res.send(question);
   } catch (error) {
-    res.status(500).send();
+    res.status(500).send(error);
   }
 });
 
