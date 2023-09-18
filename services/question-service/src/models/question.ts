@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 interface IQuestion {
   title: string;
   description: string;
-  difficulty: string;
+  complexity: string;
 }
 
 const questionSchema = new Schema<IQuestion>({
@@ -15,7 +15,7 @@ const questionSchema = new Schema<IQuestion>({
     type: String,
     required: true,
   },
-  difficulty: {
+  complexity: {
     type: String,
     enum: ["easy", "medium", "difficult"],
   },

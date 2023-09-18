@@ -32,17 +32,17 @@ router.post("/questions", async (req, res) => {
 
 // route parameters:
 // GET /api/questions?q=query+string
-// GET /api/questions?difficulty=easy
+// GET /api/questions?complexity=easy
 // GET /api/questions?limit=10&skip=10
 router.get("/questions", async (req, res) => {
   const queryObject: {
-    difficulty?: string;
+    complexity?: string;
     $text?: {
       $search: string;
     };
   } = {};
-  if (req.query.difficulty) {
-    queryObject.difficulty = req.query.difficulty as string;
+  if (req.query.complexity) {
+    queryObject.complexity = req.query.complexity as string;
   }
   if (req.query.q) {
     queryObject.$text = {
