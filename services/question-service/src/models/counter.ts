@@ -6,7 +6,7 @@ interface ICounter {
 }
 
 interface CounterModel extends Model<ICounter> {
-  getNextSequence(): number;
+  getNextSequence(): Promise<number>;
 }
 
 const counterSchema = new Schema<ICounter, CounterModel>(
