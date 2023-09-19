@@ -7,25 +7,24 @@ services:
     container_name: question-service
     build:
       context: ./services/question-service
-      target: base
-    volumes:
-      - ./services/question-service:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      - mongodb
-    links:
-      - mongodb
+      target: dev
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/question-service-api
       - PORT_NUMBER=8080
     ports:
-      - "8080:8080"
-    command: npm run start:dev
+      - 8080:8080
+    depends_on:
+      - mongodb
+    volumes:
+      - ./services/question-service:/usr/src/app
   
   mongodb:
     container_name: mongodb
     image: mongo:6.0
     volumes:
-      - /data/db
+      - db-data:/data/db
     ports:
-      - "27017:27017"
+      - 27017:27017
+
+volumes:
+  db-data:
