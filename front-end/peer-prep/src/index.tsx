@@ -11,16 +11,20 @@ import {
 
 // import app components here
 import HomePage from './components/homePage';
+import QuestionsPage from './components/QuestionsPage';
+
+// import styles
+import { appStyle } from './styles';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <div id="app" style={{}}>
+  <div id="app" style={appStyle}>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage/>}/>
-        <Route path="/home" element={<HomePage/>}/>
+        <Route path="/" element={<QuestionsPage/>}/>
+        <Route path="/home" element={<QuestionsPage/>}/>
       </Routes>
     </BrowserRouter>
   </div>
