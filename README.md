@@ -1,6 +1,6 @@
 # CS3219 GROUP 51 - PEER PREP
 
-## Getting ready for local developmemt
+## Getting ready for local development
 
 ### Prerequisites:
 
@@ -15,3 +15,7 @@
 3. Open Docker desktop.
 4. Run `docker-compose up --build -d` and wait for all the containers to spin up.
 5. Access the application on `localhost:3000`.
+
+## Contributing:
+
+<!-- TODO -->
