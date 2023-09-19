@@ -1,12 +1,9 @@
 import mongoose from "mongoose";
 
-const url =
-  process.env.MONGO_URI || "mongodb://localhost:27017/question-service-api";
+const mongodbUri = process.env.MONGODB_URI;
 
-console.log(`Connecting to ${url}`);
-try {
-  mongoose.connect(url);
-  console.log(`Connected to MongoDB at ${url}`);
-} catch (error) {
-  console.error(`Failed to connect to MongoDB: ${error}`);
-}
+console.log(`Connecting to ${mongodbUri}`);
+mongoose.connect(mongodbUri);
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error: "));
