@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 
 interface IQuestion {
+  id: number;
   title: string;
   description: string;
   category: Array<string>;
@@ -8,6 +9,10 @@ interface IQuestion {
 }
 
 const questionSchema = new Schema<IQuestion>({
+  id: {
+    type: Number,
+    index: true,
+  },
   title: {
     type: String,
     required: true,

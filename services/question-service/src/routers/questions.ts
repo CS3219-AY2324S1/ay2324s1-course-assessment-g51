@@ -1,5 +1,6 @@
 import express from "express";
 
+import Counter from "../models/counter";
 import Question from "../models/question";
 
 const router = express.Router();
@@ -7,6 +8,7 @@ const router = express.Router();
 router.post("/questions", async (req, res) => {
   try {
     const question = new Question({
+      id: await Counter.getNextSequence(),
       ...req.body,
     });
     await question.save();
