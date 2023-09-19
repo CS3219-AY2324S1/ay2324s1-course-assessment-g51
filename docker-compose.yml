@@ -16,7 +16,8 @@ services:
     links:
       - mongodb
     environment:
-      - MONGO_URI=mongodb://mongodb:27017/question-service-api
+      - MONGODB_URI=mongodb://mongodb:27017/question-service-api
+      - PORT_NUMBER=8080
     ports:
       - "8080:8080"
     command: npm run start:dev
