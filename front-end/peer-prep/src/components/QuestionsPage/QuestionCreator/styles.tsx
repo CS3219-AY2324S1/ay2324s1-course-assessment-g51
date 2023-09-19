@@ -1,4 +1,4 @@
 
 export const questionCreatorContainerStyle = {
-    border: "2px solid red"
+    border: "2px dotted red"
 }

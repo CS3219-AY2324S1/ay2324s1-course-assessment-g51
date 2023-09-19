@@ -1,6 +1,6 @@
 
 export const questionListContainerStyle = {
-    border: "2px solid red"
+    border: "2px dotted blue"
 }
 
 
