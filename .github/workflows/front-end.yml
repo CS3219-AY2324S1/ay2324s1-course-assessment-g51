@@ -6,7 +6,9 @@ on:
     branches:
       - master # Adjust this to the branch you want to trigger the workflow on
     paths:
-      - "front-end/peer-prep"
+      # github workflow will only trigger at the exact path
+      # add "**" at the end of the path so that any changes to sub-directories will be triggered
+      - "front-end/peer-prep/**"
 
 jobs:
   build-and-push:
