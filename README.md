@@ -1,2 +1,21 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/6BOvYMwN)
-# AssignmentTemplate
+# CS3219 GROUP 51 - PEER PREP
+
+## Getting ready for local development
+
+### Prerequisites:
+
+1. Git
+2. Docker desktop
+3. Web browser of your choice (best supported on Chromium)
+
+### Steps:
+
+1. `git clone` this repository and `cd` into the project folder.
+2. Set up the environment variables in each service (refer to their individual README documents).
+3. Open Docker desktop.
+4. Run `docker-compose up --build -d` and wait for all the containers to spin up.
+5. Access the application on `localhost:3000`.
+
+## Contributing:
+
+<!-- TODO -->

@@ -1,21 +1,34 @@
 import { Schema, model } from "mongoose";
 
 interface IQuestion {
+  id: number;
   title: string;
   description: string;
-  difficulty: string;
+  category: Array<string>;
+  complexity: string;
 }
 
 const questionSchema = new Schema<IQuestion>({
+  id: {
+    type: Number,
+    index: true,
+  },
   title: {
     type: String,
     required: true,
+    unique: true,
+    trim: true,
   },
   description: {
     type: String,
     required: true,
+    trim: true,
   },
-  difficulty: {
+  category: {
+    type: [String],
+    validate: (v: string | any[]) => Array.isArray(v) && v.length > 0,
+  },
+  complexity: {
     type: String,
     enum: ["easy", "medium", "difficult"],
   },
