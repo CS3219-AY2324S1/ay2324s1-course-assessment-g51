@@ -84,9 +84,19 @@ describe("POST - failure scenario", () => {
   });
 });
 
+describe("GET - success scenario", () => {});
+
 describe("GET - failure scenario", () => {
-  it("returns a 404 status code", async () => {
+  it("returns a 404 status code for unregistered path", async () => {
     const response = await request(app).get("/");
     expect(response.status).toEqual(404);
   });
 });
+
+describe("UPDATE - success scenario", () => {});
+
+describe("UPDATE - failure scenario", () => {});
+
+describe("DELETE - success scenario", () => {});
+
+describe("DELETE - failure scenario", () => {});
