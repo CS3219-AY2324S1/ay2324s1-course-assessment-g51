@@ -30,6 +30,7 @@ const questionSchema = new Schema<IQuestion>({
   },
   complexity: {
     type: String,
+    required: true,
     enum: ["easy", "medium", "difficult"],
   },
 });
