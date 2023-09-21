@@ -92,9 +92,18 @@ describe("GET - failure scenario", () => {
     expect(response.status).toEqual(404);
   });
 
-  it("returns 404 status code for unknown id", async () => {
+  it("returns 500 status code for invalid id", async () => {
     const response = await request(app).get("/api/questions/1234567890");
+    expect(response.status).toEqual(500);
+  });
+
+  it("returns 404 status code for unknown id", async () => {
+    const response = await request(app).get(
+      "/api/questions/507f1f77bcf86cd799439011"
+    );
+    console.log(response.body);
     expect(response.status).toEqual(404);
+    expect(response.body.error).toBe("Question does not exist");
   });
 });
 
