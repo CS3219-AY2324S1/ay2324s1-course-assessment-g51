@@ -10,8 +10,8 @@ import { questionPageContainerStyle } from "./styles";
 const QuestionsPage = () => {
     return (
         <div style={questionPageContainerStyle}>
-            <QuestionCreator/>
             <QuestionList/>
+            <QuestionCreator/>
         </div>
     )
 }
