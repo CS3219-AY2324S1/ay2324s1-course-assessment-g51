@@ -87,8 +87,13 @@ describe("POST - failure scenario", () => {
 describe("GET - success scenario", () => {});
 
 describe("GET - failure scenario", () => {
-  it("returns a 404 status code for unregistered path", async () => {
+  it("returns 404 status code for unregistered path", async () => {
     const response = await request(app).get("/");
+    expect(response.status).toEqual(404);
+  });
+
+  it("returns 404 status code for unknown id", async () => {
+    const response = await request(app).get("/api/questions/1234567890");
     expect(response.status).toEqual(404);
   });
 });
