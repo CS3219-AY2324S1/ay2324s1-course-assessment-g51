@@ -82,6 +82,8 @@ questionSchema.index({
 const Question = model<IQuestion>("Question", questionSchema);
 
 const createQuestion = async (req: any) => {
+  // Ensures that Counter will only be incremented
+  // if new Question does not fail to save
   const newQuestion = new Question({
     ...req.body,
   });
