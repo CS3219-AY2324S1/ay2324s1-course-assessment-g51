@@ -83,11 +83,12 @@ const Question = model<IQuestion>("Question", questionSchema);
 
 const createQuestion = async (req: any) => {
   const newQuestion = new Question({
-    id: await Counter.getNextSequence(),
     ...req.body,
   });
-  await newQuestion.save();
-  return newQuestion;
+  const doc = await newQuestion.save();
+  doc.id = await Counter.getNextSequence();
+  await doc.save();
+  return doc;
 };
 
 const readQuestion = async (req: any) => {
