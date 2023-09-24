@@ -4,7 +4,6 @@ import React from "react";
 import { questionCreatorContainerStyle, questionCreatorViewStyle, labelContainerStyle, labelStyle, descriptionStyle, buttonStyle } from "./styles";
 import SaveIcon from '@mui/icons-material/Save';
 import { TextField } from "@mui/material";
-import { Card } from "@mui/material";
 
 const QuestionCreator = () => {
     return (

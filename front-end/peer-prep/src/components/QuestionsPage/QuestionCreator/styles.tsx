@@ -38,6 +38,5 @@ export const descriptionStyle = {
 export const buttonStyle = {
     justifySelf: "end",
     backgroundColor: "rgba(0, 0, 0, 0)",
-    border: "none",
-    animation: "scaleDown"
+    border: "none"
 }
