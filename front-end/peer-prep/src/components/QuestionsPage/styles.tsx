@@ -5,5 +5,5 @@ export const questionPageContainerStyle = {
     display: "grid",
     gridTemplateColumns: "50% 50%",
     gridTemplateRows: "100%",
-    border: "2px solid yellow"
+    backgroundColor: "#1B2735",
 }

@@ -1,48 +1,43 @@
 
 export const questionCreatorContainerStyle = {
-    border: "2px dotted red",
     justifyItems: "center",
     alignItems: "center",
-    display: "grid"
+    display: "grid",
 }
 
 export const questionCreatorViewStyle = {
     display: "grid",
-    backgroundColor: "pink",
+    backgroundColor: "#131B25",
     justifyItems: "center",
     alignItems: "center",
     height: "80%",
     width: "90%",
-    borderRadius: "3%"
+    borderRadius: "3%",  
 }
 
 export const labelContainerStyle = {
     height: "60%",
-    width: "100%",
+    width: "80%",
     display: "grid",
-    alignItems: "center",
-    justifyItems: "center",
-    gridRowGap: "5%"
+    gridRowGap: "5%",
+    backgroundColor: "#131B25"
 }
 
 export const labelStyle = {
-    backgroundColor: "white",
-    height: "100%",
-    width: "80%",
+    backgroundColor: "#1B2735",
     borderRadius: "10px",
-    alignItems: "center"
+    input : {color: "white"}
 }
 
 export const descriptionStyle = {
-    backgroundColor: "white",
-    height: "100%",
-    width: "80%",
-    gridRow: "span 4",
+    backgroundColor: "#1B2735",
     borderRadius: "10px",
-    alignItems: "center"
+    input : {color: "white"},
 }
 
 export const buttonStyle = {
     justifySelf: "end",
-    marginRight: "10%"
+    backgroundColor: "rgba(0, 0, 0, 0)",
+    border: "none",
+    animation: "scaleDown"
 }
