@@ -1,9 +1,10 @@
 import { AppDataSource } from "./data-source";
 import { User } from "./entity/User";
+import app from "./app";
 
 AppDataSource.initialize()
 	.then(async () => {
-		console.log("Inserting a new user into the database...");
+		console.log("Data source has been initialized");
 		// const user = new User();
 		// user.firstName = "Timber";
 		// user.lastName = "Saw";
@@ -20,3 +21,7 @@ AppDataSource.initialize()
 		// );
 	})
 	.catch((error) => console.log(error));
+
+app.listen(3100, () => {
+	console.log(`Server is running on port 3100`);
+});
