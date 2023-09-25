@@ -1,5 +1,4 @@
 import { AppDataSource } from "./data-source";
-import { User } from "./entity/User";
 import app from "./app";
 
 AppDataSource.initialize()
