@@ -1,4 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit"
+import localDatabase from "../../localDatabase.json"
 
 const homeSlice = createSlice({
     name:"home",
@@ -12,6 +13,7 @@ const homeSlice = createSlice({
             }
         */
        isButtonShown: false,
+       localDatabase: localDatabase
     },
     reducers: {
         // do something -> action
