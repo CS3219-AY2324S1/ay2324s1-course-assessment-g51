@@ -1,5 +1,4 @@
-[{
-    "Questions" : [
+[
         {
             "Id" : "1",
             "Title": "Reverse a String",
@@ -60,6 +59,4 @@
             "Categories": ["Data Structures"],
             "Complexity": "Medium"
         }
-    ]
-
-}]
+]
