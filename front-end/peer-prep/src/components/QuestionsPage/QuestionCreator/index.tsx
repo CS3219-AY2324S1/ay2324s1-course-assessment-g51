@@ -14,11 +14,11 @@ const QuestionCreator = () => {
         <div style={Styles.questionCreatorContainerStyle}>
             <div style = {Styles.questionCreatorViewStyle}>
                 <div style = {Styles.labelContainerStyle}>
-                    <TextField label="id" id="questionId" value={currentQuestionNum + "."} sx={Styles.labelStyle}></TextField>
+                    <TextField label="id" id="questionId" value={currentQuestionNum + "."} sx={Styles.idTextFieldStyle} disabled={true}></TextField>
                     <TextField label="title" sx={Styles.labelStyle}></TextField>
                     <TextField label="complexity" sx={Styles.labelStyle}></TextField>
                     <TextField label="categories" sx={Styles.labelStyle}></TextField>
-                    <TextField label="description" sx={Styles.descriptionStyle}></TextField>
+                    <TextField label="description" sx={Styles.descriptionStyle} multiline rows={3}></TextField>
                     <button style={Styles.buttonStyle}>
                         <SaveIcon sx={{color:"#F4C2C2"}}/>
                     </button>

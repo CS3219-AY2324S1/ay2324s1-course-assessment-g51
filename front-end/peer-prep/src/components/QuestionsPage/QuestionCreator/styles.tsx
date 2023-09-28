@@ -1,8 +1,8 @@
 
 export const questionCreatorContainerStyle = {
+    display: "grid",
     justifyItems: "center",
     alignItems: "center",
-    display: "grid",
 }
 
 export const questionCreatorViewStyle = {
@@ -49,6 +49,24 @@ export const labelStyle = {
     }
 }
 
+export const idTextFieldStyle = {
+    backgroundColor: "#1B2735",
+    borderRadius: "10px",
+    label: {color: "#F4C2C2"},
+    "& .Mui-disabled .MuiOutlinedInput-notchedOutline" : {
+        borderColor: "#F4C2C2",
+        borderRadius: "10px",
+        color: "#F4C2C2"
+    },
+    "& .MuiInputLabel-root" : {
+        color: '#F4C2C2',
+        borderRadius: "10px",
+    },
+    "& .MuiInputBase-input.Mui-disabled": {
+        WebkitTextFillColor: "#F4C2C2",
+      },
+}
+
 export const descriptionStyle = {
     backgroundColor: "#1B2735",
     borderRadius: "10px",
@@ -71,7 +89,26 @@ export const descriptionStyle = {
         '&.Mui-focused fieldset': {
           borderColor: '#F4C2C2',
         }
-    }
+    },
+    "& .MuiInputBase-inputMultiline" : {
+        //WebkitTextFillColor: "red",
+       color: "white",
+       '&::-webkit-scrollbar': {
+        width: '12px', // Set the width of the scrollbar
+        borderRadius: "15px",
+        scrollTop: "100px",
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: "#F4C2C2", // Set the color of the thumb (scrollbar handle)
+        borderRadius: "15px",
+        scrollTop: "100px"
+      },
+      '&::-webkit-scrollbar-thumb:hover': {
+        backgroundColor: "#F4C2C2", // Set the color of the thumb on hover
+        borderRadius: "15px",
+        scrollTop: "100px"
+      },
+    },
 }
 
 export const buttonStyle = {
