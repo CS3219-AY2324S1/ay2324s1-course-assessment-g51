@@ -17,7 +17,7 @@ const QuestionCreator = () => {
     const currentTitle = useSelector(QuestionSlice.selectCurrentTitle)
     const currentComplexity = useSelector(QuestionSlice.selectCurrentComplexity)
     const currentCategories = useSelector(QuestionSlice.selectCurrentCategories)
-    const currentDescription = useSelector(QuestionSlice.selectCurrentCategories)
+    const currentDescription = useSelector(QuestionSlice.selectCurrentDescription)
 
     return (
         <div style={Styles.questionCreatorContainerStyle}>
@@ -32,7 +32,10 @@ const QuestionCreator = () => {
                         onChange={(event) => dispatch(QuestionSlice.updateCurrentCategories(event.target.value))}></TextField>
                     <TextField label="description" sx={Styles.descriptionStyle} value={currentDescription} multiline rows={3}
                         onChange={(event) => dispatch(QuestionSlice.updateCurrentDescription(event.target.value))}></TextField>
-                    <button style={Styles.buttonStyle}>
+                    <button style={Styles.buttonStyle} onClick={() => {
+                        dispatch(QuestionSlice.addNewQuestion());
+                        dispatch(QuestionSlice.clearQuestionCreator())
+                        }}>
                         <SaveIcon sx={{color:"#F4C2C2",cursor:"pointer"}}/>
                     </button>
                 </div>

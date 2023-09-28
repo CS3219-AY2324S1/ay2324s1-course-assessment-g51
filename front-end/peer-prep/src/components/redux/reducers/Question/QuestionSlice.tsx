@@ -14,10 +14,10 @@ const questionSlice = createSlice({
     name: "question",
     initialState: {
         isAddQuestionButtonToggled: false,
-        currentId: 1,
+        currentId: 11,
         currentTitle: "",
         currentComplexity: "",
-        currentCategories: [],
+        currentCategories: [""],
         currentDescription: "",
         questionsData: [
             {
@@ -97,15 +97,30 @@ const questionSlice = createSlice({
             state.currentComplexity = action.payload
         },
         updateCurrentCategories(state,action: PayloadAction<string>) {
-            state.currentCategories.push(action.payload)
+            const currentCategoryData = action.payload;
+            state.currentCategories.pop();
+            state.currentCategories.push(currentCategoryData);
         },
         updateCurrentDescription(state,action: PayloadAction<string>) {
             state.currentDescription = action.payload
         },
-        addNewQuestion(state,action: PayloadAction<Array<object>>) {
-            state.questionsData.push(action.payload);
+        addNewQuestion(state) {
+            const newQuestion = {
+                "Id": state.currentId,
+                "Title": state.currentTitle,
+                "Categories": state.currentCategories,
+                "Complexity": state.currentComplexity,
+                "Description": state.currentDescription
+            }
+            state.questionsData.push(newQuestion);
             state.currentId += 1;
-        }
+        },
+        clearQuestionCreator(state) {
+            state.currentTitle = "";
+            state.currentCategories = [""];
+            state.currentComplexity = "";
+            state.currentDescription = "";
+        },
     }
 })
 
@@ -114,7 +129,7 @@ const questionSlice = createSlice({
 export const {toggleAddQuestionButton, addCurrentId,
     updateCurrentTitle, updateCurrentComplexity,
     updateCurrentCategories, updateCurrentDescription, 
-    addNewQuestion} = questionSlice.actions
+    addNewQuestion, clearQuestionCreator} = questionSlice.actions
 
 // export main reducer
 export default questionSlice.reducer;
@@ -129,6 +144,6 @@ export const selectAddQuestionButtonStatus = (state:any) => state.question.isAdd
 export const selectCurrentId = (state:any) => state.question.currentId
 export const selectCurrentTitle = (state:any) => state.question.currentTitle
 export const selectCurrentComplexity = (state:any) => state.question.currentComplexity
-export const selectCurrentCategories = (state:any) => state.question.currentCategories
+export const selectCurrentCategories = (state:any) => state.question.currentCategories[0]
 export const selectCurrentDescription = (state:any) => state.question.currentDescription
 export const selectQuestionsData = (state:any) => state.question.questionsData
