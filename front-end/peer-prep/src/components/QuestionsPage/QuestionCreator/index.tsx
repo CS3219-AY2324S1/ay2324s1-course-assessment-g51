@@ -23,7 +23,7 @@ const QuestionCreator = () => {
         <div style={Styles.questionCreatorContainerStyle}>
             <div style = {Styles.questionCreatorViewStyle}>
                 <div style = {Styles.labelContainerStyle}>
-                    <TextField label="id" id="questionId" value={currentQuestionId + "."} sx={Styles.idTextFieldStyle} disabled={true}></TextField>
+                    <TextField label="id" id="test" value={currentQuestionId + "."} sx={Styles.idTextFieldStyle} disabled={true}></TextField>
                     <TextField label="title" sx={Styles.labelStyle} value={currentTitle} 
                         onChange={(event) => dispatch(QuestionSlice.updateCurrentTitle(event.target.value))}></TextField>
                     <TextField label="complexity" sx={Styles.labelStyle} value={currentComplexity} 

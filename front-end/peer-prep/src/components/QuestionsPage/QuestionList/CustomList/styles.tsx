@@ -8,17 +8,17 @@ export const listStyle = {
         width: '12px', // Set the width of the scrollbar
         borderRadius: "15px",
         scrollTop: "100px"
-      },
-      '&::-webkit-scrollbar-thumb': {
+    },
+    '&::-webkit-scrollbar-thumb': {
         backgroundColor: "#F4C2C2", // Set the color of the thumb (scrollbar handle)
         borderRadius: "15px",
         scrollTop: "100px"
-      },
-      '&::-webkit-scrollbar-thumb:hover': {
+    },
+    '&::-webkit-scrollbar-thumb:hover': {
         backgroundColor: "#F4C2C2", // Set the color of the thumb on hover
         borderRadius: "15px",
         scrollTop: "100px"
-      },
+    },
 }
 
 export const stackContainerStyle = {
