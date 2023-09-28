@@ -6,13 +6,22 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import localDatabase from "../../../redux/localDatabase.json";
 import * as Style from "./styles"
+import { useSelector } from "react-redux";
+import * as QuestionSlice from "../../../redux/reducers/Question/QuestionSlice";
 
+interface questionObject {
+    Id : string,
+    Title: string,
+    Categories: string[],
+    Complexity: string
+}
 const CustomList = () => {
-    const [questions] = React.useState(localDatabase);
+    //const [questions] = React.useState(localDatabase);
+    const questions = useSelector(QuestionSlice.selectQuestionsData)
 
     return(
         <List sx={Style.listStyle}>
-            {questions.map((question) => (
+            {questions.map((question: questionObject) => (
                 <ListItem>
                     <Stack direction="column" sx={Style.stackContainerStyle}>
                         <Stack direction="row" justifyContent="space-between">

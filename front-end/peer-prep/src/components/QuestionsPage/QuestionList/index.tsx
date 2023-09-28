@@ -21,7 +21,7 @@ const QuestionList = () => {
                         onClick={() => 
                             {
                                 dispatch(QuestionSlice.toggleAddQuestionButton());
-                                dispatch(QuestionSlice.addNumOfQuestions());
+                                dispatch(QuestionSlice.addCurrentId());
                             }}>
                         <AddIcon></AddIcon>Add a Question
                     </Button>
