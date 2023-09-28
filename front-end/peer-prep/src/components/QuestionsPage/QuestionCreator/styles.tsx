@@ -12,7 +12,7 @@ export const questionCreatorViewStyle = {
     alignItems: "center",
     height: "80%",
     width: "90%",
-    borderRadius: "3%",  
+    borderRadius: "15px",  
 }
 
 export const labelContainerStyle = {
@@ -20,19 +20,58 @@ export const labelContainerStyle = {
     width: "80%",
     display: "grid",
     gridRowGap: "5%",
-    backgroundColor: "#131B25"
+    backgroundColor: "#131B25",
 }
 
 export const labelStyle = {
     backgroundColor: "#1B2735",
     borderRadius: "10px",
-    input : {color: "white"}
+    input : {color: "white"},
+    label: {color: "white"},
+    '& label.Mui-focused': {
+        color: '#F4C2C2',
+        borderRadius: "10px",
+      },
+      '& .MuiInput-underline:after': {
+        borderBottomColor: '#F4C2C2',
+      },
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: "#1B2735",
+          borderRadius: "10px",
+        },
+        '&:hover fieldset': {
+          borderColor: '#F4C2C2',
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: '#F4C2C2',
+        }
+    }
 }
 
 export const descriptionStyle = {
     backgroundColor: "#1B2735",
     borderRadius: "10px",
     input : {color: "white"},
+    label: {color: "white"},
+    '& label.Mui-focused': {
+        color: '#F4C2C2',
+      },
+      '& .MuiInput-underline:after': {
+        borderBottomColor: '#F4C2C2',
+      },
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: "#1B2735",
+          borderRadius: "10px",
+        },
+        '&:hover fieldset': {
+          borderColor: '#F4C2C2',
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: '#F4C2C2',
+        }
+    }
 }
 
 export const buttonStyle = {
@@ -40,3 +79,4 @@ export const buttonStyle = {
     backgroundColor: "rgba(0, 0, 0, 0)",
     border: "none"
 }
+
