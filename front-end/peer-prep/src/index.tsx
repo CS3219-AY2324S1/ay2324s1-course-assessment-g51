@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 
@@ -8,7 +7,7 @@ import store from "./components/redux/store/store"
 
 // import React Routing components here
 import {
-  BrowserRouter,
+    BrowserRouter,
 	Routes,
 	Route,
 } from "react-router-dom";
