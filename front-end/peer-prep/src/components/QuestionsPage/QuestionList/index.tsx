@@ -10,9 +10,9 @@ const QuestionList = () => {
     return (
         <div style={Styles.questionListContainerStyle}>
             <div id="questionListViewStyle" style={Styles.questionListViewStyle}>
-                <Stack divider={<Divider orientation="horizontal" />}>
-                    <Typography variant="h5" style={Styles.headerStyle}>Questions</Typography>
-                    <Button variant="outlined" style={Styles.buttonStyle}>
+                <Stack divider={<Divider orientation="horizontal" />} sx={{alignItems: "center"}}>
+                    <Typography variant="h5" sx={Styles.headerStyle}>Questions</Typography>
+                    <Button variant="outlined" sx={Styles.buttonStyle}>
                         <AddIcon></AddIcon>Add a Question
                     </Button>
                     <CustomList />
