@@ -15,7 +15,7 @@ const CustomList = () => {
             maxWidth: '100%',
             position: 'relative',
             overflow: 'auto',
-            maxHeight: 800
+            maxHeight: 500,
           }}>
             {questions.map((question) => (
                 <ListItem>
