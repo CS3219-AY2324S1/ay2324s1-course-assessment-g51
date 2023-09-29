@@ -57,8 +57,6 @@ router.patch("/questions/:id", async (req, res) => {
       });
       return;
     }
-
-    await question.save();
     res.json(question);
   } catch (error) {
     res.status(500).json(error);
