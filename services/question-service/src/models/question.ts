@@ -1,46 +1,6 @@
-import { Model, Schema, model } from "mongoose";
-
-// Private interface for Question model
-interface ICounter {
-  id: string;
-  seq: Number;
-}
-
-interface CounterModel extends Model<ICounter> {
-  getNextSequence(): Promise<number>;
-}
-
-const counterSchema = new Schema<ICounter, CounterModel>(
-  {
-    id: {
-      type: String,
-      unique: true,
-    },
-    seq: {
-      type: Number,
-      default: 1,
-    },
-  },
-  {
-    statics: {
-      async getNextSequence() {
-        const filter = { id: "questionId" };
-        const update = { $inc: { seq: 1 } };
-        const options = { new: true, upsert: true };
-        const returned = await this.findOneAndUpdate(filter, update, options);
-        if (!returned) {
-          throw new Error("MongoDB error");
-        }
-        return returned.seq;
-      },
-    },
-  }
-);
-
-const Counter = model<ICounter, CounterModel>("Counter", counterSchema);
+import { Schema, model } from "mongoose";
 
 interface IQuestion {
-  id: number;
   title: string;
   description: string;
   category: Array<string>;
@@ -48,10 +8,6 @@ interface IQuestion {
 }
 
 const questionSchema = new Schema<IQuestion>({
-  id: {
-    type: Number,
-    index: true,
-  },
   title: {
     type: String,
     required: true,
@@ -88,7 +44,6 @@ const createQuestion = async (req: any) => {
     ...req.body,
   });
   const doc = await newQuestion.save();
-  doc.id = await Counter.getNextSequence();
   await doc.save();
   return doc;
 };
