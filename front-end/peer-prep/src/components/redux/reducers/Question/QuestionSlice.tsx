@@ -106,7 +106,7 @@ const questionSlice = createSlice({
         },
         updateCurrentId(state,action: PayloadAction<string>) {
             const newId = action.payload
-            const indexToRetrieve = parseInt(newId) - 1
+            const indexToRetrieve = state.questionsData.findIndex(item => item.Id === (newId));
             state.currentId = newId
             state.currentTitle = state.questionsData[indexToRetrieve].Title
             state.currentCategories = state.questionsData[indexToRetrieve].Categories
@@ -174,6 +174,26 @@ const questionSlice = createSlice({
             state.currentComplexity = "";
             state.currentDescription = "";
         },
+        deleteQuestion(state, action: PayloadAction<string>) {
+            const indexToDelete = state.questionsData.findIndex(item => item.Id === (action.payload));
+
+            if (state.questionsData.length > 1)  {
+                state.questionsData.splice(indexToDelete, 1);
+                state.currentId = state.questionsData[0].Id
+                state.currentTitle = state.questionsData[0].Title
+                state.currentCategories = state.questionsData[0].Categories
+                state.currentComplexity = state.questionsData[0].Complexity
+                state.currentDescription = state.questionsData[0].Description
+                // todo add delete api when ready
+            } else {
+                state.questionsData.splice(indexToDelete, 1);
+                state.currentId = ""
+                state.currentTitle = ""
+                state.currentCategories = [""]
+                state.currentComplexity = ""
+                state.currentDescription = ""
+            }
+        }
     }
 })
 
@@ -184,7 +204,7 @@ export const { toggleAddQuestionButton,
     updateCurrentCategories, updateCurrentDescription, 
     addNewQuestion, clearQuestionCreator, 
     initializeQuestionCreator, updateCurrentId,
-    updateCurrentQuestion, createNewQuestion } = questionSlice.actions
+    updateCurrentQuestion, createNewQuestion, deleteQuestion } = questionSlice.actions
 
 // export main reducer
 export default questionSlice.reducer;
