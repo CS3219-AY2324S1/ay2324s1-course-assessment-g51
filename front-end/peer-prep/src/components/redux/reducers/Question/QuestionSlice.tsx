@@ -102,12 +102,7 @@ const questionSlice = createSlice({
     } as questionState,
     reducers: {
         toggleAddQuestionButton(state) {
-            state.isAddQuestionButtonToggled = 
-                !state.isAddQuestionButtonToggled
-        },
-        addCurrentId(state) {
-            const newId = String(parseInt(state.currentId) + 1)
-            state.currentId = newId
+            state.isAddQuestionButtonToggled = true
         },
         updateCurrentId(state,action: PayloadAction<string>) {
             const newId = action.payload
@@ -142,6 +137,7 @@ const questionSlice = createSlice({
                 "Description": state.currentDescription
             }
             state.questionsData.push(newQuestion);
+            state.isAddQuestionButtonToggled = false;
         },
         clearQuestionCreator(state) {
             state.currentTitle = "";
@@ -169,18 +165,25 @@ const questionSlice = createSlice({
             }
             const currentIndex = parseInt(state.currentId) - 1
             state.questionsData = newQuestionsData.splice(currentIndex,0,updatedQuestion)
+        },
+        createNewQuestion(state) {
+            state.currentId = String(state.questionsData.length + 1)
+            state.currentTitle = "";
+            state.currentCategories = [""];
+            state.currentComplexity = "";
+            state.currentDescription = "";
         }
     }
 })
 
 // export actions
 // Example: export const {toggleSomeButton} = homeSlice.actions
-export const { toggleAddQuestionButton, addCurrentId,
+export const { toggleAddQuestionButton,
     updateCurrentTitle, updateCurrentComplexity,
     updateCurrentCategories, updateCurrentDescription, 
     addNewQuestion, clearQuestionCreator, 
     initializeQuestionCreator, updateCurrentId,
-    updateCurrentQuestion } = questionSlice.actions
+    updateCurrentQuestion, createNewQuestion } = questionSlice.actions
 
 // export main reducer
 export default questionSlice.reducer;

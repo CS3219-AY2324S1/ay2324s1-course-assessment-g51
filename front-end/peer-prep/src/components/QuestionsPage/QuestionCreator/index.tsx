@@ -46,7 +46,7 @@ const QuestionCreator = () => {
                             dispatch(QuestionSlice.updateCurrentQuestion())
                         } else {
                             dispatch(QuestionSlice.addNewQuestion());
-                            dispatch(QuestionSlice.clearQuestionCreator())
+                            //dispatch(QuestionSlice.clearQuestionCreator())
                         }}}>
                         <SaveIcon sx={{color:"#F4C2C2",cursor:"pointer"}}/>
                     </button>
