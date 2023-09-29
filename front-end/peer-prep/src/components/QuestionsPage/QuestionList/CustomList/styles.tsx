@@ -38,7 +38,7 @@ export const questionHeadingsStyle = {
 }
 
 export const iconButtonStyle = {
-    color: "white"
+    color: "red"
 }
 
 export const categoryChipStyle = {

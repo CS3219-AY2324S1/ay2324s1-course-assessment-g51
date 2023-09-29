@@ -2,7 +2,6 @@ import {List, ListItem} from "@mui/material";
 // import ListItem from "../ListItem/ListItem";
 import { Tooltip, Chip, IconButton, Stack, Divider } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from '@mui/icons-material/Edit';
 import * as Style from "./styles"
 import { useDispatch, useSelector } from "react-redux";
 import * as QuestionSlice from "../../../redux/reducers/Question/QuestionSlice";
@@ -36,15 +35,15 @@ const CustomList = () => {
                         <Stack direction="column" sx={{...Style.stackContainerStyle,...additionalStackContainerStyle}}>
                             <Stack direction="row" justifyContent="space-between">
                                 <Stack direction="row" alignItems="center" sx={Style.questionHeadingsStyle}>
-                                    {question.Id}. {question.Title}
+                                    {questions.indexOf(question) + 1}. {question.Title}
                                     <Chip label={question.Complexity} sx={Style.difficultyChipStyle}></Chip>
                                 </Stack>
                                 <Stack direction="row" justifyContent="flex-end">
-                                    <Tooltip title="Edit">
-                                        <IconButton sx={Style.iconButtonStyle}><EditIcon /></IconButton>
-                                    </Tooltip>
                                     <Tooltip title="Delete">
-                                        <IconButton style={Style.iconButtonStyle}><DeleteIcon /></IconButton>
+                                        <IconButton style={Style.iconButtonStyle} onClick={(ev) => {
+                                            ev.stopPropagation()
+                                            dispatch(QuestionSlice.deleteQuestion(question.Id))}}><DeleteIcon />
+                                        </IconButton>
                                     </Tooltip>
                                 </Stack>
                             </Stack>
