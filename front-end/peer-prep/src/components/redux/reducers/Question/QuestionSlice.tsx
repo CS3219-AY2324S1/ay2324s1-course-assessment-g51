@@ -164,7 +164,8 @@ const questionSlice = createSlice({
                 "Description": state.currentDescription
             }
             const currentIndex = parseInt(state.currentId) - 1
-            state.questionsData = newQuestionsData.splice(currentIndex,0,updatedQuestion)
+            newQuestionsData.splice(currentIndex, 0, updatedQuestion);
+            state.questionsData = newQuestionsData;
         },
         createNewQuestion(state) {
             state.currentId = String(state.questionsData.length + 1)
@@ -172,7 +173,7 @@ const questionSlice = createSlice({
             state.currentCategories = [""];
             state.currentComplexity = "";
             state.currentDescription = "";
-        }
+        },
     }
 })
 
