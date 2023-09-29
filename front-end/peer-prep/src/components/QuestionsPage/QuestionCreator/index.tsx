@@ -13,11 +13,12 @@ const QuestionCreator = () => {
     const dispatch = useDispatch()
 
     // selectors
-    const currentQuestionId = useSelector(QuestionSlice.selectCurrentId)
-    const currentTitle = useSelector(QuestionSlice.selectCurrentTitle)
-    const currentComplexity = useSelector(QuestionSlice.selectCurrentComplexity)
-    const currentCategories = useSelector(QuestionSlice.selectCurrentCategories)
-    const currentDescription = useSelector(QuestionSlice.selectCurrentDescription)
+    const currentQuestionId:string = useSelector(QuestionSlice.selectCurrentId)
+    const currentTitle:string = useSelector(QuestionSlice.selectCurrentTitle)
+    const currentComplexity:string = useSelector(QuestionSlice.selectCurrentComplexity)
+    const currentCategories:string = useSelector(QuestionSlice.selectCurrentCategories)
+    const currentDescription:string = useSelector(QuestionSlice.selectCurrentDescription)
+    const numOfQuestions:number = useSelector(QuestionSlice.selectNumOfQuestions)
 
     // lifecycle methods here
 
@@ -41,9 +42,12 @@ const QuestionCreator = () => {
                     <TextField label="description" sx={Styles.descriptionStyle} value={currentDescription} multiline rows={3}
                         onChange={(event) => dispatch(QuestionSlice.updateCurrentDescription(event.target.value))}></TextField>
                     <button style={Styles.buttonStyle} onClick={() => {
-                        dispatch(QuestionSlice.addNewQuestion());
-                        dispatch(QuestionSlice.clearQuestionCreator())
-                        }}>
+                        if(parseInt(currentQuestionId) <= numOfQuestions) {
+                            dispatch(QuestionSlice.updateCurrentQuestion())
+                        } else {
+                            dispatch(QuestionSlice.addNewQuestion());
+                            dispatch(QuestionSlice.clearQuestionCreator())
+                        }}}>
                         <SaveIcon sx={{color:"#F4C2C2",cursor:"pointer"}}/>
                     </button>
                 </div>

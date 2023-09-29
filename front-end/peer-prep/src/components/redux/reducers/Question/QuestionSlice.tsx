@@ -155,17 +155,32 @@ const questionSlice = createSlice({
             state.currentCategories = state.questionsData[0].Categories
             state.currentComplexity = state.questionsData[0].Complexity
             state.currentDescription = state.questionsData[0].Description
+        },
+        updateCurrentQuestion(state) {
+            let newQuestionsData = state.questionsData.filter(
+                (question:questionFormat) => question.Id !== state.currentId
+            )
+            const updatedQuestion:questionFormat = {
+                "Id" : state.currentId,
+                "Title": state.currentTitle,
+                "Categories": state.currentCategories,
+                "Complexity": state.currentComplexity,
+                "Description": state.currentDescription
+            }
+            const currentIndex = parseInt(state.currentId) - 1
+            state.questionsData = newQuestionsData.splice(currentIndex,0,updatedQuestion)
         }
     }
 })
 
 // export actions
 // Example: export const {toggleSomeButton} = homeSlice.actions
-export const {toggleAddQuestionButton, addCurrentId,
+export const { toggleAddQuestionButton, addCurrentId,
     updateCurrentTitle, updateCurrentComplexity,
     updateCurrentCategories, updateCurrentDescription, 
     addNewQuestion, clearQuestionCreator, 
-    initializeQuestionCreator, updateCurrentId} = questionSlice.actions
+    initializeQuestionCreator, updateCurrentId,
+    updateCurrentQuestion } = questionSlice.actions
 
 // export main reducer
 export default questionSlice.reducer;
@@ -183,3 +198,4 @@ export const selectCurrentComplexity = (state:any) => state.question.currentComp
 export const selectCurrentCategories = (state:any) => state.question.currentCategories[0]
 export const selectCurrentDescription = (state:any) => state.question.currentDescription
 export const selectQuestionsData = (state:any) => state.question.questionsData
+export const selectNumOfQuestions = (state:any) => state.question.questionsData.length
