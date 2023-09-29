@@ -1,45 +1,60 @@
-import React from "react";
 import {List, ListItem} from "@mui/material";
 // import ListItem from "../ListItem/ListItem";
 import { Tooltip, Chip, IconButton, Stack, Divider } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
-import localDatabase from "../../../redux/localDatabase.json";
+import * as Style from "./styles"
+import { useDispatch, useSelector } from "react-redux";
+import * as QuestionSlice from "../../../redux/reducers/Question/QuestionSlice";
+
+interface questionObject {
+    Id : string,
+    Title: string,
+    Categories: string[],
+    Complexity: string,
+    Description: string
+}
 
 const CustomList = () => {
-    const [questions] = React.useState(localDatabase);
-
+    //const [questions] = React.useState(localDatabase);
+    const questions: questionObject[] = useSelector(QuestionSlice.selectQuestionsData)
+    const currentId:string = useSelector(QuestionSlice.selectCurrentId)
+    let additionalStackContainerStyle = {}
+    const dispatch = useDispatch()
     return(
-        <List sx={{
-            width: '100%',
-            maxWidth: '100%',
-            position: 'relative',
-            overflow: 'auto',
-            maxHeight: 800
-          }}>
-            {questions.map((question) => (
-                <ListItem>
-                    <Stack direction="column" sx={{width: '100%'}} style={{border: '1px black solid'}}>
-                        <Stack direction="row" justifyContent="space-between">
-                            <Stack direction="row" alignItems="center">
-                                {question.Id} {question.Title}
-                                <Chip label={question.Complexity}></Chip>
+        <List sx={Style.listStyle}>
+            {questions.map((question: questionObject) => {
+                if(question.Id === currentId){
+                    additionalStackContainerStyle = {
+                        border: "2px solid pink"
+                    }
+                } else {
+                    additionalStackContainerStyle = {}
+                }
+                return (
+                    <ListItem onClick={() => dispatch(QuestionSlice.updateCurrentId(question.Id))}>
+                        <Stack direction="column" sx={{...Style.stackContainerStyle,...additionalStackContainerStyle}}>
+                            <Stack direction="row" justifyContent="space-between">
+                                <Stack direction="row" alignItems="center" sx={Style.questionHeadingsStyle}>
+                                    {question.Id}. {question.Title}
+                                    <Chip label={question.Complexity} sx={Style.difficultyChipStyle}></Chip>
+                                </Stack>
+                                <Stack direction="row" justifyContent="flex-end">
+                                    <Tooltip title="Edit">
+                                        <IconButton sx={Style.iconButtonStyle}><EditIcon /></IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="Delete">
+                                        <IconButton style={Style.iconButtonStyle}><DeleteIcon /></IconButton>
+                                    </Tooltip>
+                                </Stack>
                             </Stack>
-                            <Stack direction="row" justifyContent="flex-end">
-                                <Tooltip title="Edit">
-                                    <IconButton><EditIcon /></IconButton>
-                                </Tooltip>
-                                <Tooltip title="Delete">
-                                    <IconButton><DeleteIcon /></IconButton>
-                                </Tooltip>
+                            <Stack direction="row" spacing={2} sx={{marginLeft: "5%"}}>
+                                {question.Categories.map((category) => <Chip label={category} sx={Style.categoryChipStyle}></Chip>)}
                             </Stack>
                         </Stack>
-                        <Stack direction="row" spacing={2}>
-                            {question.Categories.map((category) => <Chip label={category}></Chip>)}
-                        </Stack>
-                    </Stack>
-                </ListItem>
-            ))}
+                    </ListItem>
+                )
+            })}
         </List>
     );
 }

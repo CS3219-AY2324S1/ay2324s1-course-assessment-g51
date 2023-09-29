@@ -1,16 +1,18 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 
+// import Redux components here
+import {Provider} from "react-redux";
+import store from "./components/redux/store/store"
+
 // import React Routing components here
 import {
-  BrowserRouter,
+    BrowserRouter,
 	Routes,
 	Route,
 } from "react-router-dom";
 
 // import app components here
-import HomePage from './components/homePage';
 import QuestionsPage from './components/QuestionsPage';
 
 // import styles
@@ -20,14 +22,16 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <div id="app" style={appStyle}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<QuestionsPage/>}/>
-        <Route path="/home" element={<QuestionsPage/>}/>
-      </Routes>
-    </BrowserRouter>
-  </div>
+  <Provider store={store}>
+    <div id="app" style={appStyle}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<QuestionsPage/>}/>
+          <Route path="/home" element={<QuestionsPage/>}/>
+        </Routes>
+      </BrowserRouter>
+    </div>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
