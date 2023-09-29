@@ -27,6 +27,7 @@ export const stackContainerStyle = {
     backgroundColor: "#1B2735",
     // Stack height can only use px -> MUI
     height: "110px",
+    cursor: "pointer"
 }
 
 export const questionHeadingsStyle = {

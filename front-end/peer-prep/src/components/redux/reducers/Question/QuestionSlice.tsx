@@ -2,19 +2,27 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface questionState {
     isAddQuestionButtonToggled: boolean,
-    currentId: number,
+    currentId: string,
     currentTitle: string,
     currentComplexity: string,
     currentCategories: string[],
     currentDescription: string,
-    questionsData: object[]
+    questionsData: questionFormat[]
+}
+
+interface questionFormat {
+    "Id" : string,
+    "Title": string,
+    "Categories": string[],
+    "Complexity": string,
+    "Description": string
 }
 
 const questionSlice = createSlice({
     name: "question",
     initialState: {
         isAddQuestionButtonToggled: false,
-        currentId: 11,
+        currentId: "0",
         currentTitle: "",
         currentComplexity: "",
         currentCategories: [""],
@@ -24,61 +32,71 @@ const questionSlice = createSlice({
                 "Id" : "1",
                 "Title": "Reverse a String",
                 "Categories": ["Strings", "Algorithms"],
-                "Complexity": "Easy"
+                "Complexity": "Easy",
+                "Description" : "hhh"
             },
             {
                 "Id": "2",
                 "Title": "Linked List Cycle Detection",
                 "Categories": ["Data Structures", "Algorithms"],
-                "Complexity": "Easy"
+                "Complexity": "Easy",
+                "Description" : "xxx"
             },
             {
                 "Id": "3",
                 "Title": "Roman to Integer",
                 "Categories": ["Algorithms"],
-                "Complexity": "Easy"
+                "Complexity": "Easy",
+                "Description" : "zzz"
             },
             {
                 "Id": "4",
                 "Title": "Add Binary",
                 "Categories": ["Bit Manipulation", "Algorithms"],
-                "Complexity": "Easy"
+                "Complexity": "Easy",
+                "Description" : "heheh"
             },
             {
                 "Id": "5",
                 "Title": "Fibonacci Number",
                 "Categories": ["Recursion", "Algorithms"],
-                "Complexity": "Easy"
+                "Complexity": "Easy",
+                "Description" : "what"
             },
             {
                 "Id": "6",
                 "Title": "Implement Stack using Queues ",
                 "Categories": ["Data Structures"],
-                "Complexity": "Easy"
+                "Complexity": "Easy",
+                "Description" : "test"
             },
             {
                 "Id": "7",
                 "Title": "Combine Two Tables",
                 "Categories": ["Databases"],
-                "Complexity": "Easy"
+                "Complexity": "Easy",
+                "Description" : "check"
             },
             {
                 "Id": "8",
                 "Title": "Repeated DNA Sequences",
                 "Categories": ["Algorithms", "Bit Manipulation"],
-                "Complexity": "Medium"
+                "Complexity": "Medium",
+                "Description" : "nope"
             },
             {
                 "Id": "9",
                 "Title": "Course Schedule",
                 "Categories": ["Data Structures", "Algorithms"],
-                "Complexity": "Medium"
+                "Complexity": "Medium",
+                "Description" : ""
             },
             {
                 "Id": "10",
                 "Title": "LRU Cache Design",
                 "Categories": ["Data Structures"],
-                "Complexity": "Medium"
+                "Complexity": "Medium",
+                "Description" : ""
             }
         ]
     } as questionState,
@@ -88,7 +106,17 @@ const questionSlice = createSlice({
                 !state.isAddQuestionButtonToggled
         },
         addCurrentId(state) {
-            state.currentId += 1
+            const newId = String(parseInt(state.currentId) + 1)
+            state.currentId = newId
+        },
+        updateCurrentId(state,action: PayloadAction<string>) {
+            const newId = action.payload
+            const indexToRetrieve = parseInt(newId) - 1
+            state.currentId = newId
+            state.currentTitle = state.questionsData[indexToRetrieve].Title
+            state.currentCategories = state.questionsData[indexToRetrieve].Categories
+            state.currentComplexity = state.questionsData[indexToRetrieve].Complexity
+            state.currentDescription = state.questionsData[indexToRetrieve].Description
         },
         updateCurrentTitle(state,action: PayloadAction<string>) {
             state.currentTitle = action.payload
@@ -104,6 +132,7 @@ const questionSlice = createSlice({
         updateCurrentDescription(state,action: PayloadAction<string>) {
             state.currentDescription = action.payload
         },
+        // once a new question is added, show that the question is added!
         addNewQuestion(state) {
             const newQuestion = {
                 "Id": state.currentId,
@@ -113,7 +142,6 @@ const questionSlice = createSlice({
                 "Description": state.currentDescription
             }
             state.questionsData.push(newQuestion);
-            state.currentId += 1;
         },
         clearQuestionCreator(state) {
             state.currentTitle = "";
@@ -121,6 +149,13 @@ const questionSlice = createSlice({
             state.currentComplexity = "";
             state.currentDescription = "";
         },
+        initializeQuestionCreator(state:questionState) {
+            state.currentId = state.questionsData[0].Id
+            state.currentTitle = state.questionsData[0].Title
+            state.currentCategories = state.questionsData[0].Categories
+            state.currentComplexity = state.questionsData[0].Complexity
+            state.currentDescription = state.questionsData[0].Description
+        }
     }
 })
 
@@ -129,7 +164,8 @@ const questionSlice = createSlice({
 export const {toggleAddQuestionButton, addCurrentId,
     updateCurrentTitle, updateCurrentComplexity,
     updateCurrentCategories, updateCurrentDescription, 
-    addNewQuestion, clearQuestionCreator} = questionSlice.actions
+    addNewQuestion, clearQuestionCreator, 
+    initializeQuestionCreator, updateCurrentId} = questionSlice.actions
 
 // export main reducer
 export default questionSlice.reducer;

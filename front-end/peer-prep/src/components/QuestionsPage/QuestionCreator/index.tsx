@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import {useEffect} from "react";
 
 // import inline styles
 import * as Styles from "./styles";
@@ -18,6 +18,14 @@ const QuestionCreator = () => {
     const currentComplexity = useSelector(QuestionSlice.selectCurrentComplexity)
     const currentCategories = useSelector(QuestionSlice.selectCurrentCategories)
     const currentDescription = useSelector(QuestionSlice.selectCurrentDescription)
+
+    // lifecycle methods here
+
+    // for initializing default values for the question creator based on the first data entry
+    // will run only once!
+    useEffect(() => {
+        dispatch(QuestionSlice.initializeQuestionCreator())
+    },[])
 
     return (
         <div style={Styles.questionCreatorContainerStyle}>
