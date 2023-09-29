@@ -1,5 +1,7 @@
+import { Button } from "@mui/material"
 import * as Styles from "./styles"
 import { Player, Controls } from "@lottiefiles/react-lottie-player"
+import { useNavigate } from "react-router-dom"
 
 const ErrorPage = () => {
     return(
@@ -10,10 +12,15 @@ const ErrorPage = () => {
 }
 
 const ErrorContainer = () => {
+    const navigate = useNavigate();
     return (
         <div id="ErrorContainer" style={Styles.errorContainerStyle}>
             <EyePlayer/>
             <SorryText/>
+            <Button variant="contained" sx={Styles.backButtonStyle} 
+                onClick={() => navigate("/home")}>
+                    GO BACK
+            </Button>
         </div>
     )
 }
