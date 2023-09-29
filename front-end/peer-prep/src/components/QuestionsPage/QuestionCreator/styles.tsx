@@ -36,6 +36,7 @@ export const labelStyle = {
 		borderBottomColor: '#F4C2C2',
 	},
 	'& .MuiOutlinedInput-root': {
+        height: "100%",
 		'& fieldset': {
 			borderColor: "#1B2735",
 			borderRadius: "10px",
@@ -53,17 +54,23 @@ export const idTextFieldStyle = {
     backgroundColor: "#1B2735",
     borderRadius: "10px",
     label: {color: "#F4C2C2"},
+    height: "100%",
     '& .MuiInputLabel-root.Mui-disabled': {
 		borderRadius: "10px",
 		color: 'pink', // Change label color for disabled state
+        height: "100%",
     },
     '& .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline': {
 		borderColor: 'pink', // Change border color for disabled state
 		borderRadius: "10px",
+        height: "100%",
     },
     "& .MuiInputBase-input.Mui-disabled": {
         WebkitTextFillColor: "#F4C2C2",
     },
+    '& .MuiOutlinedInput-root': {
+        height: "100%"
+    }
 }
 
 export const descriptionStyle = {
@@ -78,6 +85,7 @@ export const descriptionStyle = {
 		borderBottomColor: '#F4C2C2',
 	},
 	'& .MuiOutlinedInput-root': {
+        height: "100%",
 		'& fieldset': {
 			borderColor: "#1B2735",
 			borderRadius: "10px",
