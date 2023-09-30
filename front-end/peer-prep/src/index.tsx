@@ -17,6 +17,7 @@ import QuestionsPage from './components/QuestionsPage';
 
 // import styles
 import { appStyle } from './styles';
+import ErrorPage from './components/ErrorPage';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -28,6 +29,7 @@ root.render(
         <Routes>
           <Route path="/" element={<QuestionsPage/>}/>
           <Route path="/home" element={<QuestionsPage/>}/>
+          <Route path="*" element={<ErrorPage/>}/>
         </Routes>
       </BrowserRouter>
     </div>
