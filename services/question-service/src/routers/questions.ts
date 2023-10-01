@@ -1,20 +1,36 @@
 import express from "express";
 
-import Counter from "../models/counter";
-import Question from "../models/question";
+import {
+  createQuestion,
+  readQuestion,
+  readQuestions,
+  updateQuestion,
+  deleteQuestion,
+} from "../models/question";
 
 const router = express.Router();
 
 router.post("/questions", async (req, res) => {
   try {
-    const question = new Question({
-      id: await Counter.getNextSequence(),
-      ...req.body,
-    });
-    await question.save();
+    const question = await createQuestion(req);
     res.status(201).json(question);
   } catch (error) {
     res.status(400).json(error);
+  }
+});
+
+router.get("/questions/:id", async (req, res) => {
+  try {
+    const question = await readQuestion(req);
+    if (!question) {
+      res.status(404).json({
+        error: "Question does not exist",
+      });
+      return;
+    }
+    res.json(question);
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
@@ -24,82 +40,26 @@ router.post("/questions", async (req, res) => {
 // GET /api/questions?limit=10&skip=10
 // GET /api/questions?category=databases%2Carrays (%2C = comma character)
 router.get("/questions", async (req, res) => {
-  const queryObject: {
-    category?: string[];
-    complexity?: string;
-    $text?: {
-      $search: string;
-    };
-  } = {};
-  if (req.query.category) {
-    queryObject.category = (req.query.category as string).split(",");
-  }
-  if (req.query.complexity) {
-    queryObject.complexity = req.query.complexity as string;
-  }
-  if (req.query.q) {
-    queryObject.$text = {
-      $search: req.query.q as string,
-    };
-  }
-
-  const queryOptions: { limit?: number; skip?: number } = {};
-  if (req.query.limit) {
-    queryOptions.limit = parseInt(req.query.limit as string);
-  }
-  if (req.query.skip) {
-    queryOptions.skip = parseInt(req.query.skip as string);
-  }
-
   try {
-    const questions = await Question.find(queryObject, null, queryOptions);
+    const questions = await readQuestions(req);
     res.status(200).json(questions);
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-router.get("/questions/:id", async (req, res) => {
-  try {
-    const question = await Question.findById(req.params.id);
-    if (!question) {
-      res.status(404).json({
-        error: "Question does not exist",
-      });
-      return;
-    }
-    res.json(question);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
 router.patch("/questions/:id", async (req, res) => {
-  const updates = Object.keys(req.body);
-  const allowedUpdates = ["title", "description", "category", "complexity"];
-  const isValidOperation = updates.every((update) =>
-    allowedUpdates.includes(update)
-  );
-
-  if (!isValidOperation) {
-    res.status(400).json({
-      error: "Invalid operation!",
-    });
-    return;
-  }
-
   try {
-    const question: any = await Question.findOne({
-      _id: req.params.id,
-    });
+    const question: any = await updateQuestion(req);
     if (!question) {
       res.status(404).json({
         error: "Question does not exist",
       });
       return;
     }
-    updates.forEach((update) => (question[update] = req.body[update]));
-    await question.save();
+    if (question.error) {
+      res.status(400).json(question.error);
+    }
     res.json(question);
   } catch (error) {
     res.status(500).json(error);
@@ -108,16 +68,14 @@ router.patch("/questions/:id", async (req, res) => {
 
 router.delete("/questions/:id", async (req, res) => {
   try {
-    const question = await Question.findOneAndDelete({
-      _id: req.params.id,
-    });
+    const question = await deleteQuestion(req);
     if (!question) {
       res.status(404).json({
         error: "Question does not exist",
       });
       return;
     }
-    res.json(question);
+    res.status(204).json(question);
   } catch (error) {
     res.status(500).json(error);
   }
