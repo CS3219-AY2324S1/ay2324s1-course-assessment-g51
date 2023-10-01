@@ -4,11 +4,6 @@ import { User } from "../entity/User";
 import { AppDataSource } from "../data-source";
 
 export class UserController {
-	// async getAuthors(req: Request, res: Response): Promise<Response> {
-	//   const authors = await AppDataSource.getRepository(User).find();
-	//   return ResponseUtil.sendResponse(res, authors, 200);
-	// }
-
 	async getUser(req: Request, res: Response): Promise<Response> {
 		const { username } = req.params;
 		const user = await AppDataSource.getRepository(User).findOneBy({
