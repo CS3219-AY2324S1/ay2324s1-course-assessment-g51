@@ -32,7 +32,7 @@ export class UserController {
 
 		//check for duplicate email
 		const checkEmail = await AppDataSource.getRepository(User).findOneBy({
-			username: userData.username,
+			email: userData.email,
 		});
 
 		if (checkEmail) {

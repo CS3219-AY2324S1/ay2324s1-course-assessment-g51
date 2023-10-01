@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use("/user", userRoutes);
+app.use("/users", userRoutes);
 
 app.all("*", (req: Request, res: Response) => {
 	return res.status(404).send({
