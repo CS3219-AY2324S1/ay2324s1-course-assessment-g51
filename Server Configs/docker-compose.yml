@@ -1,37 +1,51 @@
 version: "3"
 
 services:
+  front-end:
+    #VM-port : "Docker Container Port"
+    ports:
+      - '3000:3000'
+    image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/frontend:latest"
+    container_name: frontend
+
   nginx-proxy-manager:
     image: 'jc21/nginx-proxy-manager:latest'
     container_name: nginx-proxy-manager
     restart: unless-stopped
     ports:
       # - Server Port : Docker Container Port
-      - '80:80'
       - '81:81'
+      - '80:80'
       - '443:443'
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
-  
+
   question-service:
     container_name: question-service
-    build:
-      context: ./services/question-service
-      target: base
-    volumes:
-      - ./services/question-service:/usr/src/app
-      - /usr/src/app/node_modules
+    image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/question-service:latest"
+    ports:
+      - '3100:3100'
     depends_on:
-      - mongodb
-    links:
       - mongodb
     environment:
       - MONGO_URI=mongodb://mongodb:27017/question-service-api
-    ports:
-      - "8080:8080"
+    volumes:
+      - ./services/question-service:/usr/src/app
+      - /usr/src/app/node_modules
     command: npm run start:dev
-  
+
+  profile-service:
+    container_name: profile-service
+    image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/profile-service:latest"
+    ports:
+      - 3100:3100
+    volumes:
+      - ./services/profile-service:/app
+    env_file:
+      - .env
+    command: [ "npm", "start" ]
+
   mongodb:
     container_name: mongodb
     image: mongo:6.0
@@ -39,3 +53,13 @@ services:
       - /data/db
     ports:
       - "27017:27017"
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - /var/lib/postgresql/data
+    ports:
+      - "5432:5432"
