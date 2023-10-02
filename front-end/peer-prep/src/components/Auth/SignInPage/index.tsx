@@ -6,6 +6,9 @@ import KeyIcon from '@mui/icons-material/Key';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Image from "../../../images/PeerPrep.jpg"
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "../Firebase";
+import { Navigate } from "react-router-dom";
 
 const SignInPage = () => {
     return (
@@ -19,6 +22,22 @@ const SignInPage = () => {
 const EmailAndPasswordContainer = () => {
     const [toggleButtonStatus,toggleButton] = useState(false)
     const [isMouseHovered,setIsHovered] = useState(false)
+    const [email,updateEmail] = useState("")
+    const [password,updatePassword] = useState("")
+    // for signing in the user
+    const [signInWithEmailAndPassword, user, loading, error] =
+		useSignInWithEmailAndPassword(auth);
+
+    if (error) {
+        // errorTextComponent = <ErrorTextComponent />;
+    }
+    if (loading) {
+        // loadingStatus = <LinearDeterminate />;
+    }
+    if (user) {
+        return <Navigate to="/home" replace={true} />;
+    }
+
     let additionalToggleButtonStyle = {};
     let toggleButtonBorderStyle = {};
     let toggleButtonText = "Sign In"
@@ -44,7 +63,10 @@ const EmailAndPasswordContainer = () => {
                     <span style={Styles.toggleButtonTextStyle}>{toggleButtonText}</span>
                 </div>
             </div>
-            <TextField label="username" sx={Styles.textFieldStyle} 
+            <TextField label="email"
+                value={email}
+                onChange={(e) => updateEmail(e.target.value)}  
+                sx={Styles.textFieldStyle} 
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
@@ -53,20 +75,24 @@ const EmailAndPasswordContainer = () => {
                     )
             }}>
             </TextField>
-            <TextField label="password" sx={Styles.textFieldStyle} InputProps={{
-                startAdornment: (
-                    <InputAdornment position="start">
-                        <KeyIcon/>
-                    </InputAdornment>
-                ),
-                endAdornment: (
-                    <InputAdornment position="end">
-                        <VisibilityOffIcon/>
-                    </InputAdornment>
-                )
-            }}>
+            <TextField label="password" value={password} 
+                onChange={(e) => updatePassword(e.target.value)} 
+                sx={Styles.textFieldStyle} 
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <KeyIcon/>
+                        </InputAdornment>
+                    ),
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <VisibilityOffIcon/>
+                        </InputAdornment>
+                    )
+                }}
+            >
             </TextField>
-            <Button variant="contained" sx={Styles.continueButtonStyle}>Continue</Button>
+            <Button variant="contained" sx={Styles.continueButtonStyle} onClick={() => signInWithEmailAndPassword(email,password)}>Continue</Button>
         </div>
     )
 }
