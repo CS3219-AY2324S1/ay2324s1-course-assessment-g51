@@ -52,7 +52,6 @@ const EmailAndPasswordContainer = () => {
     }
     if (createUserError) {
         errorText = <CreateUserErrorText/>
-        console.log(createUserError.message)
     }
     if (signInLoading || createUserLoading) {
         // loadingStatus = <LinearDeterminate />;
