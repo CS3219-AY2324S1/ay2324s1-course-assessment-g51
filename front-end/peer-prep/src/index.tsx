@@ -18,6 +18,7 @@ import QuestionsPage from './components/QuestionsPage';
 // import styles
 import { appStyle } from './styles';
 import ErrorPage from './components/ErrorPage';
+import SignInPage from './components/Auth/SignInPage';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -27,6 +28,7 @@ root.render(
     <div id="app" style={appStyle}>
       <BrowserRouter>
         <Routes>
+          <Route path="SignIn" element={<SignInPage/>} />
           <Route path="/" element={<QuestionsPage/>}/>
           <Route path="/home" element={<QuestionsPage/>}/>
           <Route path="*" element={<ErrorPage/>}/>
