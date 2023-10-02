@@ -133,3 +133,10 @@ export const imageStyle = {
     height: '100%',
     objectFit: "cover" as "cover", // Ensure the image covers the entire container
 }
+
+export const errorTextStyle = {
+    marginTop: "20px",
+    fontSize: "15px",
+    color: "red",
+    fontFamily: "arial"
+}

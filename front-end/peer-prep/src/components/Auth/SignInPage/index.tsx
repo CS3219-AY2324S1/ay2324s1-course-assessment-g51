@@ -27,9 +27,10 @@ const EmailAndPasswordContainer = () => {
     // for signing in the user
     const [signInWithEmailAndPassword, user, loading, error] =
 		useSignInWithEmailAndPassword(auth);
-
+    let errorText;
     if (error) {
         // errorTextComponent = <ErrorTextComponent />;
+        errorText = <ErrorText/>
     }
     if (loading) {
         // loadingStatus = <LinearDeterminate />;
@@ -93,7 +94,16 @@ const EmailAndPasswordContainer = () => {
             >
             </TextField>
             <Button variant="contained" sx={Styles.continueButtonStyle} onClick={() => signInWithEmailAndPassword(email,password)}>Continue</Button>
+            {errorText}
         </div>
+    )
+}
+
+const ErrorText = () => {
+    return (
+        <>
+            <span style={Styles.errorTextStyle}>You have entered either wrong email or password or both. Please try again</span>
+        </>
     )
 }
 
