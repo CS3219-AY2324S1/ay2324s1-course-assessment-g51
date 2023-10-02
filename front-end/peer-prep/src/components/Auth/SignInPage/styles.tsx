@@ -135,8 +135,10 @@ export const imageStyle = {
 }
 
 export const errorTextStyle = {
+    width: "500px",
     marginTop: "20px",
     fontSize: "15px",
     color: "red",
-    fontFamily: "arial"
+    fontFamily: "arial",
+    textAlign: "center" as "center"
 }

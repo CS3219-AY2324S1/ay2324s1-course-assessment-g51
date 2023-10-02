@@ -6,9 +6,15 @@ import KeyIcon from '@mui/icons-material/Key';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Image from "../../../images/PeerPrep.jpg"
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useSignInWithEmailAndPassword,useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../Firebase";
 import { Navigate } from "react-router-dom";
+
+interface ChildProps {
+    secondPassword: string;
+    updateSecondPassword: React.Dispatch<React.SetStateAction<string>>;
+}
+
 
 const SignInPage = () => {
     return (
@@ -20,31 +26,44 @@ const SignInPage = () => {
 }
 
 const EmailAndPasswordContainer = () => {
-    const [toggleButtonStatus,toggleButton] = useState(false)
-    const [isMouseHovered,setIsHovered] = useState(false)
-    const [email,updateEmail] = useState("")
-    const [password,updatePassword] = useState("")
+    const [isButtonToggled,toggleButton] = useState(false);
+    const [isMouseHovered,setIsHovered] = useState(false);
+    const [email,updateEmail] = useState("");
+    const [password,updatePassword] = useState("");
+    const [secondPassword,updateSecondPassword] = useState("");;
     // for signing in the user
-    const [signInWithEmailAndPassword, user, loading, error] =
+    const [signInWithEmailAndPassword, isUserSignedIn, signInLoading, signInError] =
 		useSignInWithEmailAndPassword(auth);
+    const [
+        createUserWithEmailAndPassword,
+        isUserCreated,
+        createUserLoading,
+        createUserError,
+        ] = useCreateUserWithEmailAndPassword(auth);
     let errorText;
-    if (error) {
-        // errorTextComponent = <ErrorTextComponent />;
-        errorText = <ErrorText/>
-    }
-    if (loading) {
-        // loadingStatus = <LinearDeterminate />;
-    }
-    if (user) {
-        return <Navigate to="/home" replace={true} />;
-    }
-
     let additionalToggleButtonStyle = {};
     let toggleButtonBorderStyle = {};
-    let toggleButtonText = "Sign In"
-    if (toggleButtonStatus) {
+    let toggleButtonText = "Sign In";
+    let confirmPassword;
+    if (signInError) {
+        errorText = <ErrorText/>
+    }
+    if (createUserError) {
+        errorText = <CreateUserErrorText/>
+        console.log(createUserError)
+    }
+    if (signInLoading || createUserLoading) {
+        // loadingStatus = <LinearDeterminate />;
+    }
+    if (isUserSignedIn || isUserCreated) {
+        return <Navigate to="/home" replace={true} />;
+    }
+    if (isButtonToggled) {
         additionalToggleButtonStyle = Styles.signOutToggleStyle
         toggleButtonText = "Sign Up"
+        confirmPassword = <ConfirmPasswordTextField 
+            secondPassword={secondPassword} 
+            updateSecondPassword={updateSecondPassword}/>
     }
     if (isMouseHovered) {
         toggleButtonBorderStyle = Styles.toggleBorderStyle
@@ -57,7 +76,7 @@ const EmailAndPasswordContainer = () => {
                 <div id="SignInToggle" style={{...Styles.signInToggleStyle,
                     ...additionalToggleButtonStyle,
                     ...toggleButtonBorderStyle}} 
-                    onClick={() => toggleButton(!toggleButtonStatus)}
+                    onClick={() => toggleButton(!isButtonToggled)}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
@@ -93,9 +112,45 @@ const EmailAndPasswordContainer = () => {
                 }}
             >
             </TextField>
-            <Button variant="contained" sx={Styles.continueButtonStyle} onClick={() => signInWithEmailAndPassword(email,password)}>Continue</Button>
+            {confirmPassword}
+            <Button variant="contained" sx={Styles.continueButtonStyle} 
+                onClick={() => {
+                    if(isButtonToggled) {
+                        if(password != secondPassword) {
+                            errorText = <ErrorText/>
+                        } else {
+                            createUserWithEmailAndPassword(email,password)
+                        }
+                    } else {
+                        signInWithEmailAndPassword(email,password)
+                    }
+                }}>Continue</Button>
             {errorText}
         </div>
+    )
+}
+
+const ConfirmPasswordTextField:React.FC<ChildProps> = ({secondPassword,updateSecondPassword}) => {
+    return (
+        <>
+            <TextField label="confirm password" value={secondPassword} 
+                    onChange={(e) => updateSecondPassword(e.target.value)} 
+                    sx={Styles.textFieldStyle} 
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <KeyIcon/>
+                            </InputAdornment>
+                        ),
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <VisibilityOffIcon/>
+                            </InputAdornment>
+                        )
+                    }}
+                >
+            </TextField>
+        </>
     )
 }
 
@@ -103,6 +158,14 @@ const ErrorText = () => {
     return (
         <>
             <span style={Styles.errorTextStyle}>You have entered either wrong email or password or both. Please try again</span>
+        </>
+    )
+}
+
+const CreateUserErrorText = () => {
+    return (
+        <>
+            <span style={Styles.errorTextStyle}>Your passwords do not match or the email entered is not valid. Password must be more than 6 characters. Please try again</span>
         </>
     )
 }
