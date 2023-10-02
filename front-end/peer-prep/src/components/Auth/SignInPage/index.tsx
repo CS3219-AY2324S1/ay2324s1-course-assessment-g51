@@ -13,8 +13,8 @@ import { Navigate } from "react-router-dom";
 interface ChildProps {
     secondPassword: string;
     updateSecondPassword: React.Dispatch<React.SetStateAction<string>>;
+    isPasswordHidden: boolean;
 }
-
 
 const SignInPage = () => {
     return (
@@ -40,17 +40,19 @@ const EmailAndPasswordContainer = () => {
         createUserLoading,
         createUserError,
         ] = useCreateUserWithEmailAndPassword(auth);
+    const [isPasswordHidden,toggleEye] = useState(true)
     let errorText;
     let additionalToggleButtonStyle = {};
     let toggleButtonBorderStyle = {};
     let toggleButtonText = "Sign In";
     let confirmPassword;
+    let visibilityIcon = <VisibilityOffIcon/>;
     if (signInError) {
         errorText = <ErrorText/>
     }
     if (createUserError) {
         errorText = <CreateUserErrorText/>
-        console.log(createUserError)
+        console.log(createUserError.message)
     }
     if (signInLoading || createUserLoading) {
         // loadingStatus = <LinearDeterminate />;
@@ -63,10 +65,15 @@ const EmailAndPasswordContainer = () => {
         toggleButtonText = "Sign Up"
         confirmPassword = <ConfirmPasswordTextField 
             secondPassword={secondPassword} 
-            updateSecondPassword={updateSecondPassword}/>
+            updateSecondPassword={updateSecondPassword}
+            isPasswordHidden={isPasswordHidden}
+        />
     }
     if (isMouseHovered) {
         toggleButtonBorderStyle = Styles.toggleBorderStyle
+    }
+    if(!isPasswordHidden) {
+        visibilityIcon = <VisibilityIcon/>
     }
     return (
         <div id="EmailAndPasswordContainer" style={Styles.emailAndPasswordContainerStyle}>
@@ -95,8 +102,10 @@ const EmailAndPasswordContainer = () => {
                     )
             }}>
             </TextField>
-            <TextField label="password" value={password} 
-                onChange={(e) => updatePassword(e.target.value)} 
+            <TextField label="password" value={password}
+                type={isPasswordHidden ? "password": "text"}
+                onChange={(e) => updatePassword(e.target.value)}
+                hidden={true}
                 sx={Styles.textFieldStyle} 
                 InputProps={{
                     startAdornment: (
@@ -105,8 +114,8 @@ const EmailAndPasswordContainer = () => {
                         </InputAdornment>
                     ),
                     endAdornment: (
-                        <InputAdornment position="end">
-                            <VisibilityOffIcon/>
+                        <InputAdornment position="end" onClick={() => toggleEye(!isPasswordHidden)}>
+                            {visibilityIcon}
                         </InputAdornment>
                     )
                 }}
@@ -130,25 +139,24 @@ const EmailAndPasswordContainer = () => {
     )
 }
 
-const ConfirmPasswordTextField:React.FC<ChildProps> = ({secondPassword,updateSecondPassword}) => {
+const ConfirmPasswordTextField:React.FC<ChildProps> = 
+    ({secondPassword,updateSecondPassword,
+        isPasswordHidden
+    }) => {
     return (
         <>
-            <TextField label="confirm password" value={secondPassword} 
-                    onChange={(e) => updateSecondPassword(e.target.value)} 
-                    sx={Styles.textFieldStyle} 
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <KeyIcon/>
-                            </InputAdornment>
-                        ),
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <VisibilityOffIcon/>
-                            </InputAdornment>
-                        )
-                    }}
-                >
+            <TextField label="confirm password" value={secondPassword}
+                type={isPasswordHidden ? "password": "text"}
+                onChange={(e) => updateSecondPassword(e.target.value)} 
+                sx={Styles.textFieldStyle} 
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <KeyIcon/>
+                        </InputAdornment>
+                    )
+                }}
+            >
             </TextField>
         </>
     )
