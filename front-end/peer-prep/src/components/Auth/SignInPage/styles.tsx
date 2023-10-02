@@ -4,22 +4,24 @@ export const signInPageStyle = {
     width: "100%",
     display: "grid",
     gridTemplateColumns: "50% 50%",
-    gridTemplateRows: "100%"
+    gridTemplateRows: "100%",
+    backgroundColor: "#131B25"
 }
 
 export const emailAndPasswordContainerStyle = {
-    height: "60%",
-    width: "60%",
+    height: "700px",
+    width: "700px",
     gridColumn: "1 / 2",
     gridRow: "1 / 1",
-    border: "2px solid blue",
+    borderRadius: "20px",
     justifySelf: "center",
     alignSelf: "center",
     display: "grid",
     //justifyContent: "center",
     justifyItems: "center",
     //alignItems: "center",
-    alignContent: "center"
+    alignContent: "center",
+    backgroundColor: "white",
 }
 
 export const firstHeaderStyle = {
@@ -27,14 +29,16 @@ export const firstHeaderStyle = {
     paddingBottom: "20px",
     //border: "2px solid red",
     fontSize: "50px",
-    fontFamily: "arial"
+    fontFamily: "arial",
+    //color: "white"
 }
 
 export const secondHeaderStyle = {
     //border: "2px solid red",
     fontSize: "20px",
     fontFamily: "arial",
-    paddingBottom: "20px"
+    paddingBottom: "20px",
+    //color: "white"
 }
 
 export const switchStyle = {
@@ -112,4 +116,20 @@ export const continueButtonStyle = {
         backgroundColor: 'pink', // Change background color to pink on hover
     },
     fontSize: "20px"
+}
+
+export const peerPrepImageContainerStyle = {
+    gridColumn: " 2 / 2",
+    gridRow: "1 / 1",
+    position: "relative" as "relative",
+    paddingTop: '56.25%', // 16:9 aspect ratio
+}
+
+export const imageStyle = {
+    position: "absolute" as "absolute",
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    objectFit: "cover" as "cover", // Ensure the image covers the entire container
 }

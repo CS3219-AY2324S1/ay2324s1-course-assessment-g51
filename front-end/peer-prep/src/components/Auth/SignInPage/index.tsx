@@ -5,11 +5,13 @@ import  MailOutlineIcon from "@mui/icons-material/MailOutline"
 import KeyIcon from '@mui/icons-material/Key';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import Image from "../../../images/PeerPrep.jpg"
 
 const SignInPage = () => {
     return (
         <div id="SignInPage" style={Styles.signInPageStyle}>
             <EmailAndPasswordContainer/>
+            <PeerPrepImage/>
         </div>
     )
 }
@@ -42,12 +44,13 @@ const EmailAndPasswordContainer = () => {
                     <span style={Styles.toggleButtonTextStyle}>{toggleButtonText}</span>
                 </div>
             </div>
-            <TextField label="username" sx={Styles.textFieldStyle} InputProps={{
-                startAdornment: (
-                    <InputAdornment position="start">
-                        <MailOutlineIcon/>
-                    </InputAdornment>
-                )
+            <TextField label="username" sx={Styles.textFieldStyle} 
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <MailOutlineIcon/>
+                        </InputAdornment>
+                    )
             }}>
             </TextField>
             <TextField label="password" sx={Styles.textFieldStyle} InputProps={{
@@ -64,6 +67,14 @@ const EmailAndPasswordContainer = () => {
             }}>
             </TextField>
             <Button variant="contained" sx={Styles.continueButtonStyle}>Continue</Button>
+        </div>
+    )
+}
+
+const PeerPrepImage = () => {
+    return (
+        <div style={Styles.peerPrepImageContainerStyle}>
+            <img src={Image} alt="My Image" style={Styles.imageStyle}/>
         </div>
     )
 }
