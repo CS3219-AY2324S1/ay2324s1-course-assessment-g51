@@ -27,25 +27,22 @@ import SignInPage from './components/Auth/SignInPage';
 import { ReactNode } from 'react';
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-	const [user, loading, error] = useAuthState(auth);
+    const [user, loading, error] = useAuthState(auth);
 	if (loading) {
         // Show loading screen
         // return <LoadingComponent />;
-      }
-    
-      if (user) {
+    }
+    if (user) {
         // User is authenticated, render children or Outlet
         return children ? <>{children}</> : <Outlet />;
-      }
-    
-      if (error) {          
+    }
+    if (error) {          
         // Handle error condition
         //return <ErrorComponent error={error} />;
         return <Navigate to="*" replace={true} />;
-      }
-    
-      // User is not authenticated, navigate to SignIn page
-      return <Navigate to="/SignIn" replace={true} />;
+    }
+    // User is not authenticated, navigate to SignIn page
+    return <Navigate to="/SignIn" replace={true} />;
 };
 
 
