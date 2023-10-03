@@ -59,6 +59,7 @@ router.patch("/questions/:id", async (req, res) => {
     }
     if (question.error) {
       res.status(400).json(question.error);
+      return;
     }
     res.json(question);
   } catch (error) {
