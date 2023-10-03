@@ -1,22 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface userState {
+export interface userState {
     isEditUserButtonToggled: boolean,
     currentUsername: string,
     currentEmail: string,
     currentPassword: string,
     currentFirstName: string,
     currentLastName: string,
-    currentAge: string
+    currentAge: number
 }
 
 interface userFormat {
-    "Username": string,
-    "Email": string,
-    "Password": string,
-    "FirstName": string,
-    "LastName": string,
-    "Age": string
+    "username": string,
+    "email": string,
+    "password": string,
+    "firstName": string,
+    "lastName": string,
+    "age": number
 }
 
 const userSlice = createSlice({
@@ -28,9 +28,17 @@ const userSlice = createSlice({
         currentPassword: "",
         currentFirstName: "",
         currentLastName: "",
-        currentAge: ""
+        currentAge: 0
     } as userState,
     reducers: {
+        updateUserData(state,action : PayloadAction<userFormat>) {
+            state.currentUsername = action.payload.username
+            state.currentEmail = action.payload.email
+            state.currentFirstName = action.payload.firstName
+            state.currentLastName = action.payload.lastName
+            state.currentPassword = action.payload.password
+            state.currentAge = action.payload.age
+        },
         updateCurrentUsername(state,action: PayloadAction<string>) {
             state.currentUsername = action.payload
         },
@@ -47,12 +55,13 @@ const userSlice = createSlice({
             state.currentLastName = action.payload
         },
         updateCurrentAge(state,action: PayloadAction<string>) {
-            state.currentAge = action.payload
+            let updatedAge = action.payload === "" ? "0" : action.payload
+            state.currentAge = parseInt(updatedAge)
         },
     }
 })
 
-export const { updateCurrentUsername, updateCurrentEmail, 
+export const { updateUserData, updateCurrentUsername, updateCurrentEmail, 
     updateCurrentPassword, updateCurrentFirstName, 
     updateCurrentLastName, updateCurrentAge} = userSlice.actions
 

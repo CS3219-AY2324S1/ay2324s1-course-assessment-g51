@@ -14,6 +14,7 @@ import {
 
 // import app components here
 import QuestionsPage from './components/QuestionsPage';
+import UserPage from './components/UserPage';
 
 // import styles
 import { appStyle } from './styles';
@@ -29,6 +30,7 @@ root.render(
         <Routes>
           <Route path="/" element={<QuestionsPage/>}/>
           <Route path="/home" element={<QuestionsPage/>}/>
+          <Route path="/settings" element={<UserPage/>}/>
           <Route path="*" element={<ErrorPage/>}/>
         </Routes>
       </BrowserRouter>
