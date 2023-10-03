@@ -27,7 +27,7 @@ export class UserController {
 		);
 
 		if (checkUserName) {
-			return ResponseUtil.sendError(res, "Username already used", 404);
+			return ResponseUtil.sendError(res, "Username already used", 409);
 		}
 
 		//check for duplicate email
@@ -36,7 +36,7 @@ export class UserController {
 		});
 
 		if (checkEmail) {
-			return ResponseUtil.sendError(res, "Email already used", 404);
+			return ResponseUtil.sendError(res, "Email already used", 409);
 		}
 
 		const user = repo.create(userData);
