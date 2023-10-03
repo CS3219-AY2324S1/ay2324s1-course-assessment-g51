@@ -60,7 +60,7 @@ export class UserController {
 			email: userData.email,
 		});
 		if (checkEmail) {
-			return ResponseUtil.sendError(res, "Email already used", 404);
+			return ResponseUtil.sendError(res, "Email already used", 409);
 		}
 
 		repo.merge(user, userData);
