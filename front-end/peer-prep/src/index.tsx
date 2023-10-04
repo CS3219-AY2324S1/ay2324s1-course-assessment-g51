@@ -62,7 +62,7 @@ root.render(
                         <Route path="/user" element={<UserPage/>}/>
                     </Route>
                     {/* All non-protected routes are written here */}
-                    <Route path="SignIn" element={<SignInPage/>} />
+                    <Route path="/signin" element={<SignInPage/>} />
                     <Route path="*" element={<ErrorPage/>}/>
                 </Routes>
             </BrowserRouter>
