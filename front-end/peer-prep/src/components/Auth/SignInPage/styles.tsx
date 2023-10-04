@@ -103,6 +103,7 @@ export const toggleTextStyle = {
     alignItems: "center",
     fontFamily: "arial",
     fontSize: "25px",
+    cursor: "pointer"
 }
 
 export const textFieldStyle = {
