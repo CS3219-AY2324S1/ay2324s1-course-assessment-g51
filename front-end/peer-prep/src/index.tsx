@@ -59,7 +59,7 @@ root.render(
                     <Route element={<ProtectedRoute children={null}/>}>
                         <Route path="/" element={<QuestionsPage/>}/>
                         <Route path="/home" element={<QuestionsPage/>}/>
-                        <Route path="/profile" element={<UserPage/>}/>
+                        <Route path="/user" element={<UserPage/>}/>
                     </Route>
                     {/* All non-protected routes are written here */}
                     <Route path="SignIn" element={<SignInPage/>} />
