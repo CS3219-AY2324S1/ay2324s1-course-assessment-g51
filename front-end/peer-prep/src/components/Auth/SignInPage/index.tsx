@@ -34,17 +34,15 @@ const EmailAndPasswordContainer = () => {
     // for signing in the user
     const [signInWithEmailAndPassword, isUserSignedIn, signInLoading, signInError] =
 		useSignInWithEmailAndPassword(auth);
-    const [
-        createUserWithEmailAndPassword,
-        isUserCreated,
-        createUserLoading,
-        createUserError,
-        ] = useCreateUserWithEmailAndPassword(auth);
+    const [createUserWithEmailAndPassword, isUserCreated, createUserLoading,
+        createUserError] = useCreateUserWithEmailAndPassword(auth);
     const [isPasswordHidden,toggleEye] = useState(true)
     let errorText;
     let additionalToggleButtonStyle = {};
+    let additionalToggleTextStyle = {};
     let toggleButtonBorderStyle = {};
     let toggleButtonText = "Sign In";
+    let toggleText = "Sign Up"
     let confirmPassword;
     let visibilityIcon = <VisibilityOffIcon/>;
     if (signInError) {
@@ -60,8 +58,10 @@ const EmailAndPasswordContainer = () => {
         return <Navigate to="/home" replace={true} />;
     }
     if (isButtonToggled) {
-        additionalToggleButtonStyle = Styles.signOutToggleStyle
+        additionalToggleButtonStyle = Styles.toggleButtonStyle;
+        additionalToggleTextStyle = Styles.additionalToggleTextStyle;
         toggleButtonText = "Sign Up"
+        toggleText = "Sign In"
         confirmPassword = <ConfirmPasswordTextField 
             secondPassword={secondPassword} 
             updateSecondPassword={updateSecondPassword}
@@ -86,8 +86,9 @@ const EmailAndPasswordContainer = () => {
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
-                    <span style={Styles.toggleButtonTextStyle}>{toggleButtonText}</span>
+                    <span style={{...Styles.toggleButtonTextStyle}}>{toggleButtonText}</span>
                 </div>
+                <span style={{...Styles.toggleTextStyle,...additionalToggleTextStyle}}>{toggleText}</span>
             </div>
             <TextField label="email"
                 value={email}
