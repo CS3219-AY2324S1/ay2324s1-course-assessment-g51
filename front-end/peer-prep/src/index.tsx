@@ -13,9 +13,8 @@ import {
     BrowserRouter,
 	Routes,
 	Route,
-  Outlet,
-  Navigate,
-  useLocation,
+    Outlet,
+    Navigate,
 } from "react-router-dom";
 
 // import app components here
@@ -62,6 +61,7 @@ root.render(
                     </Route>
                     {/* All non-protected routes are written here */}
                     <Route path="/" element={<SignInPage/>} />
+                    <Route path="/signin" element={<SignInPage/>} />
                     <Route path="*" element={<ErrorPage/>}/>
                 </Routes>
             </BrowserRouter>
