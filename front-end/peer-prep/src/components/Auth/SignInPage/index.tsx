@@ -1,6 +1,6 @@
 import { Button, InputAdornment, Switch, TextField } from "@mui/material"
 import * as Styles from "./styles"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import  MailOutlineIcon from "@mui/icons-material/MailOutline"
 import KeyIcon from '@mui/icons-material/Key';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -34,25 +34,25 @@ const EmailAndPasswordContainer = () => {
     // for signing in the user
     const [signInWithEmailAndPassword, isUserSignedIn, signInLoading, signInError] =
 		useSignInWithEmailAndPassword(auth);
-    const [
-        createUserWithEmailAndPassword,
-        isUserCreated,
-        createUserLoading,
-        createUserError,
-        ] = useCreateUserWithEmailAndPassword(auth);
-    const [isPasswordHidden,toggleEye] = useState(true)
-    let errorText;
+    const [createUserWithEmailAndPassword, isUserCreated, createUserLoading,
+        createUserError] = useCreateUserWithEmailAndPassword(auth);
+    const [isPasswordHidden,toggleEye] = useState(true);
+    const [errorText,setErrorText] = useState("");
     let additionalToggleButtonStyle = {};
+    let additionalToggleTextStyle = {};
     let toggleButtonBorderStyle = {};
     let toggleButtonText = "Sign In";
+    let toggleText = "Sign Up"
     let confirmPassword;
     let visibilityIcon = <VisibilityOffIcon/>;
-    if (signInError) {
-        errorText = <ErrorText/>
-    }
-    if (createUserError) {
-        errorText = <CreateUserErrorText/>
-    }
+    useEffect(() => {
+        if (signInError) {
+            setErrorText(signInErrorText);
+        }
+        if (createUserError) {
+            setErrorText(createUserErrorText);
+        }
+    },[signInError,createUserError]);
     if (signInLoading || createUserLoading) {
         // loadingStatus = <LinearDeterminate />;
     }
@@ -60,8 +60,10 @@ const EmailAndPasswordContainer = () => {
         return <Navigate to="/home" replace={true} />;
     }
     if (isButtonToggled) {
-        additionalToggleButtonStyle = Styles.signOutToggleStyle
+        additionalToggleButtonStyle = Styles.toggleButtonStyle;
+        additionalToggleTextStyle = Styles.additionalToggleTextStyle;
         toggleButtonText = "Sign Up"
+        toggleText = "Sign In"
         confirmPassword = <ConfirmPasswordTextField 
             secondPassword={secondPassword} 
             updateSecondPassword={updateSecondPassword}
@@ -82,12 +84,19 @@ const EmailAndPasswordContainer = () => {
                 <div id="SignInToggle" style={{...Styles.signInToggleStyle,
                     ...additionalToggleButtonStyle,
                     ...toggleButtonBorderStyle}} 
-                    onClick={() => toggleButton(!isButtonToggled)}
+                    onClick={() => {
+                        toggleButton(!isButtonToggled);
+                        setErrorText("");
+                    }}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
-                    <span style={Styles.toggleButtonTextStyle}>{toggleButtonText}</span>
+                    <span style={{...Styles.toggleButtonTextStyle}}>{toggleButtonText}</span>
                 </div>
+                <span style={{...Styles.toggleTextStyle,...additionalToggleTextStyle}} 
+                    onClick={() => toggleButton(!isButtonToggled)}>
+                        {toggleText}
+                </span>
             </div>
             <TextField label="email"
                 value={email}
@@ -125,7 +134,7 @@ const EmailAndPasswordContainer = () => {
                 onClick={() => {
                     if(isButtonToggled) {
                         if(password != secondPassword) {
-                            errorText = <ErrorText/>
+                            setErrorText(createUserErrorText)
                         } else {
                             createUserWithEmailAndPassword(email,password)
                         }
@@ -133,7 +142,7 @@ const EmailAndPasswordContainer = () => {
                         signInWithEmailAndPassword(email,password)
                     }
                 }}>Continue</Button>
-            {errorText}
+            <span style={Styles.errorTextStyle}>{errorText}</span>
         </div>
     )
 }
@@ -161,21 +170,8 @@ const ConfirmPasswordTextField:React.FC<ChildProps> =
     )
 }
 
-const ErrorText = () => {
-    return (
-        <>
-            <span style={Styles.errorTextStyle}>You have entered either wrong email or password or both. Please try again</span>
-        </>
-    )
-}
-
-const CreateUserErrorText = () => {
-    return (
-        <>
-            <span style={Styles.errorTextStyle}>Your passwords do not match or the email entered is not valid. Password must be more than 6 characters. Please try again</span>
-        </>
-    )
-}
+const signInErrorText = "You have entered either wrong email or password or both. Please try again";
+const createUserErrorText = "Your passwords do not match or the email entered is not valid. Password must be more than 6 characters. Please try again";
 
 const PeerPrepImage = () => {
     return (

@@ -66,9 +66,19 @@ export const signInToggleStyle = {
     border: "2px solid black"
 }
 
-export const signOutToggleStyle = {
+export const toggleButtonStyle = {
     //alignSelf: "flex-end"
-    marginLeft: "50%"
+    // marginLeft: "50%",
+    // zPosition: "3"
+    position: "relative",
+    left: "45% "
+}
+
+export const additionalToggleTextStyle = {
+    // marginRight: "50%",
+    // zPosition: "1"
+    position: "relative",
+    right: "55%"
 }
 
 export const toggleBorderStyle = {
@@ -80,6 +90,20 @@ export const toggleButtonTextStyle = {
     fontSize: "25px",
     height: "30px",
     fontFamily: "arial",
+}
+
+// Styling for the text beside the toggle button
+export const toggleTextStyle = {
+    height: "100%",
+    width: "45%",
+    color: "white",
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    fontFamily: "arial",
+    fontSize: "25px",
+    cursor: "pointer"
 }
 
 export const textFieldStyle = {
