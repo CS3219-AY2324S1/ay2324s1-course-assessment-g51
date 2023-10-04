@@ -13,8 +13,8 @@ import {
     BrowserRouter,
 	Routes,
 	Route,
-  Outlet,
-  Navigate,
+    Outlet,
+    Navigate,
 } from "react-router-dom";
 
 // import app components here
@@ -25,25 +25,24 @@ import UserPage from './components/UserPage';
 import { appStyle } from './styles';
 import ErrorPage from './components/ErrorPage';
 import SignInPage from './components/Auth/SignInPage';
-import { ReactNode } from 'react';
 
-const ProtectedRoute = ({ children }: { children: ReactNode }) => {
+const ProtectedRoute = () => {
     const [user, loading, error] = useAuthState(auth);
+    debugger;
 	if (loading) {
-        // Show loading screen
-        // return <LoadingComponent />;
-    }
-    if (user) {
-        // User is authenticated, render children or Outlet
-        return children ? <>{children}</> : <Outlet />;
+        // the user object will be null if firebase is loading
+        // handle loading next time
+        return <></>
     }
     if (error) {          
-        // Handle error condition
-        //return <ErrorComponent error={error} />;
-        return <Navigate to="*" replace={true} />;
+        return <Navigate to="*"/>;
     }
-    // User is not authenticated, navigate to SignIn page
-    return <Navigate to="/SignIn" replace={true} />;
+    if (!user) {
+        debugger;
+       // User is not authenticated, navigate to SignIn page
+        return <Navigate to="/signin" replace />;
+    }
+    return <Outlet/>
 };
 
 
@@ -56,12 +55,12 @@ root.render(
             <BrowserRouter>
                 <Routes>
                     {/* All protected routes are written here */}
-                    <Route element={<ProtectedRoute children={null}/>}>
-                        <Route path="/" element={<QuestionsPage/>}/>
-                        <Route path="/home" element={<QuestionsPage/>}/>
-                        <Route path="/user" element={<UserPage/>}/>
+                    <Route element={<ProtectedRoute/>}>
+                        <Route path="home" element={<QuestionsPage/>}/>
+                        <Route path="user" element={<UserPage/>}/>
                     </Route>
                     {/* All non-protected routes are written here */}
+                    <Route path="/" element={<SignInPage/>} />
                     <Route path="/signin" element={<SignInPage/>} />
                     <Route path="*" element={<ErrorPage/>}/>
                 </Routes>
