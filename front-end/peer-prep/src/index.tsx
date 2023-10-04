@@ -19,6 +19,7 @@ import {
 
 // import app components here
 import QuestionsPage from './components/QuestionsPage';
+import UserPage from './components/UserPage';
 
 // import styles
 import { appStyle } from './styles';
@@ -58,9 +59,10 @@ root.render(
                     <Route element={<ProtectedRoute children={null}/>}>
                         <Route path="/" element={<QuestionsPage/>}/>
                         <Route path="/home" element={<QuestionsPage/>}/>
+                        <Route path="/user" element={<UserPage/>}/>
                     </Route>
                     {/* All non-protected routes are written here */}
-                    <Route path="SignIn" element={<SignInPage/>} />
+                    <Route path="/signin" element={<SignInPage/>} />
                     <Route path="*" element={<ErrorPage/>}/>
                 </Routes>
             </BrowserRouter>
