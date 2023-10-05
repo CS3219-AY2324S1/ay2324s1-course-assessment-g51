@@ -9,7 +9,8 @@ export const userNavigationAvatarStyle = {
     height: "40px",
     width: "40px",
     marginLeft:"auto",
-    marginRight: "50px"
+    marginRight: "50px",
+    cursor: "pointer"
 }
 
 export const navbarButtonContainerStyle = {
@@ -26,4 +27,12 @@ export const navbarButtonStyle = {
     marginRight: "50px",
     textTransform: "capitalize",
     fontSize: "20px"
+}
+
+export const MenuStyle = {
+    mt: '50px'
+}
+
+export const MenuItemsStyle = {
+    width: "150px",
 }
