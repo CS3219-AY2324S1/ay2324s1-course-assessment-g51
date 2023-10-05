@@ -26,6 +26,7 @@ import { appStyle } from './styles';
 import ErrorPage from './components/ErrorPage';
 import SignInPage from './components/Auth/SignInPage';
 import Navbar from './components/Navbar';
+import GoodbyePage from './components/Auth/GoodbyePage';
 
 const ProtectedRoute = () => {
     const [user, loading, error] = useAuthState(auth);
@@ -67,6 +68,7 @@ const RootApp = () => {
                     <Route path="/" element={<SignInPage/>} />
                     <Route path="/signin" element={<SignInPage/>} />
                     <Route path="*" element={<ErrorPage/>}/>
+                    <Route path="/goodbye" element={<GoodbyePage/>}/>
                 </Routes>
             </BrowserRouter>
         </div>

@@ -4,10 +4,11 @@ import * as Styles from "./styles"
 import Avatar from '@mui/material/Avatar';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Menu from '@mui/material/Menu';
 import Brightness6Icon from '@mui/icons-material/Brightness6';
 import PersonIcon from '@mui/icons-material/Person';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
@@ -32,14 +33,14 @@ const settings = [
         link: "/user",
         icon: <PersonIcon/>
     },
-    {
-        text: "Appearance",
-        link: "/home",
-        icon: <Brightness6Icon/>
-    },
+    // {
+    //     text: "Appearance",
+    //     link: "/home",
+    //     icon: <Brightness6Icon/>
+    // },
     {
         text: "Sign Out",
-        link: "/signin",
+        link: "/goodbye",
         icon: <LogoutIcon/>
     }
 
@@ -50,20 +51,31 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [isMenuToggled,toggleMenu] = useState(false)
     const [signOut,loading,error] = useSignOut(auth)
+    let currentLocation = useLocation();
+    let currentNavbarButtonStyle = {};
     return (
         <AppBar position="absolute" style={Styles.navbarContainerStyle}>
             <Toolbar>
                 <Box sx={Styles.navbarButtonContainerStyle}>
-                    {routes.map((item) => (
-                    <Button key={item.link} sx={Styles.navbarButtonStyle} onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(item.link)
-                    }}>
-                        {item.text.toLowerCase()}
-                    </Button>
-                    ))}
+                    {routes.map((item) => {
+                        if (currentLocation.pathname == item.link) {
+                            console.log(currentLocation.pathname)
+                            currentNavbarButtonStyle = Styles.additionalNavbarButtonStyle
+                        } else {
+                            currentNavbarButtonStyle = {}
+                        } 
+                        return (
+                            <Button key={item.link} 
+                                sx={{...Styles.navbarButtonStyle,...currentNavbarButtonStyle}} onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(item.link)
+                            }}>
+                                {item.text.toLowerCase()}
+                            </Button>
+                        )})
+                    }
                 </Box>
-                <Avatar sx={Styles.userNavigationAvatarStyle} onClick={() => toggleMenu(!isMenuToggled)}/>
+                <SettingsIcon sx={Styles.settingsIconStyle} onClick={() => toggleMenu(!isMenuToggled)}/>
             </Toolbar>
             <Menu
               sx={Styles.MenuStyle}
@@ -81,22 +93,23 @@ const Navbar = () => {
               }}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting.text} 
-                    onClick={() => {
-                        if (setting.text == "Sign Out") {
-                            signOut();
-                            toggleMenu(false);
-                        } else {
-                            toggleMenu(false);
-                            navigate(setting.link);
-                        }
-                    }}
-                    sx={Styles.MenuItemsStyle}
-                >
-                    {setting.icon}
-                    <Typography textAlign="center" sx={{marginLeft: "10px"}}>{setting.text}</Typography>
-                </MenuItem>
-              ))}
+                    <MenuItem key={setting.text} 
+                        onClick={() => {
+                            if (setting.text == "Sign Out") {
+                                signOut();
+                                toggleMenu(false);
+                                navigate(setting.link);
+                            } else {
+                                toggleMenu(false);
+                                navigate(setting.link);
+                            }
+                        }}
+                        sx={Styles.MenuItemsStyle}
+                    >
+                        {setting.icon}
+                        <Typography textAlign="center" sx={{marginLeft: "10px"}}>{setting.text}</Typography>
+                    </MenuItem>
+                ))}
             </Menu>
         </AppBar>
     )
