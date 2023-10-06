@@ -31,7 +31,6 @@ const EmailAndPasswordContainer = () => {
     const [email,updateEmail] = useState("");
     const [password,updatePassword] = useState("");
     const [secondPassword,updateSecondPassword] = useState("");;
-    // for signing in the user
     const [signInWithEmailAndPassword, isUserSignedIn, signInLoading, signInError] =
 		useSignInWithEmailAndPassword(auth);
     const [createUserWithEmailAndPassword, isUserCreated, createUserLoading,
@@ -53,6 +52,9 @@ const EmailAndPasswordContainer = () => {
             setErrorText(createUserErrorText);
         }
     },[signInError,createUserError]);
+    useEffect(() => {
+        setErrorText("");
+    },[isButtonToggled])
     if (signInLoading || createUserLoading) {
         // loadingStatus = <LinearDeterminate />;
     }
@@ -62,13 +64,13 @@ const EmailAndPasswordContainer = () => {
     if (isButtonToggled) {
         additionalToggleButtonStyle = Styles.toggleButtonStyle;
         additionalToggleTextStyle = Styles.additionalToggleTextStyle;
-        toggleButtonText = "Sign Up"
-        toggleText = "Sign In"
+        toggleButtonText = "Sign Up";
+        toggleText = "Sign In";
         confirmPassword = <ConfirmPasswordTextField 
             secondPassword={secondPassword} 
             updateSecondPassword={updateSecondPassword}
             isPasswordHidden={isPasswordHidden}
-        />
+        />;
     }
     if (isMouseHovered) {
         toggleButtonBorderStyle = Styles.toggleBorderStyle
@@ -77,7 +79,21 @@ const EmailAndPasswordContainer = () => {
         visibilityIcon = <VisibilityIcon/>
     }
     return (
-        <div id="EmailAndPasswordContainer" style={Styles.emailAndPasswordContainerStyle}>
+        <div id="EmailAndPasswordContainer" style={Styles.emailAndPasswordContainerStyle}
+            onKeyDown={(event) => {
+                if (event.code === "Enter") {
+                    if(isButtonToggled) {
+                        if(password != secondPassword) {
+                            setErrorText(createUserErrorText)
+                        } else {
+                            createUserWithEmailAndPassword(email,password)
+                        }
+                    } else {
+                        signInWithEmailAndPassword(email,password)
+                    }
+                }
+            }} 
+        >
             <span style={Styles.firstHeaderStyle}>Welcome To PeerPrep!</span>
             <span style={Styles.secondHeaderStyle}>Please enter your details</span>
             <div style={Styles.switchStyle}>
@@ -141,7 +157,10 @@ const EmailAndPasswordContainer = () => {
                     } else {
                         signInWithEmailAndPassword(email,password)
                     }
-                }}>Continue</Button>
+                }}
+            >
+                Continue
+            </Button>
             <span style={Styles.errorTextStyle}>{errorText}</span>
         </div>
     )
