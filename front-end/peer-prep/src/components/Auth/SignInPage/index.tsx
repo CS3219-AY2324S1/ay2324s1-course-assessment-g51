@@ -1,4 +1,8 @@
-import { Button, Divider, InputAdornment, Switch, TextField } from "@mui/material"
+import { Button, Divider, InputAdornment, Switch, TextField, Stack, IconButton } from "@mui/material"
+import googleIconImage from '../../../images/GoogleIcon.png'
+import facebookIconImage from '../../../images/FacebookIcon.png'
+import githubIconImage from '../../../images/GithubIcon.png'
+import twitterIconImage from '../../../images/TwitterIcon.png'
 import * as Styles from "./styles"
 import { useEffect, useState } from "react"
 import  MailOutlineIcon from "@mui/icons-material/MailOutline"
@@ -28,7 +32,7 @@ const SignInPage = () => {
 
 const googleProvider = new GoogleAuthProvider();
 
-const googleSignIn = () =>  signInWithPopup(auth, googleProvider)
+const googleSignIn = () => signInWithPopup(auth, googleProvider)
   .then((result) => {
     // This gives you a Google Access Token. You can use it to access the Google API.
     const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -187,10 +191,23 @@ const EmailAndPasswordContainer = () => {
             >
                 Continue
             </Button>
-            <Divider variant="middle"/>
-            <Button onClick={() => { googleSignIn() }}>
-                test
-            </Button>
+            <Divider variant="middle" sx={Styles.dividerStyle}>
+                or continue with
+            </Divider>
+            <Stack direction="row" spacing={2}>
+                <IconButton onClick={() => { googleSignIn() }}>
+                    <img style={Styles.iconStyle} src={googleIconImage}/>
+                </IconButton>
+                <IconButton>
+                    <img style={Styles.iconStyle} src={facebookIconImage}/>
+                </IconButton>
+                <IconButton>
+                    <img style={Styles.iconStyle} src={githubIconImage}/>
+                </IconButton>
+                <IconButton>
+                    <img style={Styles.iconStyle} src={twitterIconImage}/>
+                </IconButton>
+            </Stack>
             <span style={Styles.errorTextStyle}>{errorText}</span>
         </div>
     )

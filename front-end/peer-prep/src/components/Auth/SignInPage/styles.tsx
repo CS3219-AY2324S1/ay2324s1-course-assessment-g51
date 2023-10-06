@@ -166,3 +166,15 @@ export const errorTextStyle = {
     fontFamily: "arial",
     textAlign: "center" as "center"
 }
+
+export const dividerStyle = {
+    color: "#1B2735",
+    marginTop: "20px",
+    width: "40%",
+    fontSize: "20px"
+}
+
+export const iconStyle = {
+    width: "30px",
+    height: "30px"
+}
