@@ -33,6 +33,6 @@ const GoodbyePlayer = () => {
 }
 
 const goodbyeText = "You have signed out! See you next time!"
-const redirectText = "Stil up for the grind?"
+const redirectText = "Still up for the grind?"
 
 export default GoodbyePage
