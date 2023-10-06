@@ -1,4 +1,4 @@
-import { Button, InputAdornment, Switch, TextField } from "@mui/material"
+import { Button, Divider, InputAdornment, Switch, TextField } from "@mui/material"
 import * as Styles from "./styles"
 import { useEffect, useState } from "react"
 import  MailOutlineIcon from "@mui/icons-material/MailOutline"
@@ -8,6 +8,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import Image from "../../../images/PeerPrep.jpg"
 import { useSignInWithEmailAndPassword,useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../Firebase";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { Navigate } from "react-router-dom";
 
 interface ChildProps {
@@ -24,6 +25,31 @@ const SignInPage = () => {
         </div>
     )
 }
+
+const googleProvider = new GoogleAuthProvider();
+
+const googleSignIn = () =>  signInWithPopup(auth, googleProvider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential?.accessToken;
+
+    // The signed-in user info.x
+    const user = result.user;
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+
+  }).catch((error) => {
+    // Handle Errors here.
+    console.log(error)
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
 
 const EmailAndPasswordContainer = () => {
     const [isButtonToggled,toggleButton] = useState(false);
@@ -160,6 +186,10 @@ const EmailAndPasswordContainer = () => {
                 }}
             >
                 Continue
+            </Button>
+            <Divider variant="middle"/>
+            <Button onClick={() => { googleSignIn() }}>
+                test
             </Button>
             <span style={Styles.errorTextStyle}>{errorText}</span>
         </div>
