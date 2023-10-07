@@ -1,7 +1,7 @@
 # Welcome to CS3219 Group 51's Peer Prep app!
-<div align="center">
-![](./images/Peer%20Prep%20Logo.png)
-</div>
+<p align="center">
+<img src="https://raw.githubusercontent.com/CS3219-AY2324S1/ay2324s1-course-assessment-g51/tree/update-main-readme/images/Peer%20Prep%20Logo.png" align="center" height=auto width="600">
+</p>
 
 Welcome to Peer Prep, your ultimate destination for collaborative learning and problem-solving! At Peer Prep, we've created a dynamic web application designed to empower users to come together, discuss curated questions, and enhance their problem-solving skills. With our innovative features, you can seamlessly collaborate with peers, engage in real-time discussions through our integrated chat feature, and even visualize code as you tackle challenges together. We take the guesswork out of finding the right study partner by matching you with individuals who share your interest and are at a similar difficulty level. Our interactive platform ensures that learning is not only effective but also enjoyable. Join us on this exciting journey to elevate your skills, anytime and anywhere at Peer Prep!
 
