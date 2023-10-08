@@ -1,22 +1,23 @@
 import { IconButton } from "@mui/material";
 
 import * as Styles from "./../styles"
-import FacebookIconImage from '../../../../images/FacebookIcon.png'
+import GithubIconImage from '../../../../images/GithubIcon.png'
 
 import { useNavigate } from "react-router-dom";
 
 import { auth } from "../../Firebase";
 
-import { FacebookAuthProvider, signInWithPopup } from "firebase/auth";
+import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 
-const FacebookSignInButton = () => {
+const GithubSignInButton = () => {
     const navigateHome = useNavigate();
-    const facebookProvider = new FacebookAuthProvider();
-
-    const handleFacebookSignIn = () => signInWithPopup(auth, facebookProvider)
+    const githubProvider = new GithubAuthProvider();
+    console.log("test")
+    const handleGithubSignIn = () => signInWithPopup(auth, githubProvider)
     .then((result) => {
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        const credential = FacebookAuthProvider.credentialFromResult(result);
+        console.log("test")
+        // This gives you a Gtihub Access Token. You can use it to access the Github API.
+        const credential = GithubAuthProvider.credentialFromResult(result);
         const token = credential?.accessToken;
 
         // The signed-in user info.x
@@ -31,15 +32,15 @@ const FacebookSignInButton = () => {
         // The email of the user's account used.
         //const email = error.customData.email;
         // The AuthCredential type that was used.
-        const credential = FacebookAuthProvider.credentialFromError(error);
+        const credential = GithubAuthProvider.credentialFromError(error);
         // ...
     });
 
     return (
-        <IconButton onClick={() => { handleFacebookSignIn() }}>
-            <img style={Styles.iconStyle} src={FacebookIconImage} alt="facebookIcon"/>
+        <IconButton onClick={() => { handleGithubSignIn() }}>
+            <img style={Styles.iconStyle} src={GithubIconImage} alt="githubIcon"/>
         </IconButton>
     )
 }
 
-export default FacebookSignInButton;
+export default GithubSignInButton;

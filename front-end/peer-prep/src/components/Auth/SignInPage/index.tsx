@@ -1,6 +1,4 @@
 import { Button, Divider, InputAdornment, TextField, Stack, IconButton } from "@mui/material"
-import facebookIconImage from '../../../images/FacebookIcon.png'
-import githubIconImage from '../../../images/GithubIcon.png'
 import twitterIconImage from '../../../images/TwitterIcon.png'
 import * as Styles from "./styles"
 import { useEffect, useState } from "react"
@@ -14,6 +12,7 @@ import { auth } from "../Firebase";
 import { Navigate } from "react-router-dom";
 import GoogleSignInButton from './AuthButtons/GoogleSignInButton'
 import FacebookSignInButton from './AuthButtons/FacebookSignInButton'
+import GithubSignInButton from './AuthButtons/GithubSignInButton'
 
 interface ChildProps {
     secondPassword: string;
@@ -172,9 +171,7 @@ const EmailAndPasswordContainer = () => {
             <Stack direction="row" spacing={2}>
                 <GoogleSignInButton/>
                 <FacebookSignInButton/>
-                <IconButton>
-                    <img style={Styles.iconStyle} src={githubIconImage} alt="githubIcon"/>
-                </IconButton>
+                <GithubSignInButton/>
                 <IconButton>
                     <img style={Styles.iconStyle} src={twitterIconImage} alt="twitterIcon"/>
                 </IconButton>
