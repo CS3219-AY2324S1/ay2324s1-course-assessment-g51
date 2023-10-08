@@ -1,5 +1,4 @@
-import { Button, Divider, InputAdornment, Switch, TextField, Stack, IconButton } from "@mui/material"
-import googleIconImage from '../../../images/GoogleIcon.png'
+import { Button, Divider, InputAdornment, TextField, Stack, IconButton } from "@mui/material"
 import facebookIconImage from '../../../images/FacebookIcon.png'
 import githubIconImage from '../../../images/GithubIcon.png'
 import twitterIconImage from '../../../images/TwitterIcon.png'
@@ -12,8 +11,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import Image from "../../../images/PeerPrep.jpg"
 import { useSignInWithEmailAndPassword,useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../Firebase";
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import GoogleSignInButton from './AuthButtons/GoogleSignInButton'
 
 interface ChildProps {
     secondPassword: string;
@@ -29,42 +28,6 @@ const SignInPage = () => {
         </div>
     )
 }
-
-const googleProvider = new GoogleAuthProvider();
-
-const GoogleSignInButton = () => {
-    const navigateHome = useNavigate();
-
-    const handleGoogleSignIn = () => signInWithPopup(auth, googleProvider)
-    .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-
-        // The signed-in user info.x
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-        navigateHome("/home")
-    }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        //const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-    });
-
-    return (
-        <IconButton onClick={() => { handleGoogleSignIn() }}>
-            <img style={Styles.iconStyle} src={googleIconImage} alt="googleIcon"/>
-        </IconButton>
-    )
-}
-
-
 
 const EmailAndPasswordContainer = () => {
     const [isButtonToggled,toggleButton] = useState(false);
