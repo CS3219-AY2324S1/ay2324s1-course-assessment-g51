@@ -1,18 +1,22 @@
-import { Button, Divider, InputAdornment, TextField, Stack, IconButton } from "@mui/material"
-import twitterIconImage from '../../../images/TwitterIcon.png'
-import * as Styles from "./styles"
 import { useEffect, useState } from "react"
-import  MailOutlineIcon from "@mui/icons-material/MailOutline"
-import KeyIcon from '@mui/icons-material/Key';
+
+import { Button, Divider, InputAdornment, TextField, Stack } from "@mui/material"
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import  MailOutlineIcon from "@mui/icons-material/MailOutline"
+import KeyIcon from '@mui/icons-material/Key';
+
+import * as Styles from "./styles"
 import Image from "../../../images/PeerPrep.jpg"
+
 import { useSignInWithEmailAndPassword,useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../Firebase";
 import { Navigate } from "react-router-dom";
+
 import GoogleSignInButton from './AuthButtons/GoogleSignInButton'
 import FacebookSignInButton from './AuthButtons/FacebookSignInButton'
 import GithubSignInButton from './AuthButtons/GithubSignInButton'
+import TwitterSignInButton from './AuthButtons/TwitterSignInButton'
 
 interface ChildProps {
     secondPassword: string;
@@ -143,7 +147,7 @@ const EmailAndPasswordContainer = () => {
                     ),
                     endAdornment: (
                         <InputAdornment position="end" onClick={() => toggleEye(!isPasswordHidden)}>
-                            {visibilityIcon}
+                            {visibilityIcon}    
                         </InputAdornment>
                     )
                 }}
@@ -172,9 +176,7 @@ const EmailAndPasswordContainer = () => {
                 <GoogleSignInButton/>
                 <FacebookSignInButton/>
                 <GithubSignInButton/>
-                <IconButton>
-                    <img style={Styles.iconStyle} src={twitterIconImage} alt="twitterIcon"/>
-                </IconButton>
+                <TwitterSignInButton/>
             </Stack>
             <span style={Styles.errorTextStyle}>{errorText}</span>
         </div>

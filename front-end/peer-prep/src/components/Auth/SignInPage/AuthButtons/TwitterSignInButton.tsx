@@ -1,22 +1,22 @@
 import { IconButton } from "@mui/material";
 
-import * as Styles from "./../styles"
-import FacebookIconImage from '../../../../images/FacebookIcon.png'
+import * as Styles from "../styles"
+import TwitterIconImage from '../../../../images/TwitterIcon.png'
 
 import { useNavigate } from "react-router-dom";
 
 import { auth } from "../../Firebase";
 
-import { FacebookAuthProvider, signInWithPopup } from "firebase/auth";
+import { TwitterAuthProvider, signInWithPopup } from "firebase/auth";
 
-const FacebookSignInButton = () => {
+const TwitterSignInButton = () => {
     const navigateHome = useNavigate();
-    const facebookProvider = new FacebookAuthProvider();
-
-    const handleFacebookSignIn = () => signInWithPopup(auth, facebookProvider)
+    const twitterProvider = new TwitterAuthProvider();
+    
+    const handleTwitterSignIn = () => signInWithPopup(auth, twitterProvider)
         .then((result) => {
-            // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-            const credential = FacebookAuthProvider.credentialFromResult(result);
+            // This gives you a Twitter Access Token. You can use it to access the Twitter API.
+            const credential = TwitterAuthProvider.credentialFromResult(result);
             const token = credential?.accessToken;
 
             // The signed-in user info.x
@@ -31,15 +31,15 @@ const FacebookSignInButton = () => {
             // The email of the user's account used.
             //const email = error.customData.email;
             // The AuthCredential type that was used.
-            const credential = FacebookAuthProvider.credentialFromError(error);
+            const credential = TwitterAuthProvider.credentialFromError(error);
             // ...
         });
 
     return (
-        <IconButton onClick={() => { handleFacebookSignIn() }}>
-            <img style={Styles.iconStyle} src={FacebookIconImage} alt="facebookIcon"/>
+        <IconButton onClick={() => { handleTwitterSignIn() }}>
+            <img style={Styles.iconStyle} src={TwitterIconImage} alt="twitterIcon"/>
         </IconButton>
     )
 }
 
-export default FacebookSignInButton;
+export default TwitterSignInButton;
