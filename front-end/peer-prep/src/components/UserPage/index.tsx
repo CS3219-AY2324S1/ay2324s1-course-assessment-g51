@@ -10,6 +10,8 @@ import * as UserSlice from "../redux/reducers/User/UserSlice"
 
 import axios from "axios";
 
+import { auth } from "../Auth/Firebase";
+
 const UserPage = () => {
     // for dispatching actions
     const dispatch = useDispatch()
@@ -17,6 +19,9 @@ const UserPage = () => {
     // State for pop up box after editing user profile.
     const [open, setOpen] = useState(false)
 
+    var user = auth.currentUser;
+    console.log(user?.uid)
+    
     const currentUsername:string = useSelector(UserSlice.selectCurrentUsername)
     const currentEmail:string = useSelector(UserSlice.selectCurrentEmail)
     const currentPassword:string = useSelector(UserSlice.selectCurrentPassword)

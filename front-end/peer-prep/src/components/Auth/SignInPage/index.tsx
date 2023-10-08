@@ -1,4 +1,7 @@
-import { Button, InputAdornment, Switch, TextField } from "@mui/material"
+import { Button, Divider, InputAdornment, TextField, Stack, IconButton } from "@mui/material"
+import facebookIconImage from '../../../images/FacebookIcon.png'
+import githubIconImage from '../../../images/GithubIcon.png'
+import twitterIconImage from '../../../images/TwitterIcon.png'
 import * as Styles from "./styles"
 import { useEffect, useState } from "react"
 import  MailOutlineIcon from "@mui/icons-material/MailOutline"
@@ -9,6 +12,7 @@ import Image from "../../../images/PeerPrep.jpg"
 import { useSignInWithEmailAndPassword,useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../Firebase";
 import { Navigate } from "react-router-dom";
+import GoogleSignInButton from './AuthButtons/GoogleSignInButton'
 
 interface ChildProps {
     secondPassword: string;
@@ -161,6 +165,21 @@ const EmailAndPasswordContainer = () => {
             >
                 Continue
             </Button>
+            <Divider variant="middle" sx={Styles.dividerStyle}>
+                or continue with
+            </Divider>
+            <Stack direction="row" spacing={2}>
+                <GoogleSignInButton/>
+                <IconButton>
+                    <img style={Styles.iconStyle} src={facebookIconImage} alt="facebookIcon"/>
+                </IconButton>
+                <IconButton>
+                    <img style={Styles.iconStyle} src={githubIconImage} alt="githubIcon"/>
+                </IconButton>
+                <IconButton>
+                    <img style={Styles.iconStyle} src={twitterIconImage} alt="twitterIcon"/>
+                </IconButton>
+            </Stack>
             <span style={Styles.errorTextStyle}>{errorText}</span>
         </div>
     )
