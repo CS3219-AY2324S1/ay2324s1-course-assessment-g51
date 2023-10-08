@@ -13,6 +13,7 @@ import { useSignInWithEmailAndPassword,useCreateUserWithEmailAndPassword } from 
 import { auth } from "../Firebase";
 import { Navigate } from "react-router-dom";
 import GoogleSignInButton from './AuthButtons/GoogleSignInButton'
+import FacebookSignInButton from './AuthButtons/FacebookSignInButton'
 
 interface ChildProps {
     secondPassword: string;
@@ -170,9 +171,7 @@ const EmailAndPasswordContainer = () => {
             </Divider>
             <Stack direction="row" spacing={2}>
                 <GoogleSignInButton/>
-                <IconButton>
-                    <img style={Styles.iconStyle} src={facebookIconImage} alt="facebookIcon"/>
-                </IconButton>
+                <FacebookSignInButton/>
                 <IconButton>
                     <img style={Styles.iconStyle} src={githubIconImage} alt="githubIcon"/>
                 </IconButton>
