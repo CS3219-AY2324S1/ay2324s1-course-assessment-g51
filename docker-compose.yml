@@ -3,6 +3,13 @@
 version: "3"
 
 services:
+    front-end:
+        container_name: front-end
+        build:
+            context: ./front-end/peer-prep
+        ports:
+            - 3000:3000
+
     question-service:
         container_name: question-service
         build:
