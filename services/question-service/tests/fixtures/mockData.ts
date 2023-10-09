@@ -55,6 +55,18 @@ const invalidQuestionWithoutComplexity = Object.keys(validQuestion)
     };
   }, {});
 
+const invalidQuestionWithInvalidComplexity = Object.keys(validQuestion)
+  .filter((key) => key !== "complexity")
+  .reduce(
+    (obj, key) => {
+      return {
+        ...obj,
+        [key]: validQuestion[key],
+      };
+    },
+    { complexity: "very difficult" }
+  );
+
 const validQuestionJson = JSON.parse(JSON.stringify(validQuestion));
 const validQuestionWithExtraFieldsJson = JSON.parse(
   JSON.stringify(validQuestionWithExtraFields)
@@ -74,6 +86,9 @@ const invalidQuestionWithEmptyCategoryJson = JSON.parse(
 const invalidQuestionWithoutComplexityJson = JSON.parse(
   JSON.stringify(invalidQuestionWithoutComplexity)
 );
+const invalidQuestionWithInvalidComplexityJson = JSON.parse(
+  JSON.stringify(invalidQuestionWithInvalidComplexity)
+);
 
 export {
   validQuestionJson,
@@ -83,4 +98,5 @@ export {
   invalidQuestionWithoutCategoryJson,
   invalidQuestionWithEmptyCategoryJson,
   invalidQuestionWithoutComplexityJson,
+  invalidQuestionWithInvalidComplexityJson,
 };

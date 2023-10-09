@@ -99,6 +99,16 @@ describe("POST - failure scenario", () => {
       "Question validation failed: complexity: Path `complexity` is required."
     );
   });
+
+  it("fails to insert question with invalid complexity", async () => {
+    const response = await request(app)
+      .post(apiRoute)
+      .send(mockData.invalidQuestionWithInvalidComplexityJson);
+    expect(response.status).to.equal(400);
+    expect(response.body.message).to.equal(
+      "Question validation failed: complexity: `very difficult` is not a valid enum value for path `complexity`."
+    );
+  });
 });
 
 describe("GET - success scenario", () => {
@@ -145,111 +155,105 @@ describe("GET - failure scenario", () => {
   });
 });
 
-// describe("UPDATE - success scenario", () => {
-//   it("updates a question's title", async () => {
-//     const question = {
-//       title: "To be updated",
-//       description: "Description",
-//       category: ["greedy", "array"],
-//       complexity: "easy",
-//     };
-//     const mockQuestion = await request(app).post(apiRoute).send(question);
-//     const mockQuestionId = mockQuestion.body._id;
-//     const updateBody = {
-//       title: "Update 1",
-//     };
-//     const response = await request(app)
-//       .patch(apiRoute + "/" + mockQuestionId)
-//       .send(updateBody);
-//     expect(response.status).toEqual(200);
-//   });
+describe("UPDATE - success scenario", () => {
+  afterEach(() => mongoUnit.drop());
 
-//   it("updates a question's description", async () => {
-//     const question = {
-//       title: "Update 2",
-//       description: "To be updated",
-//       category: ["greedy", "array"],
-//       complexity: "easy",
-//     };
-//     const mockQuestion = await request(app).post(apiRoute).send(question);
-//     const mockQuestionId = mockQuestion.body._id;
-//     const updateBody = {
-//       description: "Updated",
-//     };
-//     const response = await request(app)
-//       .patch(apiRoute + "/" + mockQuestionId)
-//       .send(updateBody);
-//     expect(response.status).toEqual(200);
-//   });
+  it("updates a question's title", async () => {
+    const question = await request(app)
+      .post(apiRoute)
+      .send(mockData.validQuestionJson);
+    const questionId = question.body._id;
+    const newTitle = "New Title";
+    const updateBody = {
+      title: newTitle,
+    };
+    const response = await request(app)
+      .patch(apiRoute + "/" + questionId)
+      .send(updateBody);
+    expect(response.status).to.equal(200);
+    expect(response.body.title).to.equal(newTitle);
+  });
 
-//   it("updates a question's category", async () => {
-//     const question = {
-//       title: "Update 3",
-//       description: "Description",
-//       category: ["greedy", "array"],
-//       complexity: "easy",
-//     };
-//     const mockQuestion = await request(app).post(apiRoute).send(question);
-//     const mockQuestionId = mockQuestion.body._id;
-//     const updateBody = {
-//       category: ["dynamic programming"],
-//     };
-//     const response = await request(app)
-//       .patch(apiRoute + "/" + mockQuestionId)
-//       .send(updateBody);
-//     expect(response.status).toEqual(200);
-//   });
+  it("updates a question's description", async () => {
+    const question = await request(app)
+      .post(apiRoute)
+      .send(mockData.validQuestionJson);
+    const questionId = question.body._id;
+    const newDescription = "New description";
+    const updateBody = {
+      description: newDescription,
+    };
+    const response = await request(app)
+      .patch(apiRoute + "/" + questionId)
+      .send(updateBody);
+    expect(response.status).to.equal(200);
+    expect(response.body.description).to.equal(newDescription);
+  });
 
-//   it("updates a question's complexity", async () => {
-//     const question = {
-//       title: "Update 4",
-//       description: "Description",
-//       category: ["greedy", "array"],
-//       complexity: "easy",
-//     };
-//     const mockQuestion = await request(app).post(apiRoute).send(question);
-//     const mockQuestionId = mockQuestion.body._id;
-//     const updateBody = {
-//       complexity: "difficult",
-//     };
-//     const response = await request(app)
-//       .patch(apiRoute + "/" + mockQuestionId)
-//       .send(updateBody);
-//     expect(response.status).toEqual(200);
-//   });
-// });
+  it("updates a question's category", async () => {
+    const question = await request(app)
+      .post(apiRoute)
+      .send(mockData.validQuestionJson);
+    const questionId = question.body._id;
+    const newCategory = ["dynamic programming"];
+    const updateBody = {
+      category: newCategory,
+    };
+    const response = await request(app)
+      .patch(apiRoute + "/" + questionId)
+      .send(updateBody);
+    expect(response.status).to.equal(200);
+    expect(response.body.category).to.eql(newCategory);
+  });
 
-// describe("UPDATE - failure scenario", () => {
-//   it("returns 404 status code for unknown id", async () => {
-//     const response = await request(app).patch(
-//       apiRoute + "/" + nonExistentDocId
-//     );
-//     expect(response.status).toEqual(404);
-//   });
+  it("updates a question's complexity", async () => {
+    const question = await request(app)
+      .post(apiRoute)
+      .send(mockData.validQuestionJson);
+    const questionId = question.body._id;
+    const newComplexity = "medium";
+    const updateBody = {
+      complexity: newComplexity,
+    };
+    const response = await request(app)
+      .patch(apiRoute + "/" + questionId)
+      .send(updateBody);
+    expect(response.status).to.equal(200);
+    expect(response.body.complexity).to.equal(newComplexity);
+  });
+});
 
-//   it("fails to update invalid fields", async () => {});
-// });
+describe("UPDATE - failure scenario", () => {
+  afterEach(() => mongoUnit.drop());
 
-// describe("DELETE - success scenario", () => {
-//   it("deletes a question from the database", async () => {
-//     const question = {
-//       title: "DELETE 1",
-//       description: "Description one",
-//       category: ["greedy", "array"],
-//       complexity: "easy",
-//     };
-//     const mockQuestion = await request(app).post(apiRoute).send(question);
-//     const mockQuestionId = mockQuestion.body._id;
-//     const response = await request(app).delete(apiRoute + "/" + mockQuestionId);
-//     expect(response.status).toEqual(204);
-//   });
-// });
+  it("returns 404 status code for unknown id", async () => {
+    const response = await request(app).patch(
+      apiRoute + "/" + nonExistentDocId
+    );
+    expect(response.status).to.equal(404);
+  });
 
-// describe("DELETE - failure scenario", () => {
-//   it("returns 404 status code for unknown id", async () => {
-//     const response = await request(app).delete(
-//       apiRoute + "/" + nonExistentDocId
-//     );
-//     expect(response.status).toEqual(404);
-//   });
-// });
+  it("fails to update unique constraint field wit conflict", async () => {
+    // TODO
+  });
+});
+
+describe("DELETE - success scenario", () => {
+  it("deletes a question from the database", async () => {
+    const question = await request(app)
+      .post(apiRoute)
+      .send(mockData.validQuestionJson);
+    const questionId = question.body._id;
+    const response = await request(app).delete(apiRoute + "/" + questionId);
+    expect(response.status).to.equal(204);
+  });
+});
+
+describe("DELETE - failure scenario", () => {
+  it("returns 404 status code for unknown id", async () => {
+    const response = await request(app).delete(
+      apiRoute + "/" + nonExistentDocId
+    );
+    expect(response.status).to.equal(404);
+  });
+});
