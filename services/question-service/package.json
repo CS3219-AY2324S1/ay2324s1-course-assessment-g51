@@ -16,6 +16,7 @@
     "@types/express": "^4.17.17",
     "@types/mocha": "^10.0.2",
     "@types/mocha-prepare": "^0.1.0",
+    "@types/mongoose-unique-validator": "^1.0.7",
     "@types/supertest": "^2.0.12",
     "chai": "^4.3.10",
     "chai-subset": "^1.6.0",
@@ -29,6 +30,8 @@
   },
   "dependencies": {
     "express": "^4.18.2",
-    "mongoose": "^7.5.2"
+    "mongodb": "6.1",
+    "mongoose": "^7.5.2",
+    "mongoose-unique-validator": "^4.0.0"
   }
 }
