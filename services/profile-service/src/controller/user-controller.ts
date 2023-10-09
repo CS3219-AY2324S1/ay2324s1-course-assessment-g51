@@ -27,7 +27,7 @@ export class UserController {
 		);
 
 		if (checkUserName) {
-			return ResponseUtil.sendError(res, "Username already used", 404);
+			return ResponseUtil.sendError(res, "Username already used", 409);
 		}
 
 		//check for duplicate email
@@ -36,7 +36,7 @@ export class UserController {
 		});
 
 		if (checkEmail) {
-			return ResponseUtil.sendError(res, "Email already used", 404);
+			return ResponseUtil.sendError(res, "Email already used", 409);
 		}
 
 		const user = repo.create(userData);
@@ -54,6 +54,15 @@ export class UserController {
 		if (!user) {
 			return ResponseUtil.sendError(res, "user not found", 404);
 		}
+
+		//check for duplicate email
+		const checkEmail = await AppDataSource.getRepository(User).findOneBy({
+			email: userData.email,
+		});
+		if (checkEmail) {
+			return ResponseUtil.sendError(res, "Email already used", 409);
+		}
+
 		repo.merge(user, userData);
 		await repo.save(user);
 		return ResponseUtil.sendResponse(res, user, 201);
