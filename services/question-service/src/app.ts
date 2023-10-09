@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", questionRouter);
 
 // catch-all route handling
-app.get("*", (_, res) => {
+app.all("*", (_, res) => {
   res.status(404).send();
 });
 
