@@ -6,8 +6,22 @@ import googleIconImage from '../../../../images/GoogleIcon.png'
 import { useNavigate } from "react-router-dom";
 
 import { auth } from "../../Firebase";
+import { getAdditionalUserInfo, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import axios from "axios";
+
+const addUserToDatabase = (email: string | null, username:string | null) => {
+    axios.post('http://api.peerprepgroup51sem1y2023.xyz/users/', {
+        username: username,
+        email: email
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
 
 const GoogleSignInButton = () => {
     const navigateHome = useNavigate();
@@ -21,6 +35,16 @@ const GoogleSignInButton = () => {
 
         // The signed-in user info.x
         const user = result.user;
+        const userEmail = user.email;
+        const userName = user.displayName;
+        console.log(user);
+        
+        const addInfo = getAdditionalUserInfo(result);
+        console.log(addInfo)
+        if (addInfo?.isNewUser) {
+            addUserToDatabase(userEmail, userName);
+        }
+
         // IdP data available using getAdditionalUserInfo(result)
         // ...
         navigateHome("/home")

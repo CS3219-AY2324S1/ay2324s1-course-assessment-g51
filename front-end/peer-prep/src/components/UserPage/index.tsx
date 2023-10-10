@@ -20,7 +20,6 @@ const UserPage = () => {
     const [open, setOpen] = useState(false)
 
     var user = auth.currentUser;
-    console.log(user?.uid)
     
     const currentUsername:string = useSelector(UserSlice.selectCurrentUsername)
     const currentEmail:string = useSelector(UserSlice.selectCurrentEmail)
@@ -33,7 +32,7 @@ const UserPage = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://api.peerprepgroup51sem1y2023.xyz/users/lmao bruh'
+            url: 'http://api.peerprepgroup51sem1y2023.xyz/users/lmao'
         }).then((response) => {
             const data = response.data.data;
             console.log(data)
@@ -52,7 +51,7 @@ const UserPage = () => {
     };
 
     // Updates user data after editing.
-    const putUserData = () => axios.put('http://api.peerprepgroup51sem1y2023.xyz/users/lmao bruh',
+    const putUserData = () => axios.put('http://api.peerprepgroup51sem1y2023.xyz/users/lmao',
     {
         "username": currentUsername,
         "email": currentEmail,
