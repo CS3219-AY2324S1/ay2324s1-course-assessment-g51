@@ -19,6 +19,10 @@ io.on("connection", (socket) => {
   });
 });
 
+app.all("*", (_, res) => {
+  return res.status(404).send();
+});
+
 server.listen(8000, () => {
   console.log("server running at http://localhost:8000");
 });
