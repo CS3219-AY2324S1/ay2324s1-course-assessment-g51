@@ -19,7 +19,8 @@ const UserPage = () => {
     // State for pop up box after editing user profile.
     const [open, setOpen] = useState(false)
 
-    var user = auth.currentUser;
+    const user = auth.currentUser;
+    const userName = user?.displayName
     
     const currentUsername:string = useSelector(UserSlice.selectCurrentUsername)
     const currentEmail:string = useSelector(UserSlice.selectCurrentEmail)
@@ -32,10 +33,9 @@ const UserPage = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://api.peerprepgroup51sem1y2023.xyz/users/lmao'
+            url: `http://api.peerprepgroup51sem1y2023.xyz/users/${userName}`
         }).then((response) => {
             const data = response.data.data;
-            console.log(data)
             dispatch(UserSlice.updateUserData(data))
         }).catch((error) => {
             console.log(error) 
@@ -51,7 +51,7 @@ const UserPage = () => {
     };
 
     // Updates user data after editing.
-    const putUserData = () => axios.put('http://api.peerprepgroup51sem1y2023.xyz/users/lmao',
+    const putUserData = () => axios.put(`http://api.peerprepgroup51sem1y2023.xyz/users/${userName}`,
     {
         "username": currentUsername,
         "email": currentEmail,
