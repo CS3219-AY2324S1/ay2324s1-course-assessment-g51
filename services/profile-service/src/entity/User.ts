@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, Column, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class User {
-	@PrimaryGeneratedColumn()
-	user_id: number;
+	@PrimaryColumn()
+	uid: string;
 
 	@Column()
 	username: string;
@@ -11,15 +11,12 @@ export class User {
 	@Column()
 	email: string;
 
-	@Column({ nullable: true })
-	password: string;
-
-	@Column({ nullable: true })
+	@Column()
 	firstName: string;
 
-	@Column({ nullable: true })
+	@Column()
 	lastName: string;
 
-	@Column({ nullable: true })
+	@Column()
 	age: number;
 }
