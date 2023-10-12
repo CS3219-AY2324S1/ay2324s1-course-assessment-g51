@@ -14,7 +14,7 @@ const matchRequestSchema = Joi.object({
   complexity: Joi.string().required().valid("easy", "medium", "difficult"),
 });
 const matchRequestQueue = "match-request-queue";
-const consumeTimeout = 10000;
+const consumeTimeout = 30000;
 
 io.on("connection", (socket) => {
   console.log("a user connected");
