@@ -64,12 +64,11 @@ const thirtySecondsAgo = () => {
       // 3. If a match is found, return the pair of user IDs and complexity level to both callback queues (by correlation id)
       //    3.a. Update both requests to be fulfilled in the database
       if (compatibleMatch) {
-        const match = {
-          userId1: matchRequest.userId,
-          userId2: compatibleMatch.userId,
-          complexity: matchRequest.complexity,
-          matchId: randomUUID(),
-        };
+        const matchId = randomUUID();
+        const userId1 = matchRequest.userId;
+        const userId2 = compatibleMatch.userId;
+        const complexity = matchRequest.complexity;
+        const match = { userId1, userId2, complexity, matchId };
         channel.sendToQueue(
           msg.properties.replyTo,
           Buffer.from(JSON.stringify(match)),
@@ -87,6 +86,9 @@ const thirtySecondsAgo = () => {
         await prisma.matchRequest.update({
           where: { id: compatibleMatch.id },
           data: { status: "fulfilled" },
+        });
+        await prisma.match.create({
+          data: { id: matchId, userId1, userId2, complexity },
         });
       }
       // 4. If a match is not found, do nothing
