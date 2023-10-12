@@ -20,7 +20,7 @@ import {
 	useCreateUserWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import { auth } from "../Firebase";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import GoogleSignInButton from "./AuthButtons/GoogleSignInButton";
 import FacebookSignInButton from "./AuthButtons/FacebookSignInButton";
@@ -65,6 +65,7 @@ const EmailAndPasswordContainer = () => {
 	});
 	const [isPasswordHidden, toggleEye] = useState(true);
 	const [errorText, setErrorText] = useState("");
+	const navigate = useNavigate();
 	let additionalToggleButtonStyle = {};
 	let additionalToggleTextStyle = {};
 	let toggleButtonBorderStyle = {};
@@ -86,7 +87,10 @@ const EmailAndPasswordContainer = () => {
 	if (signInLoading || createUserLoading) {
 		// loadingStatus = <LinearDeterminate />;
 	}
-	if (isUserSignedIn || isUserCreated) {
+	if (isUserCreated) {
+		return <Navigate to="/user" replace={true} />;
+	}
+	if (isUserSignedIn) {
 		return <Navigate to="/home" replace={true} />;
 	}
 	if (isButtonToggled) {
@@ -118,10 +122,14 @@ const EmailAndPasswordContainer = () => {
 						if (password != secondPassword) {
 							setErrorText(createUserErrorText);
 						} else {
+							console.log("test");
+							navigate("/user");
 							createUserWithEmailAndPassword(email, password);
 						}
 					} else {
 						signInWithEmailAndPassword(email, password);
+						console.log("test2");
+						navigate("/user");
 					}
 				}
 			}}
