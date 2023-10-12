@@ -13,35 +13,48 @@ const matchRequestSchema = Joi.object({
   userId: Joi.string().required(),
   complexity: Joi.string().required().valid("easy", "medium", "difficult"),
 });
+const matchRequestQueue = "match-request-queue";
+const consumeTimeout = 10000;
 
 io.on("connection", (socket) => {
   console.log("a user connected");
 
   socket.on("match-request:create", async (data) => {
     try {
-      const matchRequest = matchRequestSchema.validate(data);
       const amqpConnection = await amqplib.connect("amqp://localhost");
       const channel = await amqpConnection.createChannel();
-      // Anonymous, exclusive callback queue. 1 callback queue per client.
-      const callbackQueue = await channel.assertQueue("", {
-        exclusive: true,
-      });
+      const matchRequest = await matchRequestSchema.validateAsync(data);
       const correlationId = randomUUID();
-      const matchRequestQueue = "match-request-queue";
-      channel.sendToQueue(
-        matchRequestQueue,
-        Buffer.from(JSON.stringify(matchRequest)),
-        { correlationId, replyTo: callbackQueue.queue }
-      );
-      channel.consume(
-        callbackQueue.queue,
-        (msg) => {
-          if (msg?.properties.correlationId === correlationId) {
-            socket.emit("match-response:success", msg.content.toString());
+
+      let done = false;
+
+      const { consumerTag } = await channel.consume(
+        "amq.rabbitmq.reply-to",
+        async (message) => {
+          console.log("Received message:", message?.content.toString());
+          if (message?.properties.correlationId === correlationId) {
+            socket.emit("match-response:success", message.content.toString());
+            socket.disconnect();
+            await channel.cancel(message.fields.consumerTag);
+            done = true;
           }
         },
         { noAck: true }
       );
+
+      channel.sendToQueue(
+        matchRequestQueue,
+        Buffer.from(JSON.stringify(matchRequest)),
+        { correlationId, replyTo: "amq.rabbitmq.reply-to" }
+      );
+
+      setTimeout(async () => {
+        if (!done) {
+          socket.emit("match-response:failure");
+          socket.disconnect();
+          await channel.cancel(consumerTag);
+        }
+      }, consumeTimeout);
     } catch (err) {
       socket.emit("match-response:error", err);
     }
