@@ -70,10 +70,6 @@ const RootApp = () => {
 						<Route path="/signin" element={<SignInPage />} />
 						<Route path="*" element={<ErrorPage />} />
 						<Route path="/goodbye" element={<GoodbyePage />} />
-						<Route
-							path="/verification"
-							element={<VerificationPage />}
-						/>
 					</Routes>
 				</BrowserRouter>
 			</div>
