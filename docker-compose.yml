@@ -51,6 +51,17 @@ services:
         ports:
             - "5672:5672"
             - "15672:15672"
+    
+    matching-service-db:
+        image: postgres:16-alpine
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=secret
+            - POSTGRES_DB=matching_service
+        ports:
+            - "5432:5432"
+        volumes:
+            - matching-service-data:/var/lib/postgresql/data
 
 networks:
     default:
@@ -58,3 +69,4 @@ networks:
         
 volumes:
     db-data:
+    matching-service-data:
