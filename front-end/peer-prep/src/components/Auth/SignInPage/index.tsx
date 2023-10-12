@@ -26,7 +26,6 @@ import GoogleSignInButton from "./AuthButtons/GoogleSignInButton";
 import FacebookSignInButton from "./AuthButtons/FacebookSignInButton";
 import GithubSignInButton from "./AuthButtons/GithubSignInButton";
 import TwitterSignInButton from "./AuthButtons/TwitterSignInButton";
-import { sendEmailVerification } from "firebase/auth";
 
 interface ChildProps {
 	secondPassword: string;
@@ -88,9 +87,11 @@ const EmailAndPasswordContainer = () => {
 		// loadingStatus = <LinearDeterminate />;
 	}
 	if (isUserCreated) {
+		console.log("did it come here");
 		return <Navigate to="/user" replace={true} />;
 	}
 	if (isUserSignedIn) {
+		console.log("tetsing");
 		return <Navigate to="/home" replace={true} />;
 	}
 	if (isButtonToggled) {
