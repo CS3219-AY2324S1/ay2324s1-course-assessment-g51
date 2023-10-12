@@ -16,6 +16,8 @@ const ERR_MSG_NO_USER = "User not found";
 const ERR_MSG_BAD_REQUEST =
 	"Bad Request - Request body is empty or fields missing";
 const ERR_MSG_AGE_NEGATIVE = "Invalid age: Age cannot be negative.";
+const ERR_MSG_DUPLICATE =
+	"Update a resource that already exists or has conflicting information";
 
 //helper function to validate data
 async function validateData(userData: iUserData): Promise<string | null> {
@@ -61,7 +63,12 @@ export class UserController {
 		}
 
 		const repo = AppDataSource.getRepository(User);
-
+		const userInDB = await AppDataSource.getRepository(User).findOneBy({
+			uid: userData.uid,
+		});
+		if (userInDB) {
+			return ResponseUtil.sendError(res, ERR_MSG_DUPLICATE, 409);
+		}
 		const user = repo.create(userData);
 		await repo.save(user);
 		return ResponseUtil.sendResponse(res, user, 201);
@@ -74,6 +81,10 @@ export class UserController {
 		const validationError = await validateData(userData);
 		if (validationError) {
 			return ResponseUtil.sendError(res, validationError, 400);
+		}
+
+		if (uid !== userData.uid) {
+			return ResponseUtil.sendError(res, ERR_MSG_DUPLICATE, 409);
 		}
 
 		const repo = AppDataSource.getRepository(User);
