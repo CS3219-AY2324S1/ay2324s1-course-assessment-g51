@@ -64,7 +64,7 @@ const EmailAndPasswordContainer = () => {
 	});
 	const [isPasswordHidden, toggleEye] = useState(true);
 	const [errorText, setErrorText] = useState("");
-	const navigate = useNavigate();
+
 	let additionalToggleButtonStyle = {};
 	let additionalToggleTextStyle = {};
 	let toggleButtonBorderStyle = {};
@@ -123,14 +123,10 @@ const EmailAndPasswordContainer = () => {
 						if (password != secondPassword) {
 							setErrorText(createUserErrorText);
 						} else {
-							console.log("test");
-							navigate("/user");
 							createUserWithEmailAndPassword(email, password);
 						}
 					} else {
 						signInWithEmailAndPassword(email, password);
-						console.log("test2");
-						navigate("/user");
 					}
 				}
 			}}

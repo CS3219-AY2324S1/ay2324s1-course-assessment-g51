@@ -30,6 +30,8 @@ import GoodbyePage from "./components/Auth/GoodbyePage";
 
 const ProtectedRoute = () => {
 	const [user, loading, error] = useAuthState(auth);
+	const emailVerified = user?.emailVerified;
+	const providerType = user?.providerData[0].providerId;
 
 	if (loading) {
 		// the user object will be null if firebase is loading
@@ -43,6 +45,11 @@ const ProtectedRoute = () => {
 		// User is not authenticated, navigate to SignIn page
 		return <Navigate to="/signin" replace />;
 	}
+	if (providerType === "password" && !emailVerified) {
+		// User is created by password but not verified, navigate to verification page
+		return <Navigate to="/signin" replace />;
+	}
+
 	return <Outlet />;
 };
 

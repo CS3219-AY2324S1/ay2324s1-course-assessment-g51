@@ -4,8 +4,7 @@ import { Controls, Player } from "@lottiefiles/react-lottie-player";
 import { useNavigate } from "react-router-dom";
 
 const VerificationPage = () => {
-	return;
-	<div style={Styles.GoodbyePageContainerStyle}></div>;
+	return <div style={Styles.GoodbyePageContainerStyle}></div>;
 };
 
 // const GoodbyePlayer = () => {
