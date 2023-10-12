@@ -19,3 +19,12 @@ model MatchRequest {
   correlationId String
   replyTo       String
 }
+
+model Match {
+  id         String   @id
+  userId1    String
+  userId2    String
+  createdAt  DateTime @default(now())
+  complexity String
+  status     String   @default("active")
+}
