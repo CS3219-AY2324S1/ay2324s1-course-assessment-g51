@@ -1,22 +1,22 @@
 import { IconButton } from "@mui/material";
 
-import * as Styles from "./../styles"
-import googleIconImage from '../../../../images/GoogleIcon.png'
+import * as Styles from "../styles"
+import TwitterIconImage from '../../../../images/TwitterIcon.png'
 
 import { useNavigate } from "react-router-dom";
 
 import { auth } from "../../Firebase";
 
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { TwitterAuthProvider, signInWithPopup } from "firebase/auth";
 
-const GoogleSignInButton = () => {
+const TwitterSignInButton = () => {
     const navigateHome = useNavigate();
-    const googleProvider = new GoogleAuthProvider();
-
-    const handleGoogleSignIn = () => signInWithPopup(auth, googleProvider)
+    const twitterProvider = new TwitterAuthProvider();
+    
+    const handleTwitterSignIn = () => signInWithPopup(auth, twitterProvider)
         .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
+            // This gives you a Twitter Access Token. You can use it to access the Twitter API.
+            const credential = TwitterAuthProvider.credentialFromResult(result);
             const token = credential?.accessToken;
 
             // The signed-in user info.x
@@ -31,15 +31,15 @@ const GoogleSignInButton = () => {
             // The email of the user's account used.
             //const email = error.customData.email;
             // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
+            const credential = TwitterAuthProvider.credentialFromError(error);
             // ...
         });
 
     return (
-        <IconButton onClick={() => { handleGoogleSignIn() }}>
-            <img style={Styles.iconStyle} src={googleIconImage} alt="googleIcon"/>
+        <IconButton onClick={() => { handleTwitterSignIn() }}>
+            <img style={Styles.iconStyle} src={TwitterIconImage} alt="twitterIcon"/>
         </IconButton>
     )
 }
 
-export default GoogleSignInButton;
+export default TwitterSignInButton;
