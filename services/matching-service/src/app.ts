@@ -1,14 +1,11 @@
 import amqplib from "amqplib";
-import { randomUUID } from "crypto";
 import express from "express";
 import { createServer } from "node:http";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 
-import { validateMatchRequestPromise } from "./utils/dataValidation";
+import registerDisconnectHandlers from "./handlers/disconnectHandler";
+import registerMatchRequestHandlers from "./handlers/matchRequestHandler";
 
-const consumeTimeout = process.env.MATCH_REQUEST_TIMEOUT_MS || 30000;
-const matchRequestQueue = "match-request-queue";
-const pseudoReturnQueue = "amq.rabbitmq.reply-to";
 const amqpUrl = "amqp://localhost";
 
 const app = express();
@@ -27,56 +24,17 @@ const connectQueues = async (url: string) => {
 
 connectQueues(amqpUrl);
 
-io.on("connection", async (socket) => {
+const onConnection = async (socket: Socket) => {
   console.log("a user connected");
   if (!amqpConnection) {
     throw Error();
   }
-
   const channel = await amqpConnection.createChannel();
+  registerMatchRequestHandlers(io, socket, channel);
+  registerDisconnectHandlers(io, socket, channel);
+};
 
-  socket.on("disconnect", async () => {
-    await channel.close();
-    console.log("user disconnected");
-  });
-
-  socket.on("match-request:create", async (data) => {
-    try {
-      const matchRequest = await validateMatchRequestPromise(data);
-      const correlationId = randomUUID();
-      let isMatchFound = false;
-
-      channel.consume(
-        pseudoReturnQueue,
-        async (message) => {
-          if (!message) {
-            return;
-          }
-          socket.emit("match-response:success", message.content.toString());
-          socket.disconnect();
-          isMatchFound = true;
-        },
-        { noAck: true }
-      );
-
-      channel.sendToQueue(
-        matchRequestQueue,
-        Buffer.from(JSON.stringify(matchRequest)),
-        { correlationId, replyTo: pseudoReturnQueue }
-      );
-
-      setTimeout(async () => {
-        if (!isMatchFound) {
-          socket.emit("match-response:failure");
-          socket.disconnect();
-        }
-      }, consumeTimeout);
-    } catch (err) {
-      socket.emit("match-response:error", err);
-      socket.disconnect();
-    }
-  });
-});
+io.on("connection", onConnection);
 
 // Catch all route handling
 app.all("*", (_, res) => {
