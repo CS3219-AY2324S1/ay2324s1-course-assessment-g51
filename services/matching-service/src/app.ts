@@ -6,7 +6,7 @@ import registerDisconnectHandlers from "./handlers/disconnectHandler";
 import registerMatchRequestHandlers from "./handlers/matchRequestHandler";
 import { getQueueConnection } from "./rabbitmq/connection";
 
-const amqpUrl = process.env.AMQP_URL || "amqp://localhost";
+const amqpUrl = process.env.AMQP_URL;
 const amqpConnectionPromise = getQueueConnection(amqpUrl);
 
 const app = express();
