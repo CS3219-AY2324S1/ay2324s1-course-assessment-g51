@@ -1,8 +1,8 @@
+import amqplib from "amqplib";
 import { randomUUID } from "crypto";
 import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
-import amqplib from "amqplib";
 
 import { validateMatchRequestPromise } from "./utils/dataValidation";
 
