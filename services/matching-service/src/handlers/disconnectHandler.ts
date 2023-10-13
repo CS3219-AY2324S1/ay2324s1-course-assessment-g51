@@ -1,5 +1,5 @@
-import { Socket, Server } from "socket.io";
 import { Channel } from "amqplib";
+import { Server, Socket } from "socket.io";
 
 const registerDisconnectHandlers = (
   io: Server,

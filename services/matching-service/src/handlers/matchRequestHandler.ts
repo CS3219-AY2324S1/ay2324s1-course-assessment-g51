@@ -1,8 +1,8 @@
-import { Socket, Server } from "socket.io";
 import { Channel } from "amqplib";
+import { Server, Socket } from "socket.io";
 
-import { validateMatchRequestPromise } from "../utils/dataValidation";
 import { randomUUID } from "crypto";
+import { validateMatchRequestPromise } from "../utils/dataValidation";
 
 const consumeTimeout = process.env.MATCH_REQUEST_TIMEOUT_MS || 30000;
 const pseudoReturnQueue = "amq.rabbitmq.reply-to";
@@ -18,6 +18,7 @@ const registerMatchRequestHandlers = (
       const matchRequest = await validateMatchRequestPromise(data);
       const correlationId = randomUUID();
       let isMatchFound = false;
+
       channel.consume(
         pseudoReturnQueue,
         async (message) => {
@@ -30,11 +31,13 @@ const registerMatchRequestHandlers = (
         },
         { noAck: true }
       );
+
       channel.sendToQueue(
         matchRequestQueue,
         Buffer.from(JSON.stringify(matchRequest)),
         { correlationId, replyTo: pseudoReturnQueue }
       );
+
       setTimeout(async () => {
         if (!isMatchFound) {
           socket.emit("match-response:failure");
@@ -46,6 +49,7 @@ const registerMatchRequestHandlers = (
       socket.disconnect();
     }
   };
+
   socket.on("match-request:create", createMatchRequest);
 };
 

@@ -1,31 +1,21 @@
-import amqplib from "amqplib";
 import express from "express";
 import { createServer } from "node:http";
 import { Server, Socket } from "socket.io";
 
 import registerDisconnectHandlers from "./handlers/disconnectHandler";
 import registerMatchRequestHandlers from "./handlers/matchRequestHandler";
+import { getQueueConnection } from "./rabbitmq/connection";
 
-const amqpUrl = "amqp://localhost";
+const amqpUrl = process.env.AMQP_URL || "amqp://localhost";
+const amqpConnectionPromise = getQueueConnection(amqpUrl);
 
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
-let amqpConnection: amqplib.Connection | undefined;
-
-const connectQueues = async (url: string) => {
-  try {
-    amqpConnection = await amqplib.connect(url);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-connectQueues(amqpUrl);
-
 const onConnection = async (socket: Socket) => {
   console.log("a user connected");
+  const amqpConnection = await amqpConnectionPromise;
   if (!amqpConnection) {
     throw Error();
   }
