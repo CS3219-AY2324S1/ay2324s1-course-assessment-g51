@@ -1,18 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import { randomUUID } from "crypto";
-import { getQueueConnection } from "./rabbitmq/connection";
 
+import { getQueueConnection } from "./rabbitmq/connection";
+import { thirtySecondsAgo } from "./utils/timeFunctions";
+
+const amqpUrl = process.env.AMQP_URL;
 const matchRequestQueue = "match-request-queue";
 
 const prisma = new PrismaClient();
-
-const thirtySecondsAgo = () => {
-  const now = new Date();
-  const validTimeWindow = 30000;
-  return new Date(now.getTime() - validTimeWindow);
-};
-
-const amqpUrl = process.env.AMQP_URL || "amqp://localhost";
 const amqpConnectionPromise = getQueueConnection(amqpUrl);
 
 (async () => {
