@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: profile-service
+  name: profile-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: profile-service
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: profile-service
+    spec:
+      containers:
+        - image: profile-service
+          name: profile-service
+          ports:
+            - containerPort: 3100
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/src/app
+              name: profile-service-claim0
+      restartPolicy: Always
+      volumes:
+        - name: profile-service-claim0
+          persistentVolumeClaim:
+            claimName: profile-service-claim0
+status: {}
