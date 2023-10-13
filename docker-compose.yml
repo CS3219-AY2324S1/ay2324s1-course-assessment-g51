@@ -41,7 +41,24 @@ services:
             - 3100:3100
         volumes:
             - ./services/profile-service:/usr/src/app
-    
+
+    matching-service:
+        container_name: matching-service
+        build: 
+            context: ./services/matching-service
+            target: dev
+        environment:
+            - PORT_NUMBER=8000
+            - AMQP_URL=amqp://rabbitmq:5672
+        ports:
+            - 8000:8000
+        depends_on:
+            - rabbitmq
+        links: 
+            - rabbitmq
+        volumes:
+            - ./services/matching-service:/app
+
     rabbitmq:
         image: rabbitmq:management
         container_name: rabbitmq
@@ -49,9 +66,9 @@ services:
             - RABBITMQ_DEFAULT_USER=guest
             - RABBITMQ_DEFAULT_PASS=guest
         ports:
-            - "5672:5672"
-            - "15672:15672"
-    
+            - 5672:5672
+            - 15672:15672
+
     matching-service-db:
         image: postgres:16-alpine
         environment:
@@ -59,7 +76,7 @@ services:
             - POSTGRES_PASSWORD=secret
             - POSTGRES_DB=matching_service
         ports:
-            - "5432:5432"
+            - 5432:5432
         volumes:
             - matching-service-data:/var/lib/postgresql/data
 
