@@ -1,6 +1,6 @@
-import amqplib from "amqplib";
 import { PrismaClient } from "@prisma/client";
 import { randomUUID } from "crypto";
+import { getQueueConnection } from "./rabbitmq/connection";
 
 const matchRequestQueue = "match-request-queue";
 
@@ -12,10 +12,16 @@ const thirtySecondsAgo = () => {
   return new Date(now.getTime() - validTimeWindow);
 };
 
+const amqpUrl = process.env.AMQP_URL || "amqp://localhost";
+const amqpConnectionPromise = getQueueConnection(amqpUrl);
+
 (async () => {
   try {
-    const connection = await amqplib.connect("amqp://localhost");
-    const channel = await connection.createChannel();
+    const amqpConnection = await amqpConnectionPromise;
+    if (!amqpConnection) {
+      throw Error();
+    }
+    const channel = await amqpConnection.createChannel();
     await channel.assertQueue(matchRequestQueue, { durable: false });
     await channel.prefetch(1);
     console.log(" [x] Awaiting RPC requests");
@@ -27,8 +33,6 @@ const thirtySecondsAgo = () => {
       const matchRequest = JSON.parse(msg.content.toString());
       const correlationId = msg.properties.correlationId;
 
-      // Matchmaking logic:
-      // 1. Insert match request into database
       const matchRequestEntry = await prisma.matchRequest.create({
         data: {
           ...matchRequest,
@@ -37,12 +41,6 @@ const thirtySecondsAgo = () => {
         },
       });
 
-      // 2. Query database for match request with the following conditions:
-      //    2.a. Same complexity level
-      //    2.b. Not cancelled
-      //    2.c. Not expired (calculated via timestamp difference, now - createdAt < 30s)
-      //    2.d. Not fulfilled
-      //    2.d. Does not belong to the same user (user ID)
       const compatibleMatch = await prisma.matchRequest.findFirst({
         select: {
           id: true,
@@ -61,8 +59,6 @@ const thirtySecondsAgo = () => {
         },
       });
 
-      // 3. If a match is found, return the pair of user IDs and complexity level to both callback queues (by correlation id)
-      //    3.a. Update both requests to be fulfilled in the database
       if (compatibleMatch) {
         const matchId = randomUUID();
         const userId1 = matchRequest.userId;
@@ -93,7 +89,6 @@ const thirtySecondsAgo = () => {
           }),
         ]);
       }
-      // 4. If a match is not found, do nothing
     });
   } catch (err) {
     console.error(err);
