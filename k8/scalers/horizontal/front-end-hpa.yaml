@@ -1,7 +1,8 @@
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
     name: front-end-hpa # Name of the HPA object
+    namespace: testing
 spec:
     scaleTargetRef:
         apiVersion: apps/v1
@@ -13,4 +14,12 @@ spec:
         - type: Resource # Metric type, in this case, resource utilization
           resource:
               name: cpu # Resource metric to monitor (CPU in this case)
-              targetAverageUtilization: 10 # Target average CPU utilization in percentage
+              target:
+                  type: Utilization
+                  averageUtilization: 10
+    behavior:
+        scaleDown:
+            policies:
+                - type: Pods
+                  value: 1
+                  periodSeconds: 300
