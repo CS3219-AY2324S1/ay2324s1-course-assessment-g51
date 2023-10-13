@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: front-end-service # Name of the Service
+    namespace: testing
+spec:
+    selector:
+        app: front-end-app # Select pods with the label 'app: my-app' to include in the Service
+    ports:
+        - name: "front-end-port"
+          port: 3000
+          targetPort: 3000
+    type: ClusterIP # Service type (internal access within the cluster)
+status:
+    loadBalancer: {}
