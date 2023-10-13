@@ -79,17 +79,19 @@ const thirtySecondsAgo = () => {
           Buffer.from(JSON.stringify(match)),
           { correlationId: compatibleMatch.correlationId }
         );
-        await prisma.matchRequest.update({
-          where: { id: matchRequestEntry.id },
-          data: { status: "fulfilled" },
-        });
-        await prisma.matchRequest.update({
-          where: { id: compatibleMatch.id },
-          data: { status: "fulfilled" },
-        });
-        await prisma.match.create({
-          data: { id: matchId, userId1, userId2, complexity },
-        });
+        await prisma.$transaction([
+          prisma.matchRequest.update({
+            where: { id: matchRequestEntry.id },
+            data: { status: "fulfilled" },
+          }),
+          prisma.matchRequest.update({
+            where: { id: compatibleMatch.id },
+            data: { status: "fulfilled" },
+          }),
+          prisma.match.create({
+            data: { id: matchId, userId1, userId2, complexity },
+          }),
+        ]);
       }
       // 4. If a match is not found, do nothing
     });
