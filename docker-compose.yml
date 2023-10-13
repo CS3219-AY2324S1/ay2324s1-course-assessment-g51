@@ -68,6 +68,22 @@ services:
         ports:
             - 5672:5672
             - 15672:15672
+    
+    matching-worker-service:
+        container_name: matching-worker-service
+        build:
+            context: ./services/matching-worker-service
+            target: dev
+        environment:
+            - AMQP_URL=amqp://rabbitmq:5672
+        depends_on:
+            - rabbitmq
+            - matching-service-db
+        links: 
+            - rabbitmq
+            - matching-service-db
+        volumes:
+            - ./services/matching-worker-service:/app
 
     matching-service-db:
         image: postgres:16-alpine
