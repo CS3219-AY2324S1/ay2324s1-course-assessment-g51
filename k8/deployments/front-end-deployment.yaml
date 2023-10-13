@@ -1,24 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: front-end-deployment # Name of the Deployment
+    name: front-end-deployment
     namespace: testing
 spec:
-    replicas: 3 # Number of desired pod replicas
+    replicas: 3
     selector:
         matchLabels:
-            app: front-end-app # Select pods with the label 'app: my-app'
+            app: front-end-app
     strategy: {}
     template:
         metadata:
             labels:
-                app: front-end-app # Apply the label 'app: my-app' to pods created by the Deployment
+                app: front-end-app
         spec:
             containers:
-                - image: registry.gitlab.com/peerprepgroup51sem1y2023/docker/frontend:latest # Docker image to run in the container
-                  name: front-end-container # Name of the container within the pod
+                - image: registry.gitlab.com/peerprepgroup51sem1y2023/docker/frontend:latest
+                  name: front-end-container
                   ports:
                       - containerPort: 3000
-                  resources: {}
+                  resources:
+                      requests:
+                          memory: "150Mi" # Request 256MB of memory
+                          cpu: "100m" # Request 0.1 CPU (100 milliCPU)
+                      limits:
+                          memory: "200Mi" # Limit memory to 512MB
+                          cpu: "200m" # Limit CPU to 0.2 CPU (200 milliCPU)
             restartPolicy: Always
 status: {}
