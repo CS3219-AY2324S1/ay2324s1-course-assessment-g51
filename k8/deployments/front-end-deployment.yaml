@@ -4,7 +4,7 @@ metadata:
     name: front-end-deployment
     namespace: testing
 spec:
-    replicas: 3
+    replicas: 1 # minimum num of replicas before HPA is activated
     selector:
         matchLabels:
             app: front-end-app

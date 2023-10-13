@@ -1,0 +1,16 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+    name: front-end-hpa # Name of the HPA object
+spec:
+    scaleTargetRef:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: front-end-deployment # Target Deployment for autoscaling
+    minReplicas: 1 # Minimum number of pod replicas to maintain
+    maxReplicas: 6 # Maximum number of pod replicas to scale up to
+    metrics:
+        - type: Resource # Metric type, in this case, resource utilization
+          resource:
+              name: cpu # Resource metric to monitor (CPU in this case)
+              targetAverageUtilization: 10 # Target average CPU utilization in percentage
