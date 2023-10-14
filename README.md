@@ -1,4 +1,5 @@
 # Welcome to CS3219 Group 51's Peer Prep app!
+
 <p align="center">
 <img src="./images/Peer Prep Logo.png" align="center" height=auto width="300">
 </p>
@@ -11,15 +12,15 @@ Welcome to Peer Prep, your ultimate destination for collaborative learning and p
 
 👀 View questions curated by our team
 
-💬 Chat with other users *
+💬 Chat with other users \*
 
-💻 Collaborate with other users with a live code-editor *
+💻 Collaborate with other users with a live code-editor \*
 
-🔗 Match with other users based on question difficulty and chosen language *
+🔗 Match with other users based on question difficulty and chosen language \*
 
-✍️ Customize personal profile*
+✍️ Customize personal profile\*
 
-👁️ View main dashboard *
+👁️ View main dashboard \*
 
 `*` refers to ongoing development!
 
@@ -38,6 +39,8 @@ Welcome to Peer Prep, your ultimate destination for collaborative learning and p
 **Authentication:** Google Firebase SSO
 
 **Databases:** MongoDB, PostgreSQL
+
+**Message Broker:**: RabbitMQ
 
 **API Gateway:** NGINX Proxy Manager
 
@@ -62,6 +65,7 @@ Welcome to Peer Prep, your ultimate destination for collaborative learning and p
 3. Web browser of your choice (best supported on Chromium)
 
 ### Steps:
+
 Clone the project
 
 ```bash
@@ -74,13 +78,14 @@ Go to the project directory & run Docker / Docker Desktop
   cd ~/ay2324s1-course-assessment-g51
 ```
 
-Deploy all containers 
+Deploy all containers
 
 ```bash
   docker compose up -d
 ```
 
 Access Peer Prep
+
 ```bash
   http://localhost:3000
 ```
