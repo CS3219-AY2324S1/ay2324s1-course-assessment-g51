@@ -100,6 +100,7 @@ Deploy Horizontal Pod Autoscalers (HPA)
 ```bash
   kubectl apply -f ./scalers/horizontal/front-end-hpa-dev.yaml
 ```
+Configure Port Forwarding For All Services
 
 ## Common K8 terminologies
 

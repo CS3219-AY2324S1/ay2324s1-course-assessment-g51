@@ -8,7 +8,7 @@ spec:
     selector:
         matchLabels:
             app: front-end-app
-    strategy: 
+    strategy:
         type: RollingUpdate
     template:
         metadata:
@@ -16,7 +16,8 @@ spec:
                 app: front-end-app
         spec:
             containers:
-                - image: frontend
+                - image: front-end
+                  imagePullPolicy: Never
                   name: front-end-container
                   ports:
                       - containerPort: 3000
