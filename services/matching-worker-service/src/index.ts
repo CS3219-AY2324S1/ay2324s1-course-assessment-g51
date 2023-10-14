@@ -49,41 +49,41 @@ const amqpConnectionPromise = getQueueConnection(amqpUrl);
           createdAt: { gte: thirtySecondsAgo() },
           userId: { not: matchRequest.userId },
         },
-        orderBy: {
-          createdAt: "asc",
-        },
+        orderBy: { createdAt: "asc" },
       });
 
-      if (compatibleMatch) {
-        const matchId = randomUUID();
-        const userId1 = matchRequest.userId;
-        const userId2 = compatibleMatch.userId;
-        const complexity = matchRequest.complexity;
-        const match = { userId1, userId2, complexity, matchId };
-        channel.sendToQueue(
-          msg.properties.replyTo,
-          Buffer.from(JSON.stringify(match)),
-          { correlationId }
-        );
-        channel.sendToQueue(
-          compatibleMatch.replyTo,
-          Buffer.from(JSON.stringify(match)),
-          { correlationId: compatibleMatch.correlationId }
-        );
-        await prisma.$transaction([
-          prisma.matchRequest.update({
-            where: { id: matchRequestEntry.id },
-            data: { status: "fulfilled" },
-          }),
-          prisma.matchRequest.update({
-            where: { id: compatibleMatch.id },
-            data: { status: "fulfilled" },
-          }),
-          prisma.match.create({
-            data: { id: matchId, userId1, userId2, complexity },
-          }),
-        ]);
+      if (!compatibleMatch) {
+        return;
       }
+
+      const matchId = randomUUID();
+      const userId1 = matchRequest.userId;
+      const userId2 = compatibleMatch.userId;
+      const complexity = matchRequest.complexity;
+      const match = { userId1, userId2, complexity, matchId };
+      channel.sendToQueue(
+        msg.properties.replyTo,
+        Buffer.from(JSON.stringify(match)),
+        { correlationId }
+      );
+      channel.sendToQueue(
+        compatibleMatch.replyTo,
+        Buffer.from(JSON.stringify(match)),
+        { correlationId: compatibleMatch.correlationId }
+      );
+      await prisma.$transaction([
+        prisma.matchRequest.update({
+          where: { id: matchRequestEntry.id },
+          data: { status: "fulfilled" },
+        }),
+        prisma.matchRequest.update({
+          where: { id: compatibleMatch.id },
+          data: { status: "fulfilled" },
+        }),
+        prisma.match.create({
+          data: { id: matchId, userId1, userId2, complexity },
+        }),
+      ]);
     });
   } catch (err) {
     console.error(err);
