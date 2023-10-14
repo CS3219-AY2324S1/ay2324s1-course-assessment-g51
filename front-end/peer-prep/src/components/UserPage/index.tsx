@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import * as Styles from "./styles"
-import { TextField, Avatar, Snackbar, Typography, IconButton } from "@mui/material";
+import { TextField, Avatar, Snackbar, IconButton } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -25,7 +25,6 @@ const UserPage = () => {
     const authEmail = user?.providerData[0].email ?? ""
     const authUsername = user?.displayName ?? ""
     const authUid = user?.uid
-    console.log(authUid)
     
     const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin)
     const currentUsername:string = useSelector(UserSlice.selectCurrentUsername)
@@ -66,7 +65,7 @@ const UserPage = () => {
     // First time creation for new user if user does not exist.
     const postUserData = () => {
         axios.post(`http://api.peerprepgroup51sem1y2023.xyz/users/`, {
-            username: authUsername,
+            username: currentUsername,
             email: currentEmail,
             firstName: currentFirstName,
             lastName: currentLastName,
@@ -108,11 +107,12 @@ const UserPage = () => {
         <div style={Styles.UserPageContainerStyle}>
             <div style={Styles.MainContainerStyle}>
                 <div style={Styles.DetailsContainerStyle}>
-                    <div style={Styles.AvatarAndUsernameContainerStyle}>
+                    <div style={Styles.AvatarContainerStyle}>
                         <Avatar sx={Styles.AvatarStyle} src=""></Avatar>
-                        <Typography sx={Styles.userStyle}>{currentUsername}</Typography>
                     </div>
-                    <TextField autoFocus label="Email" value={currentEmail} sx={Styles.detailStyle}
+                    <TextField label="Username" value={currentUsername} sx={Styles.detailStyle}
+                                onChange={(event) => dispatch(UserSlice.updateCurrentUsername(event.target.value))}></TextField>
+                    <TextField disabled label="Email" value={currentEmail} sx={Styles.detailStyle}
                                 onChange={(event) => dispatch(UserSlice.updateCurrentEmail(event.target.value))}></TextField>
                     <TextField label="First Name" value={currentFirstName} sx={Styles.detailStyle}
                                 onChange={(event) => dispatch(UserSlice.updateCurrentFirstName(event.target.value))}></TextField>

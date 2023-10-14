@@ -21,6 +21,10 @@ import facebookIconImage from '../../../images/FacebookIcon.png'
 import githubIconImage from '../../../images/GithubIcon.png'
 import twitterIconImage from '../../../images/TwitterIcon.png'
 
+import { useDispatch } from "react-redux";
+import * as UserSlice from "../../redux/reducers/User/UserSlice"
+
+import axios from "axios";
 
 interface ChildProps {
     secondPassword: string;
@@ -49,6 +53,20 @@ const EmailAndPasswordContainer = () => {
         createUserError] = useCreateUserWithEmailAndPassword(auth);
     const [isPasswordHidden, toggleEye] = useState(true);
     const [errorText, setErrorText] = useState("");
+    const dispatch = useDispatch();
+    const redirectIfUserNotInDatabase = () => {
+        const user = auth.currentUser;
+        const uid = user?.uid;
+        console.log(user)
+        axios({
+            method: 'get',
+            url: `http://api.peerprepgroup51sem1y2023.xyz/users/${uid}`
+        }).catch((error) => {
+            console.log(error)
+            console.log("test")
+            dispatch(UserSlice.setIsFirstTimeLogin(true))
+        })
+    }
     let additionalToggleButtonStyle = {};
     let additionalToggleTextStyle = {};
     let toggleButtonBorderStyle = {};
@@ -96,7 +114,7 @@ const EmailAndPasswordContainer = () => {
             onKeyDown={(event) => {
                 if (event.code === "Enter") {
                     if (isButtonToggled) {
-                        if (password != secondPassword) {
+                        if (password !== secondPassword) {
                             setErrorText(createUserErrorText)
                         } else {
                             createUserWithEmailAndPassword(email, password)
@@ -164,13 +182,17 @@ const EmailAndPasswordContainer = () => {
             <Button variant="contained" sx={Styles.continueButtonStyle}
                 onClick={() => {
                     if (isButtonToggled) {
-                        if (password != secondPassword) {
-                            setErrorText(createUserErrorText)
+                        if (password !== secondPassword) {
+                            setErrorText(createUserErrorText);
                         } else {
-                            createUserWithEmailAndPassword(email, password)
+                            createUserWithEmailAndPassword(email, password).then(() => {
+                                redirectIfUserNotInDatabase();
+                            });
                         }
                     } else {
-                        signInWithEmailAndPassword(email, password)
+                        signInWithEmailAndPassword(email, password).then(() => {
+                            redirectIfUserNotInDatabase();
+                        });
                     }
                 }}
             >
@@ -183,7 +205,7 @@ const EmailAndPasswordContainer = () => {
                 <SignInButton provider={new GoogleAuthProvider()} iconImage={googleIconImage} iconImageAlt="googleIcon" />
                 <SignInButton provider={new FacebookAuthProvider()} iconImage={facebookIconImage} iconImageAlt="facebookIcon" />
                 <SignInButton provider={new GithubAuthProvider()} iconImage={githubIconImage} iconImageAlt="githubIcon" />
-                <SignInButton provider={new TwitterAuthProvider} iconImage={twitterIconImage} iconImageAlt="twitterIcon" />
+                <SignInButton provider={new TwitterAuthProvider()} iconImage={twitterIconImage} iconImageAlt="twitterIcon" />
             </Stack>
             <span style={Styles.errorTextStyle}>{errorText}</span>
         </div>
@@ -219,7 +241,7 @@ const createUserErrorText = "Your passwords do not match or the email entered is
 const PeerPrepImage = () => {
     return (
         <div style={Styles.peerPrepImageContainerStyle}>
-            <img src={Image} alt="My Image" style={Styles.imageStyle} />
+            <img src={Image} alt="peer prep" style={Styles.imageStyle} />
         </div>
     )
 }
