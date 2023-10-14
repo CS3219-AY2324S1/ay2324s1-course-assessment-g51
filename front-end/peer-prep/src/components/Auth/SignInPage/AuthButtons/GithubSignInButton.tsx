@@ -1,22 +1,22 @@
 import { IconButton } from "@mui/material";
 
 import * as Styles from "./../styles"
-import googleIconImage from '../../../../images/GoogleIcon.png'
+import GithubIconImage from '../../../../images/GithubIcon.png'
 
 import { useNavigate } from "react-router-dom";
 
 import { auth } from "../../Firebase";
 
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 
-const GoogleSignInButton = () => {
+const GithubSignInButton = () => {
     const navigateHome = useNavigate();
-    const googleProvider = new GoogleAuthProvider();
-
-    const handleGoogleSignIn = () => signInWithPopup(auth, googleProvider)
+    const githubProvider = new GithubAuthProvider();
+    
+    const handleGithubSignIn = () => signInWithPopup(auth, githubProvider)
         .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
+            // This gives you a Gtihub Access Token. You can use it to access the Github API.
+            const credential = GithubAuthProvider.credentialFromResult(result);
             const token = credential?.accessToken;
 
             // The signed-in user info.x
@@ -31,15 +31,15 @@ const GoogleSignInButton = () => {
             // The email of the user's account used.
             //const email = error.customData.email;
             // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
+            const credential = GithubAuthProvider.credentialFromError(error);
             // ...
         });
 
     return (
-        <IconButton onClick={() => { handleGoogleSignIn() }}>
-            <img style={Styles.iconStyle} src={googleIconImage} alt="googleIcon"/>
+        <IconButton onClick={() => { handleGithubSignIn() }}>
+            <img style={Styles.iconStyle} src={GithubIconImage} alt="githubIcon"/>
         </IconButton>
     )
 }
 
-export default GoogleSignInButton;
+export default GithubSignInButton;
