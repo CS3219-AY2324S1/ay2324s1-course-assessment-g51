@@ -6,49 +6,48 @@ import googleIconImage from '../../../../images/GoogleIcon.png'
 import { useNavigate } from "react-router-dom";
 
 import { auth } from "../../Firebase";
-import { getAdditionalUserInfo, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+import { useDispatch, useSelector } from "react-redux";
+import * as UserSlice from "../../../redux/reducers/User/UserSlice"
 
 import axios from "axios";
 
-const addUserToDatabase = (email: string | null, username:string | null) => {
-    axios.post('http://api.peerprepgroup51sem1y2023.xyz/users/', {
-        username: username,
-        email: email
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-}
-
 const GoogleSignInButton = () => {
-    const navigateHome = useNavigate();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin);
+
     const googleProvider = new GoogleAuthProvider();
+    googleProvider.addScope('email');
 
     const handleGoogleSignIn = () => signInWithPopup(auth, googleProvider)
         .then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential?.accessToken;
+            
+            // The signed-in user info.x
+            const user = result.user;
+            const uid = user.uid;
+            
+            axios({
+                method: 'get',
+                url: `http://api.peerprepgroup51sem1y2023.xyz/users/${uid}`,
+                }).then((response) => {
+                    dispatch(UserSlice.setIsFirstTimeLogin(false))
+                    console.log(response)
+                }).catch((error) => {
+                    console.log(error)
+                }
+            );
 
-        // The signed-in user info.x
-        const user = result.user;
-        const userEmail = user.email;
-        const userName = user.displayName;
-        console.log(user);
-        
-        const addInfo = getAdditionalUserInfo(result);
-        console.log(addInfo)
-        if (addInfo?.isNewUser) {
-            addUserToDatabase(userEmail, userName);
-        }
-
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-        navigateHome("/home")
-    }).catch((error) => {
+            if (isNewUser) {
+                navigate("/user");
+            } else {
+                navigate("/home");
+            }
+        }).catch((error) => {
         // Handle Errors here./
         const errorCode = error.code;
         const errorMessage = error.message;

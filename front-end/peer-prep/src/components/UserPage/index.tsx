@@ -19,12 +19,15 @@ const UserPage = () => {
     // State for pop up box after editing user profile.
     const [open, setOpen] = useState(false)
 
+    // Gets user details from firebase.
     const user = auth.currentUser;
-    const userName = user?.displayName
+    const authEmail = user?.providerData[0].email ?? ""
+    const authUsername = user?.displayName ?? ""
+    const authUid = user?.uid
     
+    const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin)
     const currentUsername:string = useSelector(UserSlice.selectCurrentUsername)
     const currentEmail:string = useSelector(UserSlice.selectCurrentEmail)
-    const currentPassword:string = useSelector(UserSlice.selectCurrentPassword)
     const currentFirstName:string = useSelector(UserSlice.selectCurrentFirstName)
     const currentLastName:string = useSelector(UserSlice.selectCurrentLastName)
     const currentAge:number = useSelector(UserSlice.selectCurrentAge)
@@ -33,12 +36,14 @@ const UserPage = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `http://api.peerprepgroup51sem1y2023.xyz/users/${userName}`
-        }).then((response) => {
-            const data = response.data.data;
-            dispatch(UserSlice.updateUserData(data))
-        }).catch((error) => {
-            console.log(error) 
+            url: `http://api.peerprepgroup51sem1y2023.xyz/users/${authUid}`
+            }).then((response) => {
+                const data = response.data.data;
+                dispatch(UserSlice.updateUserData(data))
+            }).catch((error) => {
+                console.log(error)
+                dispatch(UserSlice.updateCurrentEmail(authEmail));
+                dispatch(UserSlice.updateCurrentUsername(authUsername));
         })
     },[])
 
@@ -50,15 +55,34 @@ const UserPage = () => {
         setOpen(false);
     };
 
+    // Creates new user if does not exist.
+    const postUserData = () => {
+        axios.post(`http://api.peerprepgroup51sem1y2023.xyz/users/`, {
+            username: authUsername,
+            email: currentEmail,
+            firstName: currentFirstName,
+            lastName: currentLastName,
+            age: currentAge,
+            uid: authUid
+        })
+        .then(function (response) {
+            console.log(response);
+            dispatch(UserSlice.setIsFirstTimeLogin(false))
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
     // Updates user data after editing.
-    const putUserData = () => axios.put(`http://api.peerprepgroup51sem1y2023.xyz/users/${userName}`,
+    const putUserData = () => axios.put(`http://api.peerprepgroup51sem1y2023.xyz/users/${authUid}`,
     {
         "username": currentUsername,
         "email": currentEmail,
-        "password": currentPassword,
         "firstName": currentFirstName,
         "lastName": currentLastName,
-        "age": currentAge
+        "age": currentAge,
+        "uid": authUid
     })
 
     return (
@@ -71,15 +95,15 @@ const UserPage = () => {
                     </div>
                     <TextField autoFocus label="Email" value={currentEmail} sx={Styles.detailStyle}
                                 onChange={(event) => dispatch(UserSlice.updateCurrentEmail(event.target.value))}></TextField>
-                    <TextField label="Password" value={currentPassword} sx={Styles.detailStyle}
-                                onChange={(event) => dispatch(UserSlice.updateCurrentPassword(event.target.value))}></TextField>
                     <TextField label="First Name" value={currentFirstName} sx={Styles.detailStyle}
                                 onChange={(event) => dispatch(UserSlice.updateCurrentFirstName(event.target.value))}></TextField>
                     <TextField label="Last Name" value={currentLastName} sx={Styles.detailStyle}
                                 onChange={(event) => dispatch(UserSlice.updateCurrentLastName(event.target.value))}></TextField>
                     <TextField label="Age" value={currentAge} sx={Styles.detailStyle}
                                 onChange={(event) => dispatch(UserSlice.updateCurrentAge(event.target.value))}></TextField>
-                    <IconButton style={Styles.buttonStyle} onClick={() => {putUserData(); handleClick();}}>
+                    <IconButton style={Styles.buttonStyle} 
+                                onClick={() => {isNewUser ? postUserData() : putUserData(); 
+                                                handleClick();}}>
                         <SaveIcon sx={{color:"#F4C2C2",cursor:"pointer"}}/> 
                     </IconButton>
                     <Snackbar
@@ -92,6 +116,9 @@ const UserPage = () => {
                             <CloseIcon fontSize="small" />
                         </IconButton>
                     }/>
+                    <Snackbar 
+                        open={isNewUser}
+                        message="Please enter user details." />
                 </div>
             </div>
         </div>
