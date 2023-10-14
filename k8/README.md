@@ -22,7 +22,6 @@ This guide will hoepfully allow you to quickly deploy a kubernetes cluster with 
   https://k8slens.dev/
 ```
 
-
 ## Run Locally
 
 Clone the project
@@ -44,7 +43,6 @@ Enable Kubernetes Cluster In Docker Desktop
 
 Launch Lens & Sync kubeconfig
 ![unknown_2023 10 15-05 30_1](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g51/assets/34855234/9aac61ef-0b86-46dc-9f60-583b2b8a3376)
-
 
 Create "dev" Namespace 
 ![lens-namespace](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g51/assets/34855234/4bea11d1-32bc-49d7-af13-e1169e7cc730)
