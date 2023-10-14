@@ -5,6 +5,8 @@ WORKDIR /app
 COPY package*.json .
 RUN npm install
 
+COPY . .
+
 FROM base AS test
 CMD ["npm", "run", "test"]
 
