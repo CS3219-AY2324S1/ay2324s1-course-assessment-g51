@@ -22,25 +22,20 @@ const GoogleSignInButton = () => {
     googleProvider.addScope('email');
 
     const handleGoogleSignIn = () => signInWithPopup(auth, googleProvider)
-        .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential?.accessToken;
-            
-            // The signed-in user info.x
+        .then((result) => {            
+            // The signed-in user info
             const user = result.user;
             const uid = user.uid;
-            
+
+            // Checks if user is new.
             axios({
                 method: 'get',
-                url: `http://api.peerprepgroup51sem1y2023.xyz/users/${uid}`,
-                }).then((response) => {
-                    dispatch(UserSlice.setIsFirstTimeLogin(false))
-                    console.log(response)
+                url: `http://api.peerprepgroup51sem1y2023.xyz/users/${uid}`
                 }).catch((error) => {
                     console.log(error)
-                }
-            );
+                    dispatch(UserSlice.setIsFirstTimeLogin(true))
+
+            })
 
             if (isNewUser) {
                 navigate("/user");

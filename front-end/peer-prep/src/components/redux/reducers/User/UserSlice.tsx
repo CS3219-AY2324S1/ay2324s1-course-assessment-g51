@@ -20,7 +20,7 @@ interface userFormat {
 const userSlice = createSlice({
     name: "user",
     initialState: {
-        isFirstTimeLogin: true,
+        isFirstTimeLogin: false,
         currentUsername: "",
         currentEmail: "",
         currentFirstName: "",

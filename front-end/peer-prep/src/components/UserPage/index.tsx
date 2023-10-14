@@ -17,7 +17,8 @@ const UserPage = () => {
     const dispatch = useDispatch()
     
     // State for pop up box after editing user profile.
-    const [open, setOpen] = useState(false)
+    const [isEditSuccess, setIsEditSuccess] = useState(false)
+    const [hasEmptyDetails, setHasEmptyDetails] = useState(false)
 
     // Gets user details from firebase.
     const user = auth.currentUser;
@@ -32,6 +33,11 @@ const UserPage = () => {
     const currentLastName:string = useSelector(UserSlice.selectCurrentLastName)
     const currentAge:number = useSelector(UserSlice.selectCurrentAge)
 
+    // Messages for user.
+    const EditUserSuccess = "User profile edited!"
+    const PromptUserDetails = "Please enter user details."
+    const EmptyDetailsWarning = "User details cannot be empty!"
+
     // Gets user profile data.
     useEffect(() => {
         axios({
@@ -42,20 +48,21 @@ const UserPage = () => {
                 dispatch(UserSlice.updateUserData(data))
             }).catch((error) => {
                 console.log(error)
-                dispatch(UserSlice.updateCurrentEmail(authEmail));
-                dispatch(UserSlice.updateCurrentUsername(authUsername));
+                dispatch(UserSlice.updateCurrentEmail(authEmail))
+                dispatch(UserSlice.updateCurrentUsername(authUsername))
+                dispatch(UserSlice.setIsFirstTimeLogin(true))
         })
     },[])
 
     const handleClick = () => {
-        setOpen(true);
+        setIsEditSuccess(true)
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setIsEditSuccess(false)
     };
 
-    // Creates new user if does not exist.
+    // First time creation for new user if user does not exist.
     const postUserData = () => {
         axios.post(`http://api.peerprepgroup51sem1y2023.xyz/users/`, {
             username: authUsername,
@@ -65,12 +72,15 @@ const UserPage = () => {
             age: currentAge,
             uid: authUid
         })
-        .then(function (response) {
-            console.log(response);
+        .then(() => {
+            setHasEmptyDetails(false)
             dispatch(UserSlice.setIsFirstTimeLogin(false))
         })
-        .catch(function (error) {
-            console.log(error);
+        .catch((error) => {
+            const code = error.request.status
+            if (code === 400) {
+                setHasEmptyDetails(true)
+            }
         });
     }
 
@@ -83,6 +93,14 @@ const UserPage = () => {
         "lastName": currentLastName,
         "age": currentAge,
         "uid": authUid
+    }).then(() => {
+        setHasEmptyDetails(false)
+    })
+    .catch((error) => {
+        const code = error.request.status
+        if (code === 400) {
+            setHasEmptyDetails(true)
+        }
     })
 
     return (
@@ -102,15 +120,15 @@ const UserPage = () => {
                     <TextField label="Age" value={currentAge} sx={Styles.detailStyle}
                                 onChange={(event) => dispatch(UserSlice.updateCurrentAge(event.target.value))}></TextField>
                     <IconButton style={Styles.buttonStyle} 
-                                onClick={() => {isNewUser ? postUserData() : putUserData(); 
-                                                handleClick();}}>
+                                onClick={() => {isNewUser ? postUserData() : putUserData()
+                                                handleClick()}}>
                         <SaveIcon sx={{color:"#F4C2C2",cursor:"pointer"}}/> 
                     </IconButton>
                     <Snackbar
-                        open={open}
+                        open={isEditSuccess}
                         autoHideDuration={3000}
                         onClose={handleClose}
-                        message="User profile edited!"
+                        message={EditUserSuccess}
                         action={
                         <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
                             <CloseIcon fontSize="small" />
@@ -118,7 +136,10 @@ const UserPage = () => {
                     }/>
                     <Snackbar 
                         open={isNewUser}
-                        message="Please enter user details." />
+                        message={PromptUserDetails} />
+                    <Snackbar
+                        open={hasEmptyDetails} 
+                        message={EmptyDetailsWarning}/>
                 </div>
             </div>
         </div>

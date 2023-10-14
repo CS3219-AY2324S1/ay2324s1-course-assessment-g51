@@ -5,8 +5,9 @@ import { auth } from "./components/Auth/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 // import Redux components here
-import {Provider} from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import store from "./components/redux/store/store"
+import * as UserSlice from "./components/redux/reducers/User/UserSlice"
 
 // import React Routing components here
 import {
@@ -47,6 +48,18 @@ const ProtectedRoute = () => {
     return <Outlet/>
 };
 
+const RedirectUserRoute = () => {
+    const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin);
+    debugger;
+    if (isNewUser) {
+        debugger;
+        // If user has not entered user details, navigate to User page
+        return <Navigate to="/user" replace />;
+    } else {
+        return <></>
+    }
+}
+
 
 const RootApp = () => {
     return (
@@ -59,6 +72,7 @@ const RootApp = () => {
                         <>
                             <Navbar/>
                             <ProtectedRoute/>
+                            <RedirectUserRoute/>
                         </>
                     }>
                         <Route path="home" element={<QuestionsPage/>}/>
