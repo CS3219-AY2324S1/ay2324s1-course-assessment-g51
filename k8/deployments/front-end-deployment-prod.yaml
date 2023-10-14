@@ -1,14 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: front-end-deployment
-    namespace: testing
+    name: front-end-deployment-prod
+    namespace: prod
 spec:
     replicas: 1 # minimum num of replicas before HPA is activated
     selector:
         matchLabels:
             app: front-end-app
-    strategy: {}
+    strategy: 
+        type: RollingUpdate
     template:
         metadata:
             labels:

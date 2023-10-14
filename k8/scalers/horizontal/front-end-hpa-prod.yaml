@@ -1,8 +1,8 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-    name: front-end-hpa # Name of the HPA object
-    namespace: testing
+    name: front-end-hpa-prod # Name of the HPA object
+    namespace: prod
 spec:
     scaleTargetRef:
         apiVersion: apps/v1
