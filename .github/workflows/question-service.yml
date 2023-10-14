@@ -6,7 +6,7 @@ on:
     branches:
       - master # Adjust this to the branch you want to trigger the workflow on
     paths:
-      - "services/question-service"
+      - "services/question-service/**"
 
 jobs:
   build-and-push:
