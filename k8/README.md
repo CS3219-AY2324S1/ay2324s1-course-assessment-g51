@@ -30,7 +30,7 @@ Clone the project
   https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g51.git
 ```
 
-CD to our main directory
+Go to our main directory
 ```bash
   cd ./CS3219-AY2324S1/ay2324s1-course-assessment-g51
 ```
@@ -48,8 +48,6 @@ Launch Lens & Sync kubeconfig
 
 Create "dev" Namespace 
 ![lens-namespace](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g51/assets/34855234/4bea11d1-32bc-49d7-af13-e1169e7cc730)
-
-Connect to Namespace
 
 CD to K8 folder
 ```bash
