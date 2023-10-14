@@ -25,6 +25,7 @@ const UserPage = () => {
     const authEmail = user?.providerData[0].email ?? ""
     const authUsername = user?.displayName ?? ""
     const authUid = user?.uid
+    console.log(authUid)
     
     const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin)
     const currentUsername:string = useSelector(UserSlice.selectCurrentUsername)
@@ -102,7 +103,7 @@ const UserPage = () => {
             setHasEmptyDetails(true)
         }
     })
-
+    
     return (
         <div style={Styles.UserPageContainerStyle}>
             <div style={Styles.MainContainerStyle}>
