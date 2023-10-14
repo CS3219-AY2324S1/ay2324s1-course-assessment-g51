@@ -40,7 +40,7 @@ Welcome to Peer Prep, your ultimate destination for collaborative learning and p
 
 **Databases:** MongoDB, PostgreSQL
 
-**Message Broker:**: RabbitMQ
+**Message Broker:** RabbitMQ
 
 **API Gateway:** NGINX Proxy Manager
 
