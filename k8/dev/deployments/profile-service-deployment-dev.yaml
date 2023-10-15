@@ -14,19 +14,19 @@ spec:
         metadata:
             labels:
                 app: profile-service-api # Label for pods created by this template
-            spec:
-                containers:
-                    - name: profile-service-api # Name of the container
-                      image: profile-service # Docker image for the container
-                      imagePullPolicy: Never
-                      ports:
-                          - containerPort: 3100 # Port on which the container listens
-                      resources:
-                          requests:
-                              memory: "150Mi" # Request 256MB of memory
-                              cpu: "100m" # Request 0.1 CPU (100 milliCPU)
-                          limits:
-                              memory: "200Mi" # Limit memory to 512MB
-                              cpu: "200m" # Limit CPU to 0.2 CPU (200 milliCPU)
-                restartPolicy: Always # Restart policy for the pods
+        spec:
+            containers:
+                - name: profile-service-api # Name of the container
+                  image: profile-service # Docker image for the container
+                  imagePullPolicy: Never
+                  ports:
+                      - containerPort: 3100 # Port on which the container listens
+                  resources:
+                      requests:
+                          memory: "150Mi" # Request 256MB of memory
+                          cpu: "100m" # Request 0.1 CPU (100 milliCPU)
+                      limits:
+                          memory: "200Mi" # Limit memory to 512MB
+                          cpu: "200m" # Limit CPU to 0.2 CPU (200 milliCPU)
+            restartPolicy: Always # Restart policy for the pods
 status: {} # Empty status section

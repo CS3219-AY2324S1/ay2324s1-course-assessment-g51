@@ -24,10 +24,7 @@ spec:
                   ports:
                       - containerPort: 27017 # Port to expose
 
-                  volumeMounts:
-                      - name: mongodb-data # Name of the Persistent Volume Claim (PVC)
-                        mountPath: /data/db # Mount path within the container
-
-        volumeClaimTemplates:
-            - metadata:
-                  name: mongodb-data # Name of the Persistent Volume Claim (PVC) defined in mongodb-pvc.yaml
+            volumes:
+                - name: mongodb-volume-data
+                  persistentVolumeClaim:
+                      claimName: mongodb-data
