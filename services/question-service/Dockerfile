@@ -1,14 +1,19 @@
-FROM node:18-buster as base
+FROM node:18-buster AS base
 RUN apt-get install libcurl4
-WORKDIR /usr/src/app
-EXPOSE 8080
+WORKDIR /app
 
-FROM base as test
+COPY package*.json .
+RUN npm install
+
 COPY . .
-RUN npm ci --include=dev
+
+FROM base AS test
 CMD ["npm", "run", "test"]
 
-FROM base as dev
-COPY . .
-RUN npm ci --include=dev
-CMD ["npm", "run", "start:dev"]
+FROM base AS dev
+CMD ["npm", "run", "dev"]
+
+FROM base AS prod 
+RUN npm run build
+RUN npm prune --production
+CMD ["npm", "run", "start"]

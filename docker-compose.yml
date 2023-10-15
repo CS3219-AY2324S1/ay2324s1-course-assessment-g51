@@ -25,7 +25,7 @@ services:
         depends_on:
             - mongodb
         volumes:
-            - ./services/question-service:/usr/src/app
+            - ./services/question-service:/app
 
     mongodb:
         container_name: mongodb
