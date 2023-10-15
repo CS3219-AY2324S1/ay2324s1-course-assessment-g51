@@ -24,6 +24,14 @@ spec: # Specification for the Ingress resource
                             port:
                                 number: 3100
 
+                  - path: /question
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: question-service-service
+                            port:
+                                number: 8080
+
     # For adding SSL here next time
     # tls:
     # - hosts:
