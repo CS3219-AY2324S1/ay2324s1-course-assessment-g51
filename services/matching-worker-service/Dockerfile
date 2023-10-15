@@ -1,22 +1,17 @@
-ARG DB_URL
-
 FROM node:18-alpine AS build
-ENV DATABASE_URL=DB_URL
 
 WORKDIR /app
 
 COPY package*.json .
 COPY prisma ./prisma/
 
-COPY . .
 RUN npm install
-RUN npx prisma generate
+
+COPY . .
 
 FROM build AS dev
-RUN npx prisma migrate dev
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start:migrate:dev"]
 
 FROM build as prod
 RUN npm run compile
-RUN npm prune --production
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start:migrate:prod"]

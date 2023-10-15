@@ -76,6 +76,7 @@ services:
             target: dev
         environment:
             - AMQP_URL=amqp://rabbitmq:5672
+            - DATABASE_URL=postgresql://root:secret@matching-service-db:5432/matching_service?schema=public
         depends_on:
             - rabbitmq
             - matching-service-db
