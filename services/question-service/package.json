@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "ts-node-dev --poll --respawn --transpile-only src/index.ts",
+    "build": "tsc --project tsconfig.build.json",
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --poll --respawn --transpile-only src/index.ts",
     "test": "jest"
   },
   "keywords": [],
