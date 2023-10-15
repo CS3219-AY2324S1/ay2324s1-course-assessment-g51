@@ -27,6 +27,7 @@ import ErrorPage from "./components/ErrorPage";
 import SignInPage from "./components/Auth/SignInPage";
 import Navbar from "./components/Navbar";
 import GoodbyePage from "./components/Auth/GoodbyePage";
+import VerificationPage from "./components/Auth/VerificationPage";
 
 const ProtectedRoute = () => {
 	const [user, loading, error] = useAuthState(auth);
@@ -76,6 +77,7 @@ const RootApp = () => {
 						<Route path="/signin" element={<SignInPage />} />
 						<Route path="*" element={<ErrorPage />} />
 						<Route path="/goodbye" element={<GoodbyePage />} />
+						<Route path="/verify" element={<VerificationPage />} />
 					</Routes>
 				</BrowserRouter>
 			</div>

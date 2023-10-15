@@ -4,7 +4,18 @@ import { Controls, Player } from "@lottiefiles/react-lottie-player";
 import { useNavigate } from "react-router-dom";
 
 const VerificationPage = () => {
-	return <div style={Styles.GoodbyePageContainerStyle}></div>;
+	return (
+		<div style={Styles.VerificationPageContainerStyle}>
+			<div style={Styles.mainContainerStyle}>
+				<div style={Styles.textStyle}>
+					<p>{verifytext}</p>
+				</div>
+				<div style={Styles.innerTextStyle}>
+					<p>{verifytextInner}</p>
+				</div>
+			</div>
+		</div>
+	);
 };
 
 // const GoodbyePlayer = () => {
@@ -20,7 +31,9 @@ const VerificationPage = () => {
 // 	);
 // };
 
-const goodbyeText = "You have signed out! See you next time!";
-const redirectText = "Still up for the grind?";
+const verifytext = "Thanks for joining peerprep";
+const verifytextInner =
+	"To complete your profile we will need you to \
+                    verify your email address by clicking on the link sent to your email";
 
 export default VerificationPage;

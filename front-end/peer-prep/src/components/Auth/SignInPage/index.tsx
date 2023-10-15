@@ -87,11 +87,9 @@ const EmailAndPasswordContainer = () => {
 		// loadingStatus = <LinearDeterminate />;
 	}
 	if (isUserCreated) {
-		console.log("did it come here");
-		return <Navigate to="/user" replace={true} />;
+		return <Navigate to="/verify" replace={true} />;
 	}
 	if (isUserSignedIn) {
-		console.log("tetsing");
 		return <Navigate to="/home" replace={true} />;
 	}
 	if (isButtonToggled) {
