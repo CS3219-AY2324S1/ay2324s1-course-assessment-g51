@@ -35,6 +35,13 @@ services:
         ports:
             - 27017:27017
 
+    postgres:
+        container_name: postgres
+        image: postgres
+        restart: always
+        ports:
+        - "5432:5432"
+
     profile-service:
         container_name: profile-service
         image: profile-service

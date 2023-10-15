@@ -5,11 +5,11 @@ metadata:
     namespace: dev
 spec:
     selector:
-            app: profile-service-service # Select pods with the label 'app: my-app' to include in the Service
+        app: profile-service-api # Select pods with the label 'app: my-app' to include in the Service
     ports:
-      - name: "3100"
-        port: 3100
-        targetPort: 3100
-    type: ClusterIP  # Use ClusterIP to distribute traffic to all replicas
+        - name: "3100"
+          port: 3100
+          targetPort: 3100
+    type: NodePort # Use NodePort for localtesting / port forwarding
 status:
-  loadBalancer: {}
+    loadBalancer: {}

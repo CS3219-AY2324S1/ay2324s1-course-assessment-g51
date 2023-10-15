@@ -20,7 +20,7 @@ spec: # Specification for the Ingress resource
                     pathType: Prefix
                     backend:
                         service:
-                            name: profile-service-service
+                            name: profile-service-service-dev
                             port:
                                 number: 3100
 
@@ -28,7 +28,7 @@ spec: # Specification for the Ingress resource
                     pathType: Prefix
                     backend:
                         service:
-                            name: question-service-service
+                            name: question-service-service-dev
                             port:
                                 number: 8080
 

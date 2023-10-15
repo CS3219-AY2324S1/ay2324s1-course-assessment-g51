@@ -18,11 +18,11 @@ spec:
             containers:
                 - env:
                       - name: MONGODB_URI
-                        value: mongodb://mongodb-headless.dev.svc.cluster.local:27017/question-service-api
+                        value: mongodb://mongodb-statefulset-dev-0,mongodb-statefulset-dev-1,mongodb-statefulset-dev-2:27017/question-service-api
                       - name: PORT_NUMBER
                         value: "8080"
-                  image: question-service
-                  imagePullPolicy: Never
+                  image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/question-service:latest"
+                  # imagePullPolicy: Never
                   name: question-service-api
                   ports:
                       - containerPort: 8080

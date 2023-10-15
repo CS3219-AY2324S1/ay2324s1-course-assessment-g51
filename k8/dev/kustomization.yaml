@@ -7,6 +7,7 @@ resources:
   - ../dev/deployments/mongodb-statefulset-dev.yaml
   - ../dev/deployments/profile-service-deployment-dev.yaml
   - ../dev/deployments/question-service-deployment-dev.yaml
+  - ../dev/deployments/postgres-statefulset-dev.yaml
 
   # Ingresses
   - ../dev/ingresses/nginx-ingress-dev.yaml
@@ -19,6 +20,8 @@ resources:
   - ../dev/services/mongodb-service-dev.yaml
   - ../dev/services/profile-service-service-dev.yaml
   - ../dev/services/question-service-service-dev.yaml
+  - ../dev/services/postgres-service-dev.yaml
 
   # Volumes
-  - ../dev/volumes/mongodb-pvc.yaml
+  - ../dev/volumes/mongodb-pvc-dev.yaml
+  - ../dev/volumes/postgres-pvc-dev.yaml
