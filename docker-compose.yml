@@ -15,6 +15,7 @@ services:
         build:
             context: ./services/question-service
             target: dev
+            dockerfile: Dockerfile.dev
         environment:
             - MONGODB_URI=mongodb://mongodb:27017/question-service-api
             - PORT_NUMBER=8080
