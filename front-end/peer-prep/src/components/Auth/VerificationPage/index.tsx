@@ -5,10 +5,14 @@ import MarkEmailReadOutlinedIcon from "@mui/icons-material/MarkEmailReadOutlined
 import LoopIcon from "@mui/icons-material/Loop";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import { auth } from "../Firebase";
+import { sendEmailVerification } from "firebase/auth";
 
 const VerificationPage = () => {
 	const navigate = useNavigate();
 
+	//poll every 7 seconds to check whether email is updated
+	//have to do this because firebase does not update the state
+	//whether email is verified or not
 	const timer = setInterval(() => {
 		auth.currentUser?.reload();
 		if (auth.currentUser?.emailVerified) {
@@ -20,10 +24,35 @@ const VerificationPage = () => {
 		}
 	}, 7000);
 
+	//resent verification email once button is pressed
+	//firebase will block on its own if it is spammed
+	const buttonHandler = async () => {
+		const currentUser = auth.currentUser;
+		try {
+			if (currentUser) {
+				await sendEmailVerification(currentUser).then(() => {
+					// Email verification sent!
+					// ...
+				});
+			}
+		} catch (e) {
+			//firebase will auto block request if there are spam
+			return;
+		}
+	};
+
+	//back button brings it back to sign in
+	const iconHandler = () => {
+		navigate("/signin");
+	};
+
 	return (
 		<div style={Styles.VerificationPageContainerStyle}>
 			<div style={Styles.BackButtonStyle}>
-				<ArrowBackOutlinedIcon sx={{ color: "white", fontSize: 70 }} />
+				<ArrowBackOutlinedIcon
+					sx={{ color: "white", fontSize: 70, cursor: "pointer" }}
+					onClick={iconHandler}
+				/>
 			</div>
 
 			<div style={Styles.mainContainerStyle}>
@@ -52,6 +81,7 @@ const VerificationPage = () => {
 						}}
 						endIcon={<LoopIcon />}
 						size="large"
+						onClick={buttonHandler}
 					>
 						resend
 					</Button>
