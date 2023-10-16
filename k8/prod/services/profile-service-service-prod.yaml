@@ -5,7 +5,7 @@ metadata:
     namespace: prod
 spec:
     selector:
-            app: profile-service-service # Select pods with the label 'app: my-app' to include in the Service
+        app: profile-service-api # Select pods with the label 'app: my-app' to include in the Service
     ports:
       - name: "3100"
         port: 3100
