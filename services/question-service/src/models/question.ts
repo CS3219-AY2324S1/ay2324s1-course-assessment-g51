@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
 
 interface IQuestion {
   title: string;
@@ -20,8 +21,8 @@ const questionSchema = new Schema<IQuestion>({
     enum: ["easy", "medium", "difficult"],
   },
 });
-
 questionSchema.index({ title: "text", description: "text" });
+questionSchema.plugin(uniqueValidator);
 
 const Question = model<IQuestion>("Question", questionSchema);
 
