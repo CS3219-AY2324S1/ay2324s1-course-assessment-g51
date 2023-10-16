@@ -25,3 +25,6 @@ resources:
   # Volumes
   - ../dev/volumes/mongodb-pvc-dev.yaml
   - ../dev/volumes/postgres-pvc-dev.yaml
+
+  # ConfigMaps
+  - ../dev/configMaps/question-service-config-dev.yaml

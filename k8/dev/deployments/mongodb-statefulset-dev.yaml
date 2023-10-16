@@ -5,7 +5,7 @@ metadata:
     namespace: dev # The namespace where the StatefulSet will be created
 
 spec:
-    replicas: 3 # Number of replica pods to create
+    replicas: 1 # Standalone mongodb database
     serviceName: mongodb-headless # A headless service for DNS-based discovery
     selector:
         matchLabels:
@@ -23,7 +23,6 @@ spec:
                   image: mongo:6.0 # Docker image for the MongoDB container
                   ports:
                       - containerPort: 27017 # Port to expose
-
             volumes:
                 - name: mongodb-volume-data
                   persistentVolumeClaim:

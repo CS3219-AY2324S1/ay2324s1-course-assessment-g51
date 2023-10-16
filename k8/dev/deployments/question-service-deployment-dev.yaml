@@ -16,13 +16,8 @@ spec:
                 app: question-service-api
         spec:
             containers:
-                - env:
-                      - name: MONGODB_URI
-                        value: mongodb://mongodb-statefulset-dev-0,mongodb-statefulset-dev-1,mongodb-statefulset-dev-2:27017/question-service-api
-                      - name: PORT_NUMBER
-                        value: "8080"
-                  image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/question-service:latest"
-                  # imagePullPolicy: Never
+                - image: question-service
+                  imagePullPolicy: Never
                   name: question-service-api
                   ports:
                       - containerPort: 8080
@@ -33,5 +28,16 @@ spec:
                       limits:
                           memory: "200Mi" # Limit memory to 512MB
                           cpu: "200m" # Limit CPU to 0.2 CPU (200 milliCPU)
+                  env:
+                      - name: MONGODB_URI
+                        valueFrom:
+                            configMapKeyRef:
+                                name: question-service-config-dev
+                                key: MONGODB_URI
+                      - name: PORT_NUMBER
+                        valueFrom:
+                            configMapKeyRef:
+                                name: question-service-config-dev
+                                key: PORT_NUMBER
             restartPolicy: Always
 status: {}

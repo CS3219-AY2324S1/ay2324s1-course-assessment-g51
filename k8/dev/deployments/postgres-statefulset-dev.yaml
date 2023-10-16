@@ -5,7 +5,7 @@ metadata:
     namespace: dev # The namespace where the StatefulSet will be created
 
 spec:
-    replicas: 3 # Number of replica pods to create
+    replicas: 1 # Number of replica pods to create
     serviceName: postgres-headless # A headless service for DNS-based discovery
     selector:
         matchLabels:
