@@ -47,8 +47,10 @@ const ProtectedRoute = () => {
 		return <Navigate to="/signin" replace />;
 	}
 	if (providerType === "password" && !emailVerified) {
+		console.log(emailVerified);
+		console.log("here");
 		// User is created by password but not verified, navigate to verification page
-		return <Navigate to="/signin" replace />;
+		return <Navigate to="/verify" replace />;
 	}
 
 	return <Outlet />;
