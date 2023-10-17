@@ -24,21 +24,16 @@ export const DetailsContainerStyle = {
     marginTop: "10%",
 }
 
-export const AvatarAndUsernameContainerStyle = {
+export const AvatarContainerStyle = {
     display: "grid",
     gridRowGap: "10%",
     justifyItems: "center",
+    marginBottom: "5%"
 }
 
 export const AvatarStyle = {
     width: "50px",
     height: "50px"
-}
-
-export const userStyle = {
-    color: "white",
-    fontSize: '25px',
-    marginBottom: "5%"
 }
 
 export const detailStyle = {
@@ -67,7 +62,20 @@ export const detailStyle = {
 		'&.Mui-focused fieldset': {
 			borderColor: '#F4C2C2',
 		}
-    }
+    },
+    "& .MuiInputBase-input.Mui-disabled": {
+        WebkitTextFillColor: "#F4C2C2",
+    },
+    '& .MuiInputLabel-root.Mui-disabled': {
+		borderRadius: "10px",
+		color: 'pink', // Change label color for disabled state
+        height: "100%",
+    },
+    '& .MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline': {
+		borderColor: '#1B2735', // Change border color for disabled state
+		borderRadius: "10px",
+        height: "100%",
+    },
 }
 
 export const buttonStyle = {

@@ -5,8 +5,9 @@ import { auth } from "./components/Auth/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 // import Redux components here
-import { Provider } from "react-redux";
-import store from "./components/redux/store/store";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import store from "./components/redux/store/store"
+import * as UserSlice from "./components/redux/reducers/User/UserSlice"
 
 // import React Routing components here
 import {
@@ -28,6 +29,8 @@ import SignInPage from "./components/Auth/SignInPage";
 import Navbar from "./components/Navbar";
 import GoodbyePage from "./components/Auth/GoodbyePage";
 
+import axios from "axios";
+
 const ProtectedRoute = () => {
 	const [user, loading, error] = useAuthState(auth);
 	debugger;
@@ -47,35 +50,57 @@ const ProtectedRoute = () => {
 	return <Outlet />;
 };
 
+const RedirectUserRoute = () => {
+    const user = auth.currentUser;
+    const uid = user?.uid
+    const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin);
+    const dispatch = useDispatch();
+    debugger;
+    axios({
+        method: 'get',
+        url: `http://api.peerprepgroup51sem1y2023.xyz/users/${uid}`
+    }).catch((error) => {
+        console.log(error);
+        console.log("test");
+        dispatch(UserSlice.setIsFirstTimeLogin(true));
+    })
+    if (isNewUser) {
+        debugger;	
+        // If user has not entered user details, navigate to User page
+        return <Navigate to="/user" replace />;
+    } else {
+        return <></>
+    }
+}
+
 const RootApp = () => {
-	return (
-		<Provider store={store}>
-			<div id="app" style={appStyle}>
-				<BrowserRouter>
-					<Routes>
-						{/* All protected routes are written here */}
-						<Route
-							element={
-								<>
-									<Navbar />
-									<ProtectedRoute />
-								</>
-							}
-						>
-							<Route path="home" element={<QuestionsPage />} />
-							<Route path="user" element={<UserPage />} />
-						</Route>
-						{/* All non-protected routes are written here */}
-						<Route path="/" element={<SignInPage />} />
-						<Route path="/signin" element={<SignInPage />} />
-						<Route path="*" element={<ErrorPage />} />
-						<Route path="/goodbye" element={<GoodbyePage />} />
-					</Routes>
-				</BrowserRouter>
-			</div>
-		</Provider>
-	);
-};
+    return (
+        <Provider store={store}>
+        <div id="app" style={appStyle}>
+            <BrowserRouter>
+                <Routes>
+                    {/* All protected routes are written here */}
+                    <Route element={
+                        <>
+                            <Navbar/>
+                            <ProtectedRoute/>
+                            <RedirectUserRoute/>
+                        </>
+                    }>
+                        <Route path="home" element={<QuestionsPage/>}/>
+                        <Route path="user" element={<UserPage/>}/>
+                    </Route>
+                    {/* All non-protected routes are written here */}
+                    <Route path="/" element={<SignInPage/>} />
+                    <Route path="/signin" element={<SignInPage/>} />
+                    <Route path="*" element={<ErrorPage/>}/>
+                    <Route path="/goodbye" element={<GoodbyePage/>}/>
+                </Routes>
+            </BrowserRouter>
+        </div>
+    </Provider>
+    )
+}
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
 );

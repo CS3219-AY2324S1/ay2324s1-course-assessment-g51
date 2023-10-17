@@ -3,20 +3,23 @@ import { useEffect, useState } from "react"
 import { Button, Divider, InputAdornment, TextField, Stack } from "@mui/material"
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import  MailOutlineIcon from "@mui/icons-material/MailOutline"
+import MailOutlineIcon from "@mui/icons-material/MailOutline"
 import KeyIcon from '@mui/icons-material/Key';
 
 import * as Styles from "./styles"
 import Image from "../../../images/PeerPrep.jpg"
 
-import { useSignInWithEmailAndPassword,useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useSignInWithEmailAndPassword, useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../Firebase";
 import { Navigate } from "react-router-dom";
 
-import GoogleSignInButton from './AuthButtons/GoogleSignInButton'
-import FacebookSignInButton from './AuthButtons/FacebookSignInButton'
-import GithubSignInButton from './AuthButtons/GithubSignInButton'
-import TwitterSignInButton from './AuthButtons/TwitterSignInButton'
+import SignInButton from './AuthButton/SignInButton'
+import { GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, TwitterAuthProvider } from "firebase/auth";
+
+import googleIconImage from '../../../images/GoogleIcon.png'
+import facebookIconImage from '../../../images/FacebookIcon.png'
+import githubIconImage from '../../../images/GithubIcon.png'
+import twitterIconImage from '../../../images/TwitterIcon.png'
 
 interface ChildProps {
     secondPassword: string;
@@ -27,31 +30,32 @@ interface ChildProps {
 const SignInPage = () => {
     return (
         <div id="SignInPage" style={Styles.signInPageStyle}>
-            <EmailAndPasswordContainer/>
-            <PeerPrepImage/>
+            <EmailAndPasswordContainer />
+            <PeerPrepImage />
         </div>
     )
 }
 
 const EmailAndPasswordContainer = () => {
-    const [isButtonToggled,toggleButton] = useState(false);
-    const [isMouseHovered,setIsHovered] = useState(false);
-    const [email,updateEmail] = useState("");
-    const [password,updatePassword] = useState("");
-    const [secondPassword,updateSecondPassword] = useState("");;
+    const [isButtonToggled, toggleButton] = useState(false);
+    const [isMouseHovered, setIsHovered] = useState(false);
+    const [email, updateEmail] = useState("");
+    const [password, updatePassword] = useState("");
+    const [secondPassword, updateSecondPassword] = useState("");;
     const [signInWithEmailAndPassword, isUserSignedIn, signInLoading, signInError] =
-		useSignInWithEmailAndPassword(auth);
+        useSignInWithEmailAndPassword(auth);
     const [createUserWithEmailAndPassword, isUserCreated, createUserLoading,
         createUserError] = useCreateUserWithEmailAndPassword(auth);
-    const [isPasswordHidden,toggleEye] = useState(true);
-    const [errorText,setErrorText] = useState("");
+    const [isPasswordHidden, toggleEye] = useState(true);
+    const [errorText, setErrorText] = useState("");
     let additionalToggleButtonStyle = {};
     let additionalToggleTextStyle = {};
     let toggleButtonBorderStyle = {};
     let toggleButtonText = "Sign In";
     let toggleText = "Sign Up"
     let confirmPassword;
-    let visibilityIcon = <VisibilityOffIcon/>;
+    let visibilityIcon = <VisibilityOffIcon />;
+
     useEffect(() => {
         if (signInError) {
             setErrorText(signInErrorText);
@@ -59,10 +63,10 @@ const EmailAndPasswordContainer = () => {
         if (createUserError) {
             setErrorText(createUserErrorText);
         }
-    },[signInError,createUserError]);
+    }, [signInError, createUserError]);
     useEffect(() => {
         setErrorText("");
-    },[isButtonToggled])
+    }, [isButtonToggled])
     if (signInLoading || createUserLoading) {
         // loadingStatus = <LinearDeterminate />;
     }
@@ -74,8 +78,8 @@ const EmailAndPasswordContainer = () => {
         additionalToggleTextStyle = Styles.additionalToggleTextStyle;
         toggleButtonText = "Sign Up";
         toggleText = "Sign In";
-        confirmPassword = <ConfirmPasswordTextField 
-            secondPassword={secondPassword} 
+        confirmPassword = <ConfirmPasswordTextField
+            secondPassword={secondPassword}
             updateSecondPassword={updateSecondPassword}
             isPasswordHidden={isPasswordHidden}
         />;
@@ -83,31 +87,33 @@ const EmailAndPasswordContainer = () => {
     if (isMouseHovered) {
         toggleButtonBorderStyle = Styles.toggleBorderStyle
     }
-    if(!isPasswordHidden) {
-        visibilityIcon = <VisibilityIcon/>
+    if (!isPasswordHidden) {
+        visibilityIcon = <VisibilityIcon />
     }
     return (
         <div id="EmailAndPasswordContainer" style={Styles.emailAndPasswordContainerStyle}
             onKeyDown={(event) => {
                 if (event.code === "Enter") {
-                    if(isButtonToggled) {
-                        if(password != secondPassword) {
+                    if (isButtonToggled) {
+                        if (password !== secondPassword) {
                             setErrorText(createUserErrorText)
                         } else {
-                            createUserWithEmailAndPassword(email,password)
+                            createUserWithEmailAndPassword(email, password)
                         }
                     } else {
-                        signInWithEmailAndPassword(email,password)
+                        signInWithEmailAndPassword(email, password)
                     }
                 }
-            }} 
+            }}
         >
             <span style={Styles.firstHeaderStyle}>Welcome To PeerPrep!</span>
             <span style={Styles.secondHeaderStyle}>Please enter your details</span>
             <div style={Styles.switchStyle}>
-                <div id="SignInToggle" style={{...Styles.signInToggleStyle,
+                <div id="SignInToggle" style={{
+                    ...Styles.signInToggleStyle,
                     ...additionalToggleButtonStyle,
-                    ...toggleButtonBorderStyle}} 
+                    ...toggleButtonBorderStyle
+                }}
                     onClick={() => {
                         toggleButton(!isButtonToggled);
                         setErrorText("");
@@ -115,55 +121,55 @@ const EmailAndPasswordContainer = () => {
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
-                    <span style={{...Styles.toggleButtonTextStyle}}>{toggleButtonText}</span>
+                    <span style={{ ...Styles.toggleButtonTextStyle }}>{toggleButtonText}</span>
                 </div>
-                <span style={{...Styles.toggleTextStyle,...additionalToggleTextStyle}} 
+                <span style={{ ...Styles.toggleTextStyle, ...additionalToggleTextStyle }}
                     onClick={() => toggleButton(!isButtonToggled)}>
-                        {toggleText}
+                    {toggleText}
                 </span>
             </div>
             <TextField label="email"
                 value={email}
-                onChange={(e) => updateEmail(e.target.value)}  
-                sx={Styles.textFieldStyle} 
+                onChange={(e) => updateEmail(e.target.value)}
+                sx={Styles.textFieldStyle}
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
-                            <MailOutlineIcon/>
+                            <MailOutlineIcon />
                         </InputAdornment>
                     )
-            }}>
+                }}>
             </TextField>
             <TextField label="password" value={password}
-                type={isPasswordHidden ? "password": "text"}
+                type={isPasswordHidden ? "password" : "text"}
                 onChange={(e) => updatePassword(e.target.value)}
                 hidden={true}
-                sx={Styles.textFieldStyle} 
+                sx={Styles.textFieldStyle}
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
-                            <KeyIcon/>
+                            <KeyIcon />
                         </InputAdornment>
                     ),
                     endAdornment: (
                         <InputAdornment position="end" onClick={() => toggleEye(!isPasswordHidden)}>
-                            {visibilityIcon}    
+                            {visibilityIcon}
                         </InputAdornment>
                     )
                 }}
             >
             </TextField>
             {confirmPassword}
-            <Button variant="contained" sx={Styles.continueButtonStyle} 
+            <Button variant="contained" sx={Styles.continueButtonStyle}
                 onClick={() => {
-                    if(isButtonToggled) {
-                        if(password != secondPassword) {
-                            setErrorText(createUserErrorText)
+                    if (isButtonToggled) {
+                        if (password !== secondPassword) {
+                            setErrorText(createUserErrorText);
                         } else {
-                            createUserWithEmailAndPassword(email,password)
+                            createUserWithEmailAndPassword(email, password)
                         }
                     } else {
-                        signInWithEmailAndPassword(email,password)
+                        signInWithEmailAndPassword(email, password)
                     }
                 }}
             >
@@ -173,38 +179,38 @@ const EmailAndPasswordContainer = () => {
                 or continue with
             </Divider>
             <Stack direction="row" spacing={2}>
-                <GoogleSignInButton/>
-                <FacebookSignInButton/>
-                <GithubSignInButton/>
-                <TwitterSignInButton/>
+                <SignInButton provider={new GoogleAuthProvider()} iconImage={googleIconImage} iconImageAlt="googleIcon" />
+                <SignInButton provider={new FacebookAuthProvider()} iconImage={facebookIconImage} iconImageAlt="facebookIcon" />
+                <SignInButton provider={new GithubAuthProvider()} iconImage={githubIconImage} iconImageAlt="githubIcon" />
+                <SignInButton provider={new TwitterAuthProvider()} iconImage={twitterIconImage} iconImageAlt="twitterIcon" />
             </Stack>
             <span style={Styles.errorTextStyle}>{errorText}</span>
         </div>
     )
 }
 
-const ConfirmPasswordTextField:React.FC<ChildProps> = 
-    ({secondPassword,updateSecondPassword,
+const ConfirmPasswordTextField: React.FC<ChildProps> =
+    ({ secondPassword, updateSecondPassword,
         isPasswordHidden
     }) => {
-    return (
-        <>
-            <TextField label="confirm password" value={secondPassword}
-                type={isPasswordHidden ? "password": "text"}
-                onChange={(e) => updateSecondPassword(e.target.value)} 
-                sx={Styles.textFieldStyle} 
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <KeyIcon/>
-                        </InputAdornment>
-                    )
-                }}
-            >
-            </TextField>
-        </>
-    )
-}
+        return (
+            <>
+                <TextField label="confirm password" value={secondPassword}
+                    type={isPasswordHidden ? "password" : "text"}
+                    onChange={(e) => updateSecondPassword(e.target.value)}
+                    sx={Styles.textFieldStyle}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <KeyIcon />
+                            </InputAdornment>
+                        )
+                    }}
+                >
+                </TextField>
+            </>
+        )
+    }
 
 const signInErrorText = "You have entered either wrong email or password or both. Please try again";
 const createUserErrorText = "Your passwords do not match or the email entered is not valid. Password must be more than 6 characters. Please try again";
@@ -212,7 +218,7 @@ const createUserErrorText = "Your passwords do not match or the email entered is
 const PeerPrepImage = () => {
     return (
         <div style={Styles.peerPrepImageContainerStyle}>
-            <img src={Image} alt="My Image" style={Styles.imageStyle}/>
+            <img src={Image} alt="peer prep" style={Styles.imageStyle} />
         </div>
     )
 }
