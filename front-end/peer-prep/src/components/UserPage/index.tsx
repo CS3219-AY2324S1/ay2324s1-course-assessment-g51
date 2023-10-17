@@ -22,9 +22,9 @@ const UserPage = () => {
 
     // Gets user details from firebase.
     const user = auth.currentUser;
-    //const authEmail = user?.providerData[0].email ?? ""
+    const authEmail = user?.providerData[0].email ?? ""
     console.log(user)
-    const authEmail = user?.email ?? ""
+    //const authEmail = user?.email ?? ""
     const authUsername = user?.displayName ?? ""
     const authUid = user?.uid
     
