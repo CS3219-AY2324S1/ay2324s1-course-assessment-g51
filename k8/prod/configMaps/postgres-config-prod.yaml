@@ -4,4 +4,8 @@ metadata:
     name: postgres-config-prod
     namespace: prod
 data:
-    POSTGRES_PASSWORD: example
+    POSTGRES_HOST: "postgres-headless.prod.svc.cluster.local"
+    POSTGRES_PORT: "5432"
+    POSTGRES_USERNAME: "postgres"
+    POSTGRES_PASSWORD: "example"
+    POSTGRES_DATABASE: "postgres"
