@@ -22,10 +22,18 @@ import {
 import { auth } from "../Firebase";
 import { Navigate, useNavigate } from "react-router-dom";
 
-import GoogleSignInButton from "./AuthButtons/GoogleSignInButton";
-import FacebookSignInButton from "./AuthButtons/FacebookSignInButton";
-import GithubSignInButton from "./AuthButtons/GithubSignInButton";
-import TwitterSignInButton from "./AuthButtons/TwitterSignInButton";
+import SignInButton from "./AuthButton/SignInButton";
+import {
+	GoogleAuthProvider,
+	FacebookAuthProvider,
+	GithubAuthProvider,
+	TwitterAuthProvider,
+} from "firebase/auth";
+
+import googleIconImage from "../../../images/GoogleIcon.png";
+import facebookIconImage from "../../../images/FacebookIcon.png";
+import githubIconImage from "../../../images/GithubIcon.png";
+import twitterIconImage from "../../../images/TwitterIcon.png";
 
 interface ChildProps {
 	secondPassword: string;
@@ -64,7 +72,6 @@ const EmailAndPasswordContainer = () => {
 	});
 	const [isPasswordHidden, toggleEye] = useState(true);
 	const [errorText, setErrorText] = useState("");
-
 	let additionalToggleButtonStyle = {};
 	let additionalToggleTextStyle = {};
 	let toggleButtonBorderStyle = {};
@@ -72,6 +79,7 @@ const EmailAndPasswordContainer = () => {
 	let toggleText = "Sign Up";
 	let confirmPassword;
 	let visibilityIcon = <VisibilityOffIcon />;
+
 	useEffect(() => {
 		if (signInError) {
 			setErrorText(signInErrorText);
@@ -118,7 +126,7 @@ const EmailAndPasswordContainer = () => {
 			onKeyDown={(event) => {
 				if (event.code === "Enter") {
 					if (isButtonToggled) {
-						if (password != secondPassword) {
+						if (password !== secondPassword) {
 							setErrorText(createUserErrorText);
 						} else {
 							createUserWithEmailAndPassword(email, password);
@@ -204,7 +212,7 @@ const EmailAndPasswordContainer = () => {
 				sx={Styles.continueButtonStyle}
 				onClick={() => {
 					if (isButtonToggled) {
-						if (password != secondPassword) {
+						if (password !== secondPassword) {
 							setErrorText(createUserErrorText);
 						} else {
 							createUserWithEmailAndPassword(email, password);
@@ -220,10 +228,26 @@ const EmailAndPasswordContainer = () => {
 				or continue with
 			</Divider>
 			<Stack direction="row" spacing={2}>
-				<GoogleSignInButton />
-				<FacebookSignInButton />
-				<GithubSignInButton />
-				<TwitterSignInButton />
+				<SignInButton
+					provider={new GoogleAuthProvider()}
+					iconImage={googleIconImage}
+					iconImageAlt="googleIcon"
+				/>
+				<SignInButton
+					provider={new FacebookAuthProvider()}
+					iconImage={facebookIconImage}
+					iconImageAlt="facebookIcon"
+				/>
+				<SignInButton
+					provider={new GithubAuthProvider()}
+					iconImage={githubIconImage}
+					iconImageAlt="githubIcon"
+				/>
+				<SignInButton
+					provider={new TwitterAuthProvider()}
+					iconImage={twitterIconImage}
+					iconImageAlt="twitterIcon"
+				/>
 			</Stack>
 			<span style={Styles.errorTextStyle}>{errorText}</span>
 		</div>
@@ -263,7 +287,7 @@ const createUserErrorText =
 const PeerPrepImage = () => {
 	return (
 		<div style={Styles.peerPrepImageContainerStyle}>
-			<img src={Image} alt="My Image" style={Styles.imageStyle} />
+			<img src={Image} alt="peer prep" style={Styles.imageStyle} />
 		</div>
 	);
 };

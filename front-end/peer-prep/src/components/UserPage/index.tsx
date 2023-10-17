@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import * as Styles from "./styles"
-import { TextField, Avatar, Snackbar, Typography, IconButton } from "@mui/material";
+import { TextField, Avatar, Snackbar, IconButton } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -17,82 +17,131 @@ const UserPage = () => {
     const dispatch = useDispatch()
     
     // State for pop up box after editing user profile.
-    const [open, setOpen] = useState(false)
+    const [isEditSuccess, setIsEditSuccess] = useState(false)
+    const [hasEmptyDetails, setHasEmptyDetails] = useState(false)
 
-    var user = auth.currentUser;
-    console.log(user?.uid)
+    // Gets user details from firebase.
+    const user = auth.currentUser;
+    const authEmail = user?.providerData[0].email ?? ""
+    console.log(user)
+    //const authEmail = user?.email ?? ""
+    const authUsername = user?.displayName ?? ""
+    const authUid = user?.uid
     
+    const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin)
     const currentUsername:string = useSelector(UserSlice.selectCurrentUsername)
     const currentEmail:string = useSelector(UserSlice.selectCurrentEmail)
-    const currentPassword:string = useSelector(UserSlice.selectCurrentPassword)
     const currentFirstName:string = useSelector(UserSlice.selectCurrentFirstName)
     const currentLastName:string = useSelector(UserSlice.selectCurrentLastName)
     const currentAge:number = useSelector(UserSlice.selectCurrentAge)
+
+    // Messages for user.
+    const EditUserSuccess = "User profile edited!"
+    const PromptUserDetails = "Please enter user details."
+    const EmptyDetailsWarning = "User details cannot be empty!"
 
     // Gets user profile data.
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://api.peerprepgroup51sem1y2023.xyz/users/lmao bruh'
-        }).then((response) => {
-            const data = response.data.data;
-            console.log(data)
-            dispatch(UserSlice.updateUserData(data))
-        }).catch((error) => {
-            console.log(error) 
+            url: `http://api.peerprepgroup51sem1y2023.xyz/users/${authUid}`
+            }).then((response) => {
+                const data = response.data.data;
+                dispatch(UserSlice.updateUserData(data))
+            }).catch((error) => {
+                console.log(error)
+                dispatch(UserSlice.updateCurrentEmail(authEmail))
+                dispatch(UserSlice.updateCurrentUsername(authUsername))
         })
     },[])
 
     const handleClick = () => {
-        setOpen(true);
+        setIsEditSuccess(true)
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setIsEditSuccess(false)
     };
 
+    // First time creation for new user if user does not exist.
+    const postUserData = () => {
+        axios.post(`http://api.peerprepgroup51sem1y2023.xyz/users/`, {
+            username: currentUsername,
+            email: currentEmail,
+            firstName: currentFirstName,
+            lastName: currentLastName,
+            age: currentAge,
+            uid: authUid
+        })
+        .then(() => {
+            setHasEmptyDetails(false)
+            dispatch(UserSlice.setIsFirstTimeLogin(false))
+        })
+        .catch((error) => {
+            const code = error.request.status
+            if (code === 400) {
+                setHasEmptyDetails(true)
+            }
+        });
+    }
+
     // Updates user data after editing.
-    const putUserData = () => axios.put('http://api.peerprepgroup51sem1y2023.xyz/users/lmao bruh',
+    const putUserData = () => axios.put(`http://api.peerprepgroup51sem1y2023.xyz/users/${authUid}`,
     {
         "username": currentUsername,
         "email": currentEmail,
-        "password": currentPassword,
         "firstName": currentFirstName,
         "lastName": currentLastName,
-        "age": currentAge
+        "age": currentAge,
+        "uid": authUid
+    }).then(() => {
+        setHasEmptyDetails(false)
     })
-
+    .catch((error) => {
+        const code = error.request.status
+        if (code === 400) {
+            setHasEmptyDetails(true)
+        }
+    })
+    
     return (
         <div style={Styles.UserPageContainerStyle}>
             <div style={Styles.MainContainerStyle}>
                 <div style={Styles.DetailsContainerStyle}>
-                    <div style={Styles.AvatarAndUsernameContainerStyle}>
+                    <div style={Styles.AvatarContainerStyle}>
                         <Avatar sx={Styles.AvatarStyle} src=""></Avatar>
-                        <Typography sx={Styles.userStyle}>{currentUsername}</Typography>
                     </div>
-                    <TextField autoFocus label="Email" value={currentEmail} sx={Styles.detailStyle}
+                    <TextField label="Username" value={currentUsername} sx={Styles.detailStyle}
+                                onChange={(event) => dispatch(UserSlice.updateCurrentUsername(event.target.value))}></TextField>
+                    <TextField disabled label="Email" value={currentEmail} sx={Styles.detailStyle}
                                 onChange={(event) => dispatch(UserSlice.updateCurrentEmail(event.target.value))}></TextField>
-                    <TextField label="Password" value={currentPassword} sx={Styles.detailStyle}
-                                onChange={(event) => dispatch(UserSlice.updateCurrentPassword(event.target.value))}></TextField>
                     <TextField label="First Name" value={currentFirstName} sx={Styles.detailStyle}
                                 onChange={(event) => dispatch(UserSlice.updateCurrentFirstName(event.target.value))}></TextField>
                     <TextField label="Last Name" value={currentLastName} sx={Styles.detailStyle}
                                 onChange={(event) => dispatch(UserSlice.updateCurrentLastName(event.target.value))}></TextField>
                     <TextField label="Age" value={currentAge} sx={Styles.detailStyle}
                                 onChange={(event) => dispatch(UserSlice.updateCurrentAge(event.target.value))}></TextField>
-                    <IconButton style={Styles.buttonStyle} onClick={() => {putUserData(); handleClick();}}>
+                    <IconButton style={Styles.buttonStyle} 
+                                onClick={() => {isNewUser ? postUserData() : putUserData()
+                                                handleClick()}}>
                         <SaveIcon sx={{color:"#F4C2C2",cursor:"pointer"}}/> 
                     </IconButton>
                     <Snackbar
-                        open={open}
+                        open={isEditSuccess}
                         autoHideDuration={3000}
                         onClose={handleClose}
-                        message="User profile edited!"
+                        message={EditUserSuccess}
                         action={
                         <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
                             <CloseIcon fontSize="small" />
                         </IconButton>
                     }/>
+                    <Snackbar 
+                        open={isNewUser}
+                        message={PromptUserDetails} />
+                    <Snackbar
+                        open={hasEmptyDetails} 
+                        message={EmptyDetailsWarning}/>
                 </div>
             </div>
         </div>
