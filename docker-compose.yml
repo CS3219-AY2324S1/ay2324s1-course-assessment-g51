@@ -15,7 +15,7 @@ services:
         container_name: question-service
         image: question-service
 
-        # Comment build if hot-reloading
+        # Comment below if hot-reloading
         build:
             context: ./services/question-service
         ports:
