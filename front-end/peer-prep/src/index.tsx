@@ -74,7 +74,6 @@ const RedirectUserRoute = () => {
 		dispatch(UserSlice.setIsFirstTimeLogin(true));
 	});
 	if (isNewUser) {
-		debugger;
 		// If user has not entered user details, navigate to User page
 		return <Navigate to="/user" replace />;
 	} else {
@@ -94,6 +93,7 @@ const RootApp = () => {
 								<>
 									<Navbar />
 									<ProtectedRoute />
+									<RedirectUserRoute />
 								</>
 							}
 						>
