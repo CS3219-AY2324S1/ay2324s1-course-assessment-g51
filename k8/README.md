@@ -148,6 +148,22 @@ Deploy ConfigMaps (.env file equivalent!)
   http://localhost:<forwarded port of postgre-headless>
 ```
 
+## FAQ
+
+#### 1. Why do I need to port forward locally?
+Everything is running in a K8 cluster. Forwarding ports allows network traffic to flow from pods inside the cluster to your localhost machine
+
+#### 2. Why K8 is done?
+K8 allows us to specify exactly the resources we want and we can scale very easily. However, there is much more boilerplate compared to running containers using docker compose
+
+#### 3. I noticed that my system resources is used alot. Is K8 using too much?
+Docker Desktop is actually using a lot of resource by default! 
+For windows users, please check out how to reduce docker desktop resources by modifying the wsl2 file. 
+For mac users, please adjust the resources given to docker desktop in the settings page.
+
+#### 4. How much resources is K8 using locally?
+CPU is about 5% of 2 Cores and RAM is about 300MB
+
 ## Common K8 terminologies
 
 - K8: An abbreviation for Kubernetes, an open-source container orchestration platform.
