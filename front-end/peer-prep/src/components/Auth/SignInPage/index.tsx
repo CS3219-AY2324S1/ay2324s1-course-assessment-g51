@@ -21,11 +21,6 @@ import facebookIconImage from '../../../images/FacebookIcon.png'
 import githubIconImage from '../../../images/GithubIcon.png'
 import twitterIconImage from '../../../images/TwitterIcon.png'
 
-import { useDispatch } from "react-redux";
-import * as UserSlice from "../../redux/reducers/User/UserSlice"
-
-import axios from "axios";
-
 interface ChildProps {
     secondPassword: string;
     updateSecondPassword: React.Dispatch<React.SetStateAction<string>>;
@@ -53,20 +48,6 @@ const EmailAndPasswordContainer = () => {
         createUserError] = useCreateUserWithEmailAndPassword(auth);
     const [isPasswordHidden, toggleEye] = useState(true);
     const [errorText, setErrorText] = useState("");
-    const dispatch = useDispatch();
-    const redirectIfUserNotInDatabase = () => {
-        const user = auth.currentUser;
-        const uid = user?.uid;
-        console.log(user)
-        axios({
-            method: 'get',
-            url: `http://api.peerprepgroup51sem1y2023.xyz/users/${uid}`
-        }).catch((error) => {
-            console.log(error)
-            console.log("test")
-            dispatch(UserSlice.setIsFirstTimeLogin(true))
-        })
-    }
     let additionalToggleButtonStyle = {};
     let additionalToggleTextStyle = {};
     let toggleButtonBorderStyle = {};
@@ -185,14 +166,10 @@ const EmailAndPasswordContainer = () => {
                         if (password !== secondPassword) {
                             setErrorText(createUserErrorText);
                         } else {
-                            createUserWithEmailAndPassword(email, password).then(() => {
-                                redirectIfUserNotInDatabase();
-                            });
+                            createUserWithEmailAndPassword(email, password)
                         }
                     } else {
-                        signInWithEmailAndPassword(email, password).then(() => {
-                            redirectIfUserNotInDatabase();
-                        });
+                        signInWithEmailAndPassword(email, password)
                     }
                 }}
             >
