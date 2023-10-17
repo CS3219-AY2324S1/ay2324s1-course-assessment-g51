@@ -4,5 +4,5 @@ metadata:
     name: question-service-config-prod
     namespace: prod
 data:
-    MONGODB_URI: mongodb://mongodb-headless.dev.svc.cluster.local:27017/question-service-api
+    MONGODB_URI: mongodb://mongodb-headless.prod.svc.cluster.local:27017/question-service-api
     PORT_NUMBER: "8080"

@@ -27,8 +27,8 @@ spec: # Specification for the Ingress resource
                             port:
                                 number: 3100
                 - path: /question
-                    pathType: Prefix
-                    backend:
+                  pathType: Prefix
+                  backend:
                         service:
                             name: question-service-service-dev
                             port:

@@ -17,15 +17,14 @@ spec:
         spec:
             containers:
                 - name: profile-service-api  # Name of the container
-                    image: registry.gitlab.com/peerprepgroup51sem1y2023/docker/profile-service:latest  # Docker image for the container
-                    ports:
+                  image: registry.gitlab.com/peerprepgroup51sem1y2023/docker/profile-service:latest  # Docker image for the container
+                  ports:
                     - containerPort: 3100  # Port on which the container listens
-                    resources:
-                        requests:
-                            memory: "150Mi" # Request 256MB of memory
-                            cpu: "100m" # Request 0.1 CPU (100 milliCPU)
-                        limits:
-                            memory: "200Mi" # Limit memory to 512MB
-                            cpu: "200m" # Limit CPU to 0.2 CPU (200 milliCPU)
-            restartPolicy: Always  # Restart policy for the pods
+                  resources:
+                    requests:
+                        memory: "150Mi" # Request 256MB of memory
+                        cpu: "100m" # Request 0.1 CPU (100 milliCPU)
+                    limits:
+                        memory: "200Mi" # Limit memory to 512MB
+                        cpu: "200m" # Limit CPU to 0.2 CPU (200 milliCPU)
 status: {}  # Empty status section
