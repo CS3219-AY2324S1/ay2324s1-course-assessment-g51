@@ -150,6 +150,10 @@ Deploy ConfigMaps (.env file equivalent!)
   http://localhost:<forwarded port of postgre-headless>
 ```
 
+## When You're Done? Delete Everything!
+```bash
+  kubectl delete -k .
+```
 ## FAQ
 
 #### 1. Why do I need to port forward locally?
