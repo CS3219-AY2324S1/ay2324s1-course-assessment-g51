@@ -1,4 +1,4 @@
-export const VerificationPageContainerStyle = {
+export const verificationPageContainerStyle = {
 	height: "100vh",
 	width: "100vw",
 	backgroundColor: "#131B25",
@@ -20,7 +20,7 @@ export const mainContainerStyle = {
 	borderRadius: "15px",
 };
 
-export const BackButtonStyle = {
+export const backButtonStyle = {
 	height: "100px",
 	width: "100px",
 	gridColumn: "2/3",

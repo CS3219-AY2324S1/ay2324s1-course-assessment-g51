@@ -47,8 +47,8 @@ const VerificationPage = () => {
 	};
 
 	return (
-		<div style={Styles.VerificationPageContainerStyle}>
-			<div style={Styles.BackButtonStyle}>
+		<div style={Styles.verificationPageContainerStyle}>
+			<div style={Styles.backButtonStyle}>
 				<ArrowBackOutlinedIcon
 					sx={{ color: "white", fontSize: 70, cursor: "pointer" }}
 					onClick={iconHandler}
@@ -91,9 +91,9 @@ const VerificationPage = () => {
 	);
 };
 
-const verifytext = "Thanks for joining peerprep";
+const verifytext = "Thanks for joining PeerPrep";
 const verifytextInner =
-	"To complete your profile we will need you to" +
+	"To complete your profile we will need you to " +
 	"verify your email address by clicking on the link sent to your email";
 
 const resendtext = "Did not receive email?";
