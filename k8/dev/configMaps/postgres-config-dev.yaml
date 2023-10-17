@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: postgres-config-dev
+    namespace: dev
+data:
+    POSTGRES_PASSWORD: example

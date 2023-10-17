@@ -26,8 +26,8 @@ spec:
                   env:
                       - name: POSTGRES_PASSWORD
                         valueFrom:
-                            secretKeyRef:
-                                name: postgres-password
+                            configMapKeyRef:
+                                name: postgres-config-prod
                                 key: POSTGRES_PASSWORD
 
             volumes:

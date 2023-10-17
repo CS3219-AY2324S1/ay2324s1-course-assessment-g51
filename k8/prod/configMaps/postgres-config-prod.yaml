@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: postgres-config-prod
+    namespace: prod
+data:
+    POSTGRES_PASSWORD: example
