@@ -113,6 +113,8 @@ Deploy Horizontal Pod Autoscalers (HPA)
 Deploy ConfigMaps (.env file equivalent!)
 ```bash
   kubectl apply -f ./configMaps/postgres-config-dev.yaml
+```
+```bash
   kubectl apply -f ./configMaps/question-service-config-dev.yaml
 ```
 
