@@ -72,7 +72,7 @@ const RedirectUserRoute = () => {
 	}
 	axios({
 		method: "get",
-		url: `http://api.peerprepgroup51sem1y2023.xyz/users/${uid}`,
+		url: `https://api.peerprepgroup51sem1y2023.xyz/users/${uid}`,
 	}).catch((error) => {
 		console.log(error);
 		dispatch(UserSlice.setIsFirstTimeLogin(true));
