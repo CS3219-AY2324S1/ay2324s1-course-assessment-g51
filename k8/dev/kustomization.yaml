@@ -28,3 +28,4 @@ resources:
 
   # ConfigMaps
   - ../dev/configMaps/question-service-config-dev.yaml
+  - ../dev/configMaps/postgres-config-dev.yaml
