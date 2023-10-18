@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import * as Styles from "./styles"
-import { TextField, Avatar, Snackbar, IconButton } from "@mui/material";
+import { TextField, Avatar, Snackbar, IconButton, Button } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -15,6 +16,7 @@ import { auth } from "../Auth/Firebase";
 const UserPage = () => {
     // for dispatching actions
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     
     // State for pop up box after editing user profile.
     const [isEditSuccess, setIsEditSuccess] = useState(false)
@@ -55,11 +57,11 @@ const UserPage = () => {
         })
     },[])
 
-    const handleClick = () => {
+    const openEditSuccessSnackbar = () => {
         setIsEditSuccess(true)
     };
 
-    const handleClose = () => {
+    const closeEditSuccessSnackbar = () => {
         setIsEditSuccess(false)
     };
 
@@ -103,6 +105,40 @@ const UserPage = () => {
             setHasEmptyDetails(true)
         }
     })
+
+    const handleEditUserData = () => {
+        isNewUser ? postUserData() : putUserData()
+        openEditSuccessSnackbar()
+    }
+
+    // Deletes user data from postgres database.
+    const deleteUserData = () => {
+        axios.delete(`https://api.peerprepgroup51sem1y2023.xyz/users/${authUid}`)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const deleteFirebaseUserData = () => {
+        if (user) {
+            user.delete()
+            .then((response) => {
+                console.log(response)
+                navigate("/signin")
+            })
+            .catch((error) => {
+                console.error(error)
+            });
+        }
+    }
+
+    const handleDeleteUser = () => {
+        deleteUserData()
+        deleteFirebaseUserData()
+    }
     
     return (
         <div style={Styles.UserPageContainerStyle}>
@@ -121,18 +157,19 @@ const UserPage = () => {
                                 onChange={(event) => dispatch(UserSlice.updateCurrentLastName(event.target.value))}></TextField>
                     <TextField label="Age" value={currentAge} sx={Styles.detailStyle}
                                 onChange={(event) => dispatch(UserSlice.updateCurrentAge(event.target.value))}></TextField>
-                    <IconButton style={Styles.buttonStyle} 
-                                onClick={() => {isNewUser ? postUserData() : putUserData()
-                                                handleClick()}}>
+                    <IconButton style={Styles.buttonStyle} onClick={() => handleEditUserData()}>
                         <SaveIcon sx={{color:"#F4C2C2",cursor:"pointer"}}/> 
                     </IconButton>
+                    <Button onClick={() => handleDeleteUser()}>
+                        delete account
+                    </Button>
                     <Snackbar
                         open={isEditSuccess}
                         autoHideDuration={3000}
-                        onClose={handleClose}
+                        onClose={closeEditSuccessSnackbar}
                         message={EditUserSuccess}
                         action={
-                        <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                        <IconButton size="small" aria-label="close" color="inherit" onClick={closeEditSuccessSnackbar}>
                             <CloseIcon fontSize="small" />
                         </IconButton>
                     }/>
