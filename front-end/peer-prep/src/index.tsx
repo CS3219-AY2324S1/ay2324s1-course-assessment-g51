@@ -6,8 +6,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 // import Redux components here
 import { Provider, useDispatch, useSelector } from "react-redux";
-import store from "./components/redux/store/store"
-import * as UserSlice from "./components/redux/reducers/User/UserSlice"
+import store from "./components/redux/store/store";
+import * as UserSlice from "./components/redux/reducers/User/UserSlice";
 
 // import React Routing components here
 import {
@@ -28,12 +28,15 @@ import ErrorPage from "./components/ErrorPage";
 import SignInPage from "./components/Auth/SignInPage";
 import Navbar from "./components/Navbar";
 import GoodbyePage from "./components/Auth/GoodbyePage";
+import VerificationPage from "./components/Auth/VerificationPage";
 
 import axios from "axios";
 
 const ProtectedRoute = () => {
 	const [user, loading, error] = useAuthState(auth);
-	debugger;
+	const emailVerified = user?.emailVerified;
+	const providerType = user?.providerData[0].providerId;
+
 	if (loading) {
 		// the user object will be null if firebase is loading
 		// handle loading next time
@@ -43,64 +46,76 @@ const ProtectedRoute = () => {
 		return <Navigate to="*" />;
 	}
 	if (!user) {
-		debugger;
 		// User is not authenticated, navigate to SignIn page
 		return <Navigate to="/signin" replace />;
 	}
+	if (providerType === "password" && !emailVerified) {
+		console.log(emailVerified);
+		console.log("here");
+		// User is created by password but not verified, navigate to verification page
+		return <Navigate to="/verify" replace />;
+	}
+
 	return <Outlet />;
 };
 
 const RedirectUserRoute = () => {
-    const user = auth.currentUser;
-    const uid = user?.uid
-    const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin);
-    const dispatch = useDispatch();
-    debugger;
-    axios({
-        method: 'get',
-        url: `http://api.peerprepgroup51sem1y2023.xyz/users/${uid}`
-    }).catch((error) => {
-        console.log(error);
-        console.log("test");
-        dispatch(UserSlice.setIsFirstTimeLogin(true));
-    })
-    if (isNewUser) {
-        debugger;	
-        // If user has not entered user details, navigate to User page
-        return <Navigate to="/user" replace />;
-    } else {
-        return <></>
-    }
-}
+	const [user, loading, error] = useAuthState(auth);
+	const uid = user?.uid;
+	const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin);
+	const dispatch = useDispatch();
+
+	if (loading) {
+		// the user object will be null if firebase is loading
+		// handle loading next time
+		return <></>;
+	}
+	axios({
+		method: "get",
+		url: `http://api.peerprepgroup51sem1y2023.xyz/users/${uid}`,
+	}).catch((error) => {
+		console.log(error);
+		dispatch(UserSlice.setIsFirstTimeLogin(true));
+	});
+	if (isNewUser) {
+		// If user has not entered user details, navigate to User page
+		return <Navigate to="/user" replace />;
+	} else {
+		return <></>;
+	}
+};
 
 const RootApp = () => {
-    return (
-        <Provider store={store}>
-        <div id="app" style={appStyle}>
-            <BrowserRouter>
-                <Routes>
-                    {/* All protected routes are written here */}
-                    <Route element={
-                        <>
-                            <Navbar/>
-                            <ProtectedRoute/>
-                            <RedirectUserRoute/>
-                        </>
-                    }>
-                        <Route path="home" element={<QuestionsPage/>}/>
-                        <Route path="user" element={<UserPage/>}/>
-                    </Route>
-                    {/* All non-protected routes are written here */}
-                    <Route path="/" element={<SignInPage/>} />
-                    <Route path="/signin" element={<SignInPage/>} />
-                    <Route path="*" element={<ErrorPage/>}/>
-                    <Route path="/goodbye" element={<GoodbyePage/>}/>
-                </Routes>
-            </BrowserRouter>
-        </div>
-    </Provider>
-    )
-}
+	return (
+		<Provider store={store}>
+			<div id="app" style={appStyle}>
+				<BrowserRouter>
+					<Routes>
+						{/* All protected routes are written here */}
+						<Route
+							element={
+								<>
+									<Navbar />
+									<ProtectedRoute />
+									<RedirectUserRoute />
+								</>
+							}
+						>
+							<Route path="home" element={<QuestionsPage />} />
+							<Route path="user" element={<UserPage />} />
+						</Route>
+						{/* All non-protected routes are written here */}
+						<Route path="/" element={<SignInPage />} />
+						<Route path="/signin" element={<SignInPage />} />
+						<Route path="*" element={<ErrorPage />} />
+						<Route path="/goodbye" element={<GoodbyePage />} />
+						<Route path="/verify" element={<VerificationPage />} />
+					</Routes>
+				</BrowserRouter>
+			</div>
+		</Provider>
+	);
+};
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
 );
