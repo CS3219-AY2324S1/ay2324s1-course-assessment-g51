@@ -65,12 +65,14 @@ const RedirectUserRoute = () => {
 	const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin);
 	const dispatch = useDispatch();
 	debugger;
+	if (!user) {
+		return <Navigate to='/signin' replace/>;
+	}
 	axios({
 		method: "get",
 		url: `http://api.peerprepgroup51sem1y2023.xyz/users/${uid}`,
 	}).catch((error) => {
 		console.log(error);
-		console.log("test");
 		dispatch(UserSlice.setIsFirstTimeLogin(true));
 	});
 	if (isNewUser) {
