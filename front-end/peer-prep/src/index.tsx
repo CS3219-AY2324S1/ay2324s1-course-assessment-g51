@@ -60,13 +60,15 @@ const ProtectedRoute = () => {
 };
 
 const RedirectUserRoute = () => {
-	const user = auth.currentUser;
+	const [user, loading, error] = useAuthState(auth);
 	const uid = user?.uid;
 	const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin);
 	const dispatch = useDispatch();
-	debugger;
-	if (!user) {
-		return <Navigate to='/signin' replace/>;
+
+	if (loading) {
+		// the user object will be null if firebase is loading
+		// handle loading next time
+		return <></>;
 	}
 	axios({
 		method: "get",
