@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
     name: profile-service-deployment-prod # Name of the deployment
     namespace: prod # Namespace in which the deployment will be created
+    annotations:
+        keel.sh/policy: minor # <-- policy name according to https://semver.org/
+        keel.sh/trigger: poll # <-- actively query registry, otherwise defaults to webhooks
 spec:
     replicas: 3 # Number of desired replicas
     selector:

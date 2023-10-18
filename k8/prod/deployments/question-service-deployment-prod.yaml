@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
     name: question-service-deployment-prod
     namespace: prod
+    annotations:
+        keel.sh/policy: minor # <-- policy name according to https://semver.org/
+        keel.sh/trigger: poll # <-- actively query registry, otherwise defaults to webhooks
 spec:
     replicas: 3
     selector:

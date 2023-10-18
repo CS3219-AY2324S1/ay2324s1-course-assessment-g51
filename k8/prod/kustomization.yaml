@@ -8,6 +8,7 @@ resources:
   - ../prod/deployments/profile-service-deployment-prod.yaml
   - ../prod/deployments/question-service-deployment-prod.yaml
   - ../prod/deployments/postgres-statefulset-prod.yaml
+  - ../prod/deployments/keel-deployment-prod.yaml
 
   # Ingresses
   - ../prod/ingresses/nginx-ingress-prod.yaml
@@ -29,3 +30,9 @@ resources:
   # ConfigMaps
   - ../prod/configMaps/question-service-config-prod.yaml
   - ../prod/configMaps/postgres-config-prod.yaml
+
+  # Cluster Roles
+  - ../prod/accessControls/clusterRoles/list-watch-cluster-prod.yaml
+
+  # Cluster Bindings
+  - ../prod/accessControls/clusterRoleBindings/list-watch-cluster-binding-prod.yaml
