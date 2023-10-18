@@ -53,7 +53,7 @@ Go to "dev" K8 folder
 ```
 Deploy everything!
 ```bash
-  kubectl -k apply .
+  kubectl apply -k .
 ```
 ## For Full Control Of Deployment
 <details>
@@ -73,7 +73,7 @@ Deploy Pods (A pod can contain multiple containers)
   kubectl apply -f ./deployments/mongodb-statefulset-dev.yaml
 ```
 ```bash
-  kubectl apply -f ./deployments/postgre-statefulset-dev.yaml
+  kubectl apply -f ./deployments/postgres-statefulset-dev.yaml
 ```
 
 Deploy Services (A service represents network connectivity policy for a pod)
@@ -90,7 +90,7 @@ Deploy Services (A service represents network connectivity policy for a pod)
   kubectl apply -f ./services/mongodb-service-dev.yaml
 ```
 ```bash
-  kubectl apply -f ./services/postgre-service-dev.yaml
+  kubectl apply -f ./services/postgres-service-dev.yaml
 ```
 
 Deploy NGINX Ingress Controller (It is our reverse proxy and traffic load balancer)
@@ -102,7 +102,7 @@ Deploy PVCs (Persistent Volume Claims)
   kubectl apply -f ./volumes/mongodb-pvc-dev.yaml
 ```
 ```bash
-  kubectl apply -f ./volumes/postgre-pvc-dev.yaml
+  kubectl apply -f ./volumes/postgres-pvc-dev.yaml
 ```
 
 Deploy Horizontal Pod Autoscalers (HPA)
