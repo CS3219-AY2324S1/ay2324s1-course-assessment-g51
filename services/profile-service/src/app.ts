@@ -13,9 +13,8 @@ const corsOptions = {
 		const allowedOrigins = [
 			"https://app.peerprepgroup51sem1y2023.xyz",
 			"http://localhost:3000",
-			"https://app.peerprepgroup51sem1y2023.xyz/user",
 		];
-		if (!origin || allowedOrigins.includes(origin)) {
+		if (origin) {
 			callback(null, true);
 		} else {
 			callback(new Error("Not allowed by CORS"));
