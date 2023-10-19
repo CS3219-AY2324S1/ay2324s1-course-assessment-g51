@@ -137,7 +137,7 @@ const UserPage = () => {
 
     const handleDeleteUser = () => {
         closeDeleteConfirmation()
-        navigate("/signin")
+        navigate("/delete")
         deleteUserData()
         deleteFirebaseUserData()
     }

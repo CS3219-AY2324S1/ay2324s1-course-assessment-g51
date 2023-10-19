@@ -29,6 +29,7 @@ import SignInPage from "./components/Auth/SignInPage";
 import Navbar from "./components/Navbar";
 import GoodbyePage from "./components/Auth/GoodbyePage";
 import VerificationPage from "./components/Auth/VerificationPage";
+import DeletePage from "./components/DeletePage"
 
 import axios from "axios";
 
@@ -110,6 +111,7 @@ const RootApp = () => {
 						<Route path="*" element={<ErrorPage />} />
 						<Route path="/goodbye" element={<GoodbyePage />} />
 						<Route path="/verify" element={<VerificationPage />} />
+						<Route path="/delete" element={<DeletePage />} />
 					</Routes>
 				</BrowserRouter>
 			</div>
