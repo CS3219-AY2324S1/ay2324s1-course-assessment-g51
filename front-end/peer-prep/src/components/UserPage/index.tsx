@@ -74,7 +74,7 @@ const UserPage = () => {
         setDeletionConfirmation(true)
     }
 
-    const closeDeleteConfiramtion = () => { 
+    const closeDeleteConfirmation = () => { 
         setDeletionConfirmation(false)
     }
 
@@ -135,12 +135,12 @@ const UserPage = () => {
             })
     }
 
+    // Deletes user data from firebase.
     const deleteFirebaseUserData = () => {
         if (user) {
             user.delete()
             .then((response) => {
                 console.log(response)
-                navigate("/signin")
             })
             .catch((error) => {
                 console.error(error)
@@ -149,9 +149,10 @@ const UserPage = () => {
     }
 
     const handleDeleteUser = () => {
+        closeDeleteConfirmation()
+        navigate("/signin")
         deleteUserData()
         deleteFirebaseUserData()
-        closeDeleteConfiramtion()
     }
     
     return (
@@ -195,7 +196,7 @@ const UserPage = () => {
                         message={EmptyDetailsWarning}/>
                     <Dialog
                         open={deletionConfimation}
-                        onClose={closeDeleteConfiramtion}
+                        onClose={closeDeleteConfirmation}
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
                     >
@@ -208,7 +209,7 @@ const UserPage = () => {
                         </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={closeDeleteConfiramtion}>Back</Button>
+                            <Button onClick={closeDeleteConfirmation}>Back</Button>
                             <Button onClick={handleDeleteUser} 
                                     autoFocus
                                     sx={Styles.deleteConfirmationButton}>Delete</Button>
