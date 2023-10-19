@@ -10,10 +10,11 @@ const app = express();
 // Before the end of this project, allows CORS for localhost too
 const corsOptions = {
 	origin: (origin, callback) => {
-	  	const allowedOrigins = [
+		const allowedOrigins = [
 			"https://app.peerprepgroup51sem1y2023.xyz",
-			"http://localhost"
-	  	];
+			"http://localhost:3000",
+			"/^http://localhost:d+$/",
+		];
 		if (!origin || allowedOrigins.includes(origin)) {
 			callback(null, true);
 		} else {
