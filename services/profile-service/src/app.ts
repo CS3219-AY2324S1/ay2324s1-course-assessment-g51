@@ -14,7 +14,7 @@ const corsOptions = {
 			"https://app.peerprepgroup51sem1y2023.xyz",
 			"http://localhost:3000",
 		];
-		if (origin) {
+		if (!origin) {
 			callback(null, true);
 		} else {
 			callback(new Error("Not allowed by CORS"));
