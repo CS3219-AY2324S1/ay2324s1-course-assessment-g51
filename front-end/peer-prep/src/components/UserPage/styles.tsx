@@ -84,3 +84,10 @@ export const buttonStyle = {
     border: "none"
 }
 
+export const deleteConfirmationButton = {
+    color: "red"
+}
+
+export const deleteAccountButton = {
+    color: "red"
+}
