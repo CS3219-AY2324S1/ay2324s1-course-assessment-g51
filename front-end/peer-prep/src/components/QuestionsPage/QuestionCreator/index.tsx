@@ -51,6 +51,7 @@ const QuestionCreator = () => {
                         value.map((option, index) => (
                             option == "" ? "" :
                             <Chip style={Styles.chipStyle} label={option} {...getTagProps({ index })} onDelete={() => {
+                                // TODO snackbar: do not allow deletion of last category
                                 dispatch(QuestionSlice.deleteFromCurrentCategories(index))}} />
                         ))}
                         renderInput={(params) => (
@@ -64,7 +65,7 @@ const QuestionCreator = () => {
                                 if (!currentCategories.includes(categoryBuffer)) {
                                     dispatch(QuestionSlice.updateCurrentCategories(categoryBuffer))
                                     dispatch(QuestionSlice.clearCategoryBuffer())
-                                } else { // show snackbar
+                                } else { // TODO snackbar: for duplicate category
 
                                 }
                                 console.log("keydown")
