@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as Styles from "./styles"
-import { TextField, Avatar, Snackbar, IconButton, Button } from "@mui/material";
+import { TextField, Avatar, Snackbar, 
+            IconButton, Button, Dialog,
+            DialogTitle, DialogActions, DialogContent, DialogContentText } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -21,6 +23,9 @@ const UserPage = () => {
     // State for pop up box after editing user profile.
     const [isEditSuccess, setIsEditSuccess] = useState(false)
     const [hasEmptyDetails, setHasEmptyDetails] = useState(false)
+
+    // State for deletion conformation pop up.
+    const [deletionConfimation, setDeletionConfirmation] = useState(false)
 
     // Gets user details from firebase.
     const user = auth.currentUser;
@@ -64,6 +69,14 @@ const UserPage = () => {
     const closeEditSuccessSnackbar = () => {
         setIsEditSuccess(false)
     };
+
+    const openDeleteConfirmation = () => {
+        setDeletionConfirmation(true)
+    }
+
+    const closeDeleteConfiramtion = () => { 
+        setDeletionConfirmation(false)
+    }
 
     // First time creation for new user if user does not exist.
     const postUserData = () => {
@@ -138,6 +151,7 @@ const UserPage = () => {
     const handleDeleteUser = () => {
         deleteUserData()
         deleteFirebaseUserData()
+        closeDeleteConfiramtion()
     }
     
     return (
@@ -160,7 +174,7 @@ const UserPage = () => {
                     <IconButton style={Styles.buttonStyle} onClick={() => handleEditUserData()}>
                         <SaveIcon sx={{color:"#F4C2C2",cursor:"pointer"}}/> 
                     </IconButton>
-                    <Button onClick={() => handleDeleteUser()}>
+                    <Button onClick={openDeleteConfirmation}>
                         delete account
                     </Button>
                     <Snackbar
@@ -179,6 +193,27 @@ const UserPage = () => {
                     <Snackbar
                         open={hasEmptyDetails} 
                         message={EmptyDetailsWarning}/>
+                    <Dialog
+                        open={deletionConfimation}
+                        onClose={closeDeleteConfiramtion}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                        {"Delete account?"}
+                        </DialogTitle>
+                        <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to delete your account?
+                        </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={closeDeleteConfiramtion}>Back</Button>
+                            <Button onClick={handleDeleteUser} 
+                                    autoFocus
+                                    sx={Styles.deleteConfirmationButton}>Delete</Button>
+                        </DialogActions>
+                    </Dialog>
                 </div>
             </div>
         </div>
