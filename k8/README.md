@@ -36,7 +36,7 @@ Go to our main directory
 
 Build all images
 ```bash
-  docker compose build -d
+  docker compose build
 ```
 Enable Kubernetes Cluster In Docker Desktop
 ![unknown_2023 10 15-05 21_2](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g51/assets/34855234/a24faf73-84fe-471f-8267-83aa68515691)

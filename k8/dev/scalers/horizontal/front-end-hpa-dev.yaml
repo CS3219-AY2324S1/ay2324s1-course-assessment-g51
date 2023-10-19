@@ -11,12 +11,13 @@ spec:
     minReplicas: 1 # Minimum number of pod replicas to maintain
     maxReplicas: 6 # Maximum number of pod replicas to scale up to
     metrics:
-        - type: Resource # Metric type, in this case, resource utilization
-          resource:
-              name: cpu # Resource metric to monitor (CPU in this case)
-              target:
-                  type: Utilization
-                  averageUtilization: 10
+        - type: Pods # Metric type, in this case, resource utilization
+          pods:                                                                                             
+            metric:
+                name: cpu
+            target:
+                type: Utilization 
+                averageValue: "100m"
     behavior:
         scaleDown:
             policies:

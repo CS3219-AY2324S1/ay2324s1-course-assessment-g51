@@ -8,6 +8,7 @@ resources:
   - ../dev/deployments/profile-service-deployment-dev.yaml
   - ../dev/deployments/question-service-deployment-dev.yaml
   - ../dev/deployments/postgres-statefulset-dev.yaml
+  - ../dev/deployments/prometheus-deployment-dev.yaml
 
   # Ingresses
   - ../dev/ingresses/nginx-ingress-dev.yaml
@@ -25,7 +26,9 @@ resources:
   # Volumes
   - ../dev/volumes/mongodb-pvc-dev.yaml
   - ../dev/volumes/postgres-pvc-dev.yaml
+  - ../dev/volumes/prometheus-pvc-dev.yaml
 
   # ConfigMaps
   - ../dev/configMaps/question-service-config-dev.yaml
   - ../dev/configMaps/postgres-config-dev.yaml
+  - ../dev/configMaps/prometheus-config-dev.yaml

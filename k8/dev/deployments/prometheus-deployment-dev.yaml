@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: prometheus-deployment-dev
+  namespace: dev
+spec:
+  serviceName: prometheus
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus:v2.33.1
+          ports:
+            - containerPort: 9090
+          env:
+            - name: PROMETHEUS_CONFIG
+              value: |
+                global:
+                    scrape_interval: 15s
+                    evaluation_interval: 15s
+                    retention: "12h"
+                scrape_configs:
+                    - job_name: 'prometheus'
+                    static_configs:
+                        - targets: ['localhost:9090']
+      volumes:
+        - name: prometheus-volume-data
+          persistentVolumeClaim:
+                      claimName: prometheus-data

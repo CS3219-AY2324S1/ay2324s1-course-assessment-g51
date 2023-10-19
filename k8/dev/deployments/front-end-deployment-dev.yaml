@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
     name: front-end-deployment-dev
     namespace: dev
+    annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
 spec:
     replicas: 1 # minimum num of replicas before HPA is activated
     selector:
