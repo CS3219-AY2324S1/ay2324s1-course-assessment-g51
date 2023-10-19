@@ -65,7 +65,7 @@ const QuestionCreator = () => {
                                 if (!currentCategories.includes(categoryBuffer)) {
                                     dispatch(QuestionSlice.updateCurrentCategories(categoryBuffer))
                                     dispatch(QuestionSlice.clearCategoryBuffer())
-                                } else { // TODO snackbar: for duplicate category
+                                } else { // TODO snackbar: duplicate category
 
                                 }
                                 console.log("keydown")
