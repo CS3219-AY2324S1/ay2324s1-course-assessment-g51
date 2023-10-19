@@ -30,7 +30,7 @@ const UserPage = () => {
     // Gets user details from firebase.
     const user = auth.currentUser;
     const authEmail = user?.providerData[0].email ?? ""
-    console.log(user)
+
     //const authEmail = user?.email ?? ""
     const authUsername = user?.displayName ?? ""
     const authUid = user?.uid
@@ -56,7 +56,6 @@ const UserPage = () => {
                 const data = response.data.data;
                 dispatch(UserSlice.updateUserData(data))
             }).catch((error) => {
-                console.log(error)
                 dispatch(UserSlice.updateCurrentEmail(authEmail))
                 dispatch(UserSlice.updateCurrentUsername(authUsername))
         })
@@ -127,24 +126,13 @@ const UserPage = () => {
     // Deletes user data from postgres database.
     const deleteUserData = () => {
         axios.delete(`https://api.peerprepgroup51sem1y2023.xyz/users/${authUid}`)
-            .then((response) => {
-                console.log(response)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+            .catch(() => {})
     }
 
     // Deletes user data from firebase.
     const deleteFirebaseUserData = () => {
         if (user) {
             user.delete()
-            .then((response) => {
-                console.log(response)
-            })
-            .catch((error) => {
-                console.error(error)
-            });
         }
     }
 

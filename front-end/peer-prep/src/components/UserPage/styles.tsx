@@ -89,5 +89,5 @@ export const deleteConfirmationButton = {
 }
 
 export const deleteAccountButton = {
-    color: "red",
+    color: "red"
 }
