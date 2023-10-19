@@ -6,7 +6,23 @@ import userRoutes from "./router/user-routes";
 
 const app = express();
 
-app.use(cors());
+// Configure CORS to allow our front-end domain to access the APIs
+// Before the end of this project, allows CORS for localhost too
+const corsOptions = {
+	origin: (origin, callback) => {
+	  	const allowedOrigins = [
+			"https://app.peerprepgroup51sem1y2023.xyz",
+			"http://localhost"
+	  	];
+		if (!origin || allowedOrigins.includes(origin)) {
+			callback(null, true);
+		} else {
+			callback(new Error("Not allowed by CORS"));
+		}
+	},
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.use("/users", userRoutes);
