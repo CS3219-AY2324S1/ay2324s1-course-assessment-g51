@@ -124,3 +124,6 @@ export const buttonStyle = {
     border: "none"
 }
 
+export const chipStyle = {
+    color: "white"
+}
