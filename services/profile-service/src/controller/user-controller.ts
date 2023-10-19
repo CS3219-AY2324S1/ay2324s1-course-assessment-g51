@@ -18,6 +18,7 @@ const ERR_MSG_BAD_REQUEST =
 const ERR_MSG_AGE_NEGATIVE = "Invalid age: Age cannot be negative.";
 const ERR_MSG_DUPLICATE =
 	"Update a resource that already exists or has conflicting information";
+const ERR_MSG_AGE_TOO_LARGE = "Invalid age: too large";
 
 //helper function to validate data
 async function validateData(userData: iUserData): Promise<string | null> {
@@ -38,6 +39,9 @@ async function validateData(userData: iUserData): Promise<string | null> {
 	}
 	if (userData.age < 0) {
 		return ERR_MSG_AGE_NEGATIVE;
+	}
+	if (userData.age >= 1000) {
+		return ERR_MSG_AGE_TOO_LARGE;
 	}
 	return null;
 }
