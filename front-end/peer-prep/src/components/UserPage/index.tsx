@@ -31,7 +31,6 @@ const UserPage = () => {
     const user = auth.currentUser;
     const authEmail = user?.providerData[0].email ?? ""
 
-    //const authEmail = user?.email ?? ""
     const authUsername = user?.displayName ?? ""
     const authUid = user?.uid
     
