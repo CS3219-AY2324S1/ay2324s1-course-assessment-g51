@@ -19,7 +19,7 @@ const QuestionCreator = () => {
     const currentCategories:string[] = useSelector(QuestionSlice.selectCurrentCategories)
     const currentDescription:string = useSelector(QuestionSlice.selectCurrentDescription)
     const numOfQuestions:number = useSelector(QuestionSlice.selectNumOfQuestions)
-    var categoryBuffer:string = ""
+    const categoryBuffer:string = useSelector(QuestionSlice.selectCategoryBuffer)
 
     // lifecycle methods here
 
@@ -38,11 +38,10 @@ const QuestionCreator = () => {
                         onChange={(event) => dispatch(QuestionSlice.updateCurrentTitle(event.target.value))}></TextField>
                     <TextField label="complexity" sx={Styles.labelStyle} value={currentComplexity} 
                         onChange={(event) => dispatch(QuestionSlice.updateCurrentComplexity(event.target.value))}></TextField>
-                    
-                    {/* <Autocomplete sx={Styles.labelStyle} options={[]} renderInput={() => <TextField label="categories" sx={{width:"100%"}}/>}/> */}
 
                     <Autocomplete
                         multiple
+                        clearOnBlur
                         freeSolo
                         disableClearable
                         value={currentCategories}
@@ -50,39 +49,34 @@ const QuestionCreator = () => {
                         sx={Styles.labelStyle}
                         renderTags={(value, getTagProps) =>
                         value.map((option, index) => (
+                            option == "" ? "" :
                             <Chip style={Styles.chipStyle} label={option} {...getTagProps({ index })} onDelete={() => {
                                 dispatch(QuestionSlice.deleteFromCurrentCategories(index))}} />
-                        ))
-                        }
-                        renderInput={params => (
+                        ))}
+                        renderInput={(params) => (
                         <TextField
                             {...params}
                             variant="outlined"
                             label="categories"
-                            placeholder=""
-                            onKeyDown={(val) => {
-                                if (val.key == "Enter" && categoryBuffer != "") {
+                            placeholder="Add a category"
+                            onKeyDown={(event) => {
+                            if (event.key == "Enter" && categoryBuffer != "") {
+                                if (!currentCategories.includes(categoryBuffer)) {
                                     dispatch(QuestionSlice.updateCurrentCategories(categoryBuffer))
-                                    categoryBuffer = ""
-                            }}}
+                                    dispatch(QuestionSlice.clearCategoryBuffer())
+                                } else { // show snackbar
+
+                                }
+                                console.log("keydown")
+                            }
+                        }}
                             onChange={(event) => {
-                                categoryBuffer = event.target.value
+                                dispatch(QuestionSlice.updateCategoryBuffer(event.target.value))
+                                console.log("changed")
                             }}
                         />
                         )}
                     />
-
-                    {/* <TextField
-                        inputProps={{
-                            startAdornment: currentCategories.map(cat => (
-                                <Chip
-                                    key={cat}
-                                    label={cat}></Chip>)),
-                            // }} label="categories" sx={Styles.labelStyle} value={currentCategories}
-                        }} label="categories" sx={Styles.labelStyle}
-                        onChange={(event) =>
-                            dispatch(QuestionSlice.updateCurrentCategories(event.target.value))}>
-                    </TextField> */}
 
                     <TextField label="description" sx={Styles.descriptionStyle} value={currentDescription} multiline rows={3}
                         onChange={(event) => dispatch(QuestionSlice.updateCurrentDescription(event.target.value))}></TextField>

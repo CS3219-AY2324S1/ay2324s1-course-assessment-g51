@@ -7,7 +7,8 @@ interface questionState {
     currentComplexity: string,
     currentCategories: string[],
     currentDescription: string,
-    questionsData: questionFormat[]
+    questionsData: questionFormat[],
+    categoryBuffer: string
 }
 
 interface questionFormat {
@@ -98,7 +99,8 @@ const questionSlice = createSlice({
                 "Complexity": "Medium",
                 "Description" : ""
             }
-        ]
+        ],
+        categoryBuffer: ""
     } as questionState,
     reducers: {
         toggleAddQuestionButton(state) {
@@ -121,7 +123,6 @@ const questionSlice = createSlice({
         },
         updateCurrentCategories(state,action: PayloadAction<string>) {
             const currentCategoryData = action.payload;
-            // state.currentCategories.pop();
             state.currentCategories.push(currentCategoryData);
         },
         updateCurrentDescription(state,action: PayloadAction<string>) {
@@ -195,8 +196,14 @@ const questionSlice = createSlice({
             }
         },
         deleteFromCurrentCategories(state, action:PayloadAction<number>) {
-            const categoryToDelete = action.payload;
-            state.currentCategories.splice(categoryToDelete, 1);
+            const categoryToDelete = action.payload
+            state.currentCategories.splice(categoryToDelete, 1)
+        },
+        updateCategoryBuffer(state, action:PayloadAction<string>) {
+            state.categoryBuffer = (action.payload)
+        },
+        clearCategoryBuffer(state) {
+            state.categoryBuffer = ""
         }
     }
 })
@@ -208,7 +215,8 @@ export const { toggleAddQuestionButton,
     updateCurrentCategories, updateCurrentDescription, 
     addNewQuestion, clearQuestionCreator, 
     initializeQuestionCreator, updateCurrentId,
-    updateCurrentQuestion, createNewQuestion, deleteQuestion, deleteFromCurrentCategories } = questionSlice.actions
+    updateCurrentQuestion, createNewQuestion, deleteQuestion, deleteFromCurrentCategories,
+    updateCategoryBuffer, clearCategoryBuffer } = questionSlice.actions
 
 // export main reducer
 export default questionSlice.reducer;
@@ -227,3 +235,4 @@ export const selectCurrentCategories = (state:any) => state.question.currentCate
 export const selectCurrentDescription = (state:any) => state.question.currentDescription
 export const selectQuestionsData = (state:any) => state.question.questionsData
 export const selectNumOfQuestions = (state:any) => state.question.questionsData.length
+export const selectCategoryBuffer = (state:any) => state.question.categoryBuffer
