@@ -174,7 +174,7 @@ const UserPage = () => {
                     <IconButton style={Styles.buttonStyle} onClick={() => handleEditUserData()}>
                         <SaveIcon sx={{color:"#F4C2C2",cursor:"pointer"}}/> 
                     </IconButton>
-                    <Button onClick={openDeleteConfirmation}>
+                    <Button sx={Styles.deleteAccountButton} onClick={openDeleteConfirmation}>
                         delete account
                     </Button>
                     <Snackbar
