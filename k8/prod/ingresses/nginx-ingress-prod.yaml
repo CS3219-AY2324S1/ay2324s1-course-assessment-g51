@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1 # API version for Ingress resource
+kind: Ingress # Kind of resource, which is an Ingress
+metadata: # Metadata for the Ingress resource
+    name: nginx-ingress-prod # Name of the Ingress resource
+    namespace: prod
+spec: # Specification for the Ingress resource
+    rules: # List of routing rules
+        - host: app.peerprepgroup51sem1y2023.xyz # Hostname to match in incoming requests
+          http: # Define how to handle HTTP traffic
+              paths: # List of paths to match
+                  - path: / # Path to match in the request
+                    pathType: Prefix # Type of path matching (Prefix matches paths with this prefix)
+                    backend: # Define where to route the matching requests
+                        service: # Specify a service as the backend
+                            name: front-end-service # Name of the service to route to
+                            port: # Port on the service
+                                number: 3000 # Port number to route to on the service
+
+        - host: api.peerprepgroup51sem1y2023.xyz
+          http:
+            paths:
+                - path: /user   # Match requests with a path prefix of "/user"
+                  pathType: Prefix
+                  backend:
+                        service: 
+                            name: profile-service-service
+                            port:
+                                number: 3100
+                - path: /question
+                  pathType: Prefix
+                  backend:
+                        service:
+                            name: question-service-service-dev
+                            port:
+                                number: 8080
+                            
+    # For adding SSL here next time
+    # tls:
+    # - hosts:
+    #   - api.peerprepgroup51sem1y2023.xyz
+    #   secretName: your-tls-secret

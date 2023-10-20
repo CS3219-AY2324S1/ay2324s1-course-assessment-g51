@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+    name: postgres-statefulset-prod # The name of the StatefulSet
+    namespace: prod # The namespace where the StatefulSet will be created
+
+spec:
+    replicas: 1 # Number of replica pods to create
+    serviceName: postgres-headless # A headless service for DNS-based discovery
+    selector:
+        matchLabels:
+            app: postgres # Select pods with the label "app: postgres"
+    updateStrategy:
+        type: RollingUpdate
+    template:
+        metadata:
+            labels:
+                app: postgres # Labels for pods created by the StatefulSet
+
+        spec:
+            containers:
+                - name: postgres # Name of the container
+                  image: postgres:16 # Docker image for the Postgres container
+                  ports:
+                      - containerPort: 5432 # Port to expose
+                  env:
+                      - name: POSTGRES_PASSWORD
+                        valueFrom:
+                            configMapKeyRef:
+                                name: postgres-config-prod
+                                key: POSTGRES_PASSWORD
+
+            volumes:
+                - name: postgres-volume-data
+                  persistentVolumeClaim:
+                      claimName: postgres-data

@@ -5,6 +5,7 @@ version: "3"
 services:
     front-end:
         container_name: front-end
+        image: front-end
         build:
             context: ./front-end/peer-prep
         ports:
@@ -12,19 +13,26 @@ services:
 
     question-service:
         container_name: question-service
+        image: question-service
+
+        # Comment below if hot-reloading
         build:
             context: ./services/question-service
-            target: dev
-            dockerfile: Dockerfile.dev
-        environment:
-            - MONGODB_URI=mongodb://mongodb:27017/question-service-api
-            - PORT_NUMBER=8080
         ports:
             - 8080:8080
-        depends_on:
-            - mongodb
-        volumes:
-            - ./services/question-service:/app
+
+        # Comment build onwards for testing with k8
+        # build:
+        #     context: ./services/question-service
+        #     target: dev
+        #     dockerfile: Dockerfile.dev
+        # environment:
+        #     - MONGODB_URI=mongodb://mongodb:27017/question-service-api
+        #     - PORT_NUMBER=8080
+        # depends_on:
+        #     - mongodb
+        # volumes:
+        #     - ./services/question-service:/app
 
     mongodb:
         container_name: mongodb
@@ -34,14 +42,22 @@ services:
         ports:
             - 27017:27017
 
+    postgres:
+        container_name: postgres
+        image: postgres
+        restart: always
+        ports:
+        - "5432:5432"
+
     profile-service:
         container_name: profile-service
+        image: profile-service
         build:
             context: ./services/profile-service
         ports:
             - 3100:3100
-        volumes:
-            - ./services/profile-service:/usr/src/app
+        # volumes:
+        #     - ./services/profile-service:/usr/src/app
 
 volumes:
     db-data:

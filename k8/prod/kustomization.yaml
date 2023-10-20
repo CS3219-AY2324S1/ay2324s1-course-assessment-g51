@@ -1,0 +1,38 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  # Deployments
+  - ../prod/deployments/front-end-deployment-prod.yaml
+  - ../prod/deployments/mongodb-statefulset-prod.yaml
+  - ../prod/deployments/profile-service-deployment-prod.yaml
+  - ../prod/deployments/question-service-deployment-prod.yaml
+  - ../prod/deployments/postgres-statefulset-prod.yaml
+  - ../prod/deployments/keel-deployment-prod.yaml
+
+  # Ingresses
+  - ../prod/ingresses/nginx-ingress-prod.yaml
+
+  # Scalers
+  - ../prod/scalers/horizontal/front-end-hpa-prod.yaml
+
+  # Services
+  - ../prod/services/front-end-service-prod.yaml
+  - ../prod/services/mongodb-service-prod.yaml
+  - ../prod/services/profile-service-service-prod.yaml
+  - ../prod/services/question-service-service-prod.yaml
+  - ../prod/services/postgres-service-prod.yaml
+
+  # Volumes
+  - ../prod/volumes/mongodb-pvc-prod.yaml
+  - ../prod/volumes/postgres-pvc-prod.yaml
+
+  # ConfigMaps
+  - ../prod/configMaps/question-service-config-prod.yaml
+  - ../prod/configMaps/postgres-config-prod.yaml
+
+  # Cluster Roles
+  - ../prod/accessControls/clusterRoles/list-watch-cluster-prod.yaml
+
+  # Cluster Bindings
+  - ../prod/accessControls/clusterRoleBindings/list-watch-cluster-binding-prod.yaml

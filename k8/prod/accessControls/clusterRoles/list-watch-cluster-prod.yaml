@@ -1,0 +1,22 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+    name: list-watch-cluster-prod
+    namespace: prod
+rules:
+  - apiGroups:
+        - apps
+    verbs:
+        - list
+        - watch
+    resources:
+        - statefulsets
+        - deployments
+        - daemonsets
+  - apiGroups:
+        - batch
+    resources:
+        - cronjobs
+    verbs:
+        - list
+        - watch
