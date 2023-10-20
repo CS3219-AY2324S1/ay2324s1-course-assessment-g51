@@ -1,8 +1,9 @@
 import bodyParser from "body-parser";
-import cors from "cors";
 import express, { Express, NextFunction, Request, Response } from "express";
 import "reflect-metadata";
 import userRoutes from "./router/user-routes";
+
+var cors = require("cors");
 
 const app = express();
 
@@ -14,7 +15,7 @@ const corsOptions = {
 			"https://app.peerprepgroup51sem1y2023.xyz",
 			"http://localhost:3000",
 		];
-		if (!origin || allowedOrigins.includes(origin)) {
+		if (!origin) {
 			callback(null, true);
 		} else {
 			callback(new Error("Not allowed by CORS"));
@@ -23,6 +24,14 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+// app.use(
+// 	cors({
+// 		origin: "*", // Allow requests from any origin
+// 	})
+// );
+
+//app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/users", userRoutes);
