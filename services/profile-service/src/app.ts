@@ -22,13 +22,15 @@ const app = express();
 // 	},
 // };
 
-const corsOptions = {
-	origin: (origin, callback) => {
-		callback(null, true);
-	},
-};
+// const corsOptions = {
+// 	origin: (origin, callback) => {
+// 		callback(null, true);
+// 	},
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/users", userRoutes);
