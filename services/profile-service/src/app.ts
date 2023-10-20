@@ -9,33 +9,27 @@ const app = express();
 
 // Configure CORS to allow our front-end domain to access the APIs
 // Before the end of this project, allows CORS for localhost too
-// const corsOptions = {
-// 	origin: (origin, callback) => {
-// 		const allowedOrigins = [
-// 			"https://app.peerprepgroup51sem1y2023.xyz",
-// 			"http://localhost:3000",
-// 		];
-// 		if (!origin) {
-// 			callback(null, true);
-// 		} else {
-// 			callback(new Error("Not allowed by CORS"));
-// 		}
-// 	},
-// };
+const corsOptions = {
+	origin: (origin, callback) => {
+		const allowedOrigins = [
+			"https://app.peerprepgroup51sem1y2023.xyz",
+			"http://localhost:3000",
+		];
+		if (!origin) {
+			callback(null, true);
+		} else {
+			callback(new Error("Not allowed by CORS"));
+		}
+	},
+};
 
-// const corsOptions = {
-// 	origin: (origin, callback) => {
-// 		callback(null, true);
-// 	},
-// };
+app.use(cors(corsOptions));
 
-// app.use(cors(corsOptions));
-
-app.use(
-	cors({
-		origin: "*", // Allow requests from any origin
-	})
-);
+// app.use(
+// 	cors({
+// 		origin: "*", // Allow requests from any origin
+// 	})
+// );
 
 //app.use(cors());
 app.use(bodyParser.json());
