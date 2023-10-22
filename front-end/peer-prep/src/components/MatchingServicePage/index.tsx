@@ -10,14 +10,20 @@ import {
     FormControl,
     InputLabel,
     Select,
-    MenuItem
+    MenuItem,
+    Stepper,
+    Step,
+    StepLabel,
+    Box,
+    Button
  } from '@mui/material';
 import { ArrowForwardIos, ArrowBackIos } from '@mui/icons-material';
 
 import { useState } from 'react';
+import React from 'react';
 
 const languages = ["Python", "Java", "Javascript", "C#", "Java"];
-const progressMessage = [
+const steps = [
     "Select preferred languages", 
     "Select preferred difficulty",
     "Select questions",
@@ -63,6 +69,7 @@ const DifficultySelection = () => {
 
 const MatchingServicePage = () => {
     const [progress, setProgress] = useState(1);
+    const [activeStep, setActiveStep] = useState(0);
     
     const handleBackClick = () => {
         if (progress > 1) {
@@ -76,38 +83,52 @@ const MatchingServicePage = () => {
         }
     };
 
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      };
+    
+      const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+      };
+
     return(
         <div style={Styles.matchingServicePageContainerStyle}>
-            <div style={Styles.progressBarContainerStyle}>
-                    <div style={Styles.progressBarComponentStyle}>
-                        <Typography sx={Styles.circleStyle}>1</Typography>
-                        <Typography sx={Styles.textStyle}>{progressMessage[0]}</Typography>
-                        <div style={Styles.horizontalLineStyle}></div>
-                    </div>
-                    <div style={Styles.progressBarComponentStyle}>
-                        <Typography sx={Styles.circleStyle}>2</Typography>
-                        <Typography sx={Styles.textStyle}>{progressMessage[1]}</Typography>
-                        <div style={Styles.horizontalLineStyle}></div>
-                    </div>
-                    <div style={Styles.progressBarComponentStyle}>
-                        <Typography sx={Styles.circleStyle}>3</Typography>
-                        <Typography sx={Styles.textStyle}>{progressMessage[2]}</Typography>
-                        <div style={Styles.horizontalLineStyle}></div>
-                    </div>
-                    <div style={Styles.progressBarComponentStyle}>
-                        <Typography sx={Styles.circleStyle}>4</Typography>
-                        <Typography sx={Styles.textStyle}>{progressMessage[3]}</Typography>
-                    </div>
-            </div>
-            <div style={Styles.mainContainerStyle}>
-                <IconButton onClick={handleBackClick}>
-                    <ArrowBackIos sx={Styles.arrowStyle}/>
-                </IconButton>
-                    {progress === 1 ? <LanguageSelection/> : <DifficultySelection/>}
-                <IconButton onClick={handleForwardClick}>
-                    <ArrowForwardIos sx={Styles.arrowStyle}/>
-                </IconButton>
-            </div>
+            <Stepper sx={Styles.stepperStyle} activeStep={activeStep}>
+                {steps.map((label, index) => {
+                return (
+                    <Step key={label}>
+                        <StepLabel>{label}</StepLabel>
+                    </Step>
+                );
+                })}
+            </Stepper>
+            {activeStep === steps.length ? (
+                <React.Fragment>
+                <Typography sx={{ mt: 2, mb: 1 }}>
+                    All steps completed - you&apos;re finished
+                </Typography>
+                </React.Fragment>
+            ) : (
+                
+                <div style={Styles.mainContainerStyle}>
+                    <Button
+                        color="inherit"
+                        disabled={activeStep === 0}
+                        onClick={handleBack}
+                        sx={{ mr: 1 }}
+                        >
+                        Back
+                    </Button>
+
+                    {activeStep === 0 ? <LanguageSelection/> : <DifficultySelection/>}
+
+                    <Button onClick={handleNext}>
+                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    </Button>
+                </div>
+
+
+            )}
         </div>
     )
 };

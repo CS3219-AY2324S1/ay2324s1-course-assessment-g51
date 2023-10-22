@@ -5,7 +5,7 @@ export const matchingServicePageContainerStyle = {
     display: "grid",
     justifyItems: "center",
     alignItems: "center",
-    gridTemplateRows: "1fr 4fr"
+    gridTemplateRows: "2fr 6fr 2fr"
 }
 
 export const checkBoxStyle = {
@@ -52,9 +52,8 @@ export const textStyle = {
 }
 
 export const mainContainerStyle = {
-    marginTop: "-10%",
     display: "grid",
-    width: "100%",
+    width: "80%",
     gridTemplateColumns: "1fr 6fr 1fr",
     gridColumnGap: "20%",
     alignItems: "center",
@@ -80,4 +79,20 @@ export const difficultyStyle = {
         color: "white",
         borderColor: "white"
     }
+}
+
+export const stepperStyle = {
+    width: "80%",
+    '.MuiSvgIcon-root': {
+        color: "pink",
+    },
+    '& .Mui-disabled': {
+        color: "white"
+    },
+    '.MuiStepLabel-root .Mui-completed' : {
+        color: "#90EE90",
+    },
+    '& .Mui-active': {
+        color: "pink"
+    },
 }
