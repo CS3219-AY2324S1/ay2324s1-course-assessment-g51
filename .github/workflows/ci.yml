@@ -7,8 +7,6 @@ on:
       - reopened
       - synchronize
       - ready_for_review
-    paths:
-      - "services/question-service/**"
 
 jobs:
   question-service-unit-test:
