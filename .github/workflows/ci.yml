@@ -13,7 +13,8 @@ jobs:
     runs-on: ubuntu-latest
 
     defaults:
-      working-directory: services/question-service
+      run:
+        working-directory: services/question-service
 
     steps:
       - name: Checkout code
