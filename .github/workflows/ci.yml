@@ -1,0 +1,36 @@
+name: Run Unit Tests For Modified Services
+
+id: unit-tests
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    paths:
+      - "services/question-service/**"
+
+jobs:
+  question-service-unit-test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: services/question-service
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test
