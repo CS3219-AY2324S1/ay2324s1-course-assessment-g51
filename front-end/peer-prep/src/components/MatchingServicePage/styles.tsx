@@ -68,32 +68,14 @@ export const arrowStylesDisabled = {
     color: "#131B25"
 }
 
-export const difficultyStyle = {
-    borderColor: "white",
+export const selectStyle = {
     color: "white",
-
     '.MuiSvgIcon-root': {
         color: "white"
     },
-    '.MuiFormControl-root': {
-        '&:hover': {
-            borderColor: "pink"
-        }
-    },
-    '.MuiInputLabel-outlined': {
-        color: "white",
-        borderColor: "white"
-    },
     '& .MuiOutlinedInput-notchedOutline': {
-         borderColor: 'pink',
-         '&:hover': {
-            borderColor: "pink",
-            color: "pink"
-         },
-         '&:focus': {
-            borderColor: "red"
-         }
-    }
+        borderColor: 'pink',
+   }
 }
 
 export const stepperStyle = {

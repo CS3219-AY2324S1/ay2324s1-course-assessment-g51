@@ -50,11 +50,11 @@ const LanguageSelection = () => {
 
 const DifficultySelection = () => {
     return (
-        <FormControl sx={Styles.difficultyStyle} fullWidth>
-        <InputLabel sx={Styles.difficultyStyle}>Difficulty</InputLabel>
+        <FormControl fullWidth>
+        <InputLabel sx={Styles.textStyle}>Difficulty</InputLabel>
         <Select
             label="Difficulty"
-            sx={Styles.difficultyStyle}
+            sx={Styles.selectStyle}
         >
             <MenuItem value={"easy"}>Easy</MenuItem>
             <MenuItem value={"medium"}>Medium</MenuItem>
@@ -67,11 +67,11 @@ const DifficultySelection = () => {
 
 const QuestionSelection = () => {
     return (
-        <FormControl sx={Styles.difficultyStyle} fullWidth>
-        <InputLabel sx={Styles.difficultyStyle}>Questions</InputLabel>
+        <FormControl fullWidth>
+        <InputLabel sx={Styles.textStyle}>Questions</InputLabel>
         <Select
             label="Questions"
-            sx={Styles.difficultyStyle}
+            sx={Styles.selectStyle}
         >
             <MenuItem value={"test"}>Test</MenuItem>
         </Select>
