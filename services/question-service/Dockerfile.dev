@@ -31,5 +31,8 @@ COPY --from=build /app/package*.json ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 
+# Expose the desired port (adjust as needed)
+EXPOSE 3000
+
 # Start your application (replace this with your startup command)
 CMD ["node", "dist/app.js"]
