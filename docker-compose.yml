@@ -64,6 +64,7 @@ services:
         build: 
             context: ./services/matching-service
             target: dev
+        command: ["npm", "run", "dev"]
         environment:
             - PORT_NUMBER=8000
             - AMQP_URL=amqp://rabbitmq:5672
@@ -91,6 +92,7 @@ services:
         build:
             context: ./services/matching-worker-service
             target: dev
+        command: ["npm", "run", "start:migrate:dev"]
         environment:
             - AMQP_URL=amqp://rabbitmq:5672
             - DATABASE_URL=postgresql://root:secret@matching-service-db:5432/matching_service?schema=public
