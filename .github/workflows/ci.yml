@@ -7,13 +7,14 @@ on:
       - reopened
       - synchronize
       - ready_for_review
-    paths:
-      - "services/question-service/**"
 
 jobs:
   question-service-unit-test:
     runs-on: ubuntu-latest
-    working-directory: services/question-service
+
+    defaults:
+      working-directory: services/question-service
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
