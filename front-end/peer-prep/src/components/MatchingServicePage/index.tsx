@@ -111,19 +111,21 @@ const MatchingServicePage = () => {
             ) : (
                 
                 <div style={Styles.mainContainerStyle}>
-                    <Button
-                        color="inherit"
+                    <IconButton
                         disabled={activeStep === 0}
                         onClick={handleBack}
-                        sx={{ mr: 1 }}
                         >
-                        Back
-                    </Button>
+                        <ArrowBackIos sx={activeStep === 0 
+                                            ? Styles.arrowStylesDisabled
+                                            : Styles.arrowStyle}/>
+                    </IconButton>
 
                     {activeStep === 0 ? <LanguageSelection/> : <DifficultySelection/>}
 
                     <Button onClick={handleNext}>
-                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                        {activeStep === steps.length - 1 
+                            ? 'Finish' 
+                            : <ArrowForwardIos sx={Styles.arrowStyle}/>}
                     </Button>
                 </div>
 

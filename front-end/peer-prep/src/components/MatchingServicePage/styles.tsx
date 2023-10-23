@@ -64,21 +64,12 @@ export const arrowStyle = {
     color: "pink"
 }
 
+export const arrowStylesDisabled = {
+    color: "#131B25"
+}
+
 export const difficultyStyle = {
     color: "pink",
-    borderColor: "white",
-    '& MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root': {
-        color: "white",
-        borderColor: "white"
-    },
-    '& MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': {
-        color: "white",
-        borderColor: "white"
-    },
-    '& MuiOutlinedInput-notchedOutline': {
-        color: "white",
-        borderColor: "white"
-    }
 }
 
 export const stepperStyle = {
@@ -92,7 +83,10 @@ export const stepperStyle = {
     '.MuiStepLabel-root .Mui-completed' : {
         color: "#90EE90",
     },
-    '& .Mui-active': {
-        color: "pink"
+    '.MuiStepLabel-root .Mui-active': {
+        color: "rgb(240, 105, 180)"
     },
+    '& .MuiStepIcon-text': {
+        fill: "black"
+    }
 }
