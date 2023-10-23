@@ -11,8 +11,9 @@ on:
       - "services/question-service/**"
 
 jobs:
-  test:
+  question-service-unit-test:
     runs-on: ubuntu-latest
+    working-directory: services/question-service
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
