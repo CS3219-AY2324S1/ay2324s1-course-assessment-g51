@@ -1,14 +1,38 @@
-FROM node:18-buster AS base
-RUN apt-get install libcurl4
+# Stage 1: Build
+FROM node:18-alpine AS build
+
 WORKDIR /app
 
-COPY package*.json .
-RUN npm install
+# Copy package.json and package-lock.json to cache dependencies
+COPY package*.json ./
 
+# Install production dependencies
+RUN npm install --production
+
+# Copy the application code
 COPY . .
 
-FROM base AS test
-CMD ["npm", "run", "test"]
+# Build the application (replace this with your build command)
+RUN npm run build
 
-FROM base AS dev
-CMD ["npm", "run", "dev"]
+# Stage 2: Development
+FROM build AS dev
+
+# Install development dependencies
+RUN npm install --only=development
+
+# Stage 3: Production
+FROM node:18-alpine AS production
+
+WORKDIR /app
+
+# Copy only production-ready files from the build stage
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
+
+# Expose the desired port (adjust as needed)
+EXPOSE 3000
+
+# Start your application (replace this with your startup command)
+CMD ["node", "dist/app.js"]
