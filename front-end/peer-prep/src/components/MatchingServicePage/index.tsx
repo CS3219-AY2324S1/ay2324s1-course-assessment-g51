@@ -14,8 +14,8 @@ import {
     Stepper,
     Step,
     StepLabel,
-    Box,
-    Button
+    Button,
+    CircularProgress
  } from '@mui/material';
 import { ArrowForwardIos, ArrowBackIos } from '@mui/icons-material';
 
@@ -27,7 +27,7 @@ const steps = [
     "Select preferred languages", 
     "Select preferred difficulty",
     "Select questions",
-    "Select partner"
+    "Find partner"
 ];
 
 const LanguageSelection = () => {
@@ -65,23 +65,34 @@ const DifficultySelection = () => {
     )
 };
 
+const QuestionSelection = () => {
+    return (
+        <FormControl sx={Styles.difficultyStyle} fullWidth>
+        <InputLabel sx={Styles.difficultyStyle}>Questions</InputLabel>
+        <Select
+            label="Questions"
+            sx={Styles.difficultyStyle}
+        >
+            <MenuItem value={"test"}>Test</MenuItem>
+        </Select>
+        </FormControl>
+    )
+};
 
+const FindPartner = () => {
+    return (
+        <Stack direction="row" spacing={10}>
+            <Stack>
+                <Typography sx={Styles.textStyle}>Searching for partner...</Typography>
+                <Typography sx={Styles.textStyle}>Hang tight!</Typography>
+            </Stack>
+            <CircularProgress sx={Styles.circularProgressStyle}/>
+        </Stack>
+    )
+}
 
 const MatchingServicePage = () => {
-    const [progress, setProgress] = useState(1);
     const [activeStep, setActiveStep] = useState(0);
-    
-    const handleBackClick = () => {
-        if (progress > 1) {
-            setProgress(progress - 1);
-        }
-    };
-
-    const handleForwardClick = () => {
-        if (progress < 4) {
-            setProgress(progress + 1);
-        }
-    };
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -120,7 +131,13 @@ const MatchingServicePage = () => {
                                             : Styles.arrowStyle}/>
                     </IconButton>
 
-                    {activeStep === 0 ? <LanguageSelection/> : <DifficultySelection/>}
+                    {activeStep === 0 
+                        ? <LanguageSelection/> 
+                        : activeStep === 1
+                        ? <DifficultySelection/>
+                        : activeStep === 2
+                        ? <QuestionSelection/>
+                        : <FindPartner/>}
 
                     <Button onClick={handleNext}>
                         {activeStep === steps.length - 1 
