@@ -50,7 +50,15 @@ const LanguageSelection = () => {
 
 const DifficultySelection = () => {
     return (
-        <FormControl fullWidth>
+        <FormControl sx={{
+            '&:hover': {
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'pink', // Change to your desired border color
+                color: "pink",
+              },
+              borderColor: "pink"
+            }
+          }} fullWidth>
         <InputLabel sx={Styles.textStyle}>Difficulty</InputLabel>
         <Select
             label="Difficulty"
