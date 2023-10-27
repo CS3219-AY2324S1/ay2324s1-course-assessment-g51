@@ -1,13 +1,16 @@
 name: Build and Push Question Service to Gitlab Container Registry
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: #manual trigger
   push:
     branches:
       - master # Adjust this to the branch you want to trigger the workflow on
     paths:
       - "services/question-service/**"
-
+  workflow_run:
+    workflows: ["ci.yml"] # Name of the CI workflow
+    types:
+      - completed
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
