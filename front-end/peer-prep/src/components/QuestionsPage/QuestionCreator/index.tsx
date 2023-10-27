@@ -3,14 +3,16 @@ import { useEffect } from "react";
 // import inline styles
 import * as Styles from "./styles";
 import SaveIcon from '@mui/icons-material/Save';
-import { TextField, Chip, Autocomplete, Select, FormControl, InputLabel, MenuItem, SelectChangeEvent, Tooltip, Snackbar, Alert } from "@mui/material";
+import { TextField, Chip, Autocomplete, Select, FormControl, InputLabel, MenuItem, SelectChangeEvent, Tooltip, Snackbar, Alert, Button, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import * as QuestionSlice from "../../redux/reducers/Question/QuestionSlice"
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const QuestionCreator = () => {
     // for dispatching actions
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     // selectors
     const currentQuestionId: string = useSelector(QuestionSlice.selectCurrentId)
@@ -20,6 +22,7 @@ const QuestionCreator = () => {
     const currentDescription: string = useSelector(QuestionSlice.selectCurrentDescription)
     const numOfQuestions: number = useSelector(QuestionSlice.selectNumOfQuestions)
     const categoryBuffer: string = useSelector(QuestionSlice.selectCategoryBuffer)
+    const isAddQuestionButtonToggled: boolean = useSelector(QuestionSlice.selectAddQuestionButtonStatus)
 
     const [isErrorSnackbarOpen, openErrorSnackbar] = React.useState(false)
     const [isSuccessSnackbarOpen, openSuccessSnackbar] = React.useState(false)
@@ -34,6 +37,10 @@ const QuestionCreator = () => {
     useEffect(() => {
         dispatch(QuestionSlice.initializeQuestionCreator())
     }, [])
+
+    const attemptQuestion = () => {
+        navigate("/match")
+    }
 
     return (
         <div style={Styles.questionCreatorContainerStyle}>
@@ -109,35 +116,38 @@ const QuestionCreator = () => {
                         onChange={(event) => dispatch(QuestionSlice.updateCurrentDescription(event.target.value))}>
                     </TextField>
 
-                    <Tooltip title="Save">
-                        <button style={Styles.buttonStyle} onClick={() => {
-                            // form error checks and handling
-                            if (currentTitle === "") {
-                                giveSnackbarMsg("Please provide a title.")
-                                openErrorSnackbar(true)
-                            } else if (currentComplexity === "") {
-                                giveSnackbarMsg("Please choose a complexity.")
-                                openErrorSnackbar(true)
-                            } else if (currentCategories.length < 1) {
-                                giveSnackbarMsg("Please provide at least 1 category.")
-                                openErrorSnackbar(true)
-                            } else if (currentDescription === "") {
-                                giveSnackbarMsg("Please give a description.")
-                                openErrorSnackbar(true)
-                            } else if (parseInt(currentQuestionId) <= numOfQuestions) { // TODO investigate for cause of list ordering bug
-                                dispatch(QuestionSlice.updateCurrentQuestion())
-                                giveSnackbarMsg("Question details updated.")
-                                openSuccessSnackbar(true)
-                            } else {
-                                dispatch(QuestionSlice.addNewQuestion());
-                                giveSnackbarMsg("New question created.")
-                                openSuccessSnackbar(true)
-                                //dispatch(QuestionSlice.clearQuestionCreator())
-                            }
-                        }}>
-                            <SaveIcon sx={{ color: "#F4C2C2", cursor: "pointer" }} />
-                        </button>
-                    </Tooltip>
+                    <Stack direction="row" alignItems="flex-end" justifyContent="flex-end">
+                        {(isAddQuestionButtonToggled) ? <></> : <Button variant="outlined" onClick={attemptQuestion}>Attempt Question</Button>}
+                        <Tooltip title="Save">
+                            <button style={Styles.buttonStyle} onClick={() => {
+                                // form error checks and handling
+                                if (currentTitle === "") {
+                                    giveSnackbarMsg("Please provide a title.")
+                                    openErrorSnackbar(true)
+                                } else if (currentComplexity === "") {
+                                    giveSnackbarMsg("Please choose a complexity.")
+                                    openErrorSnackbar(true)
+                                } else if (currentCategories.length < 1) {
+                                    giveSnackbarMsg("Please provide at least 1 category.")
+                                    openErrorSnackbar(true)
+                                } else if (currentDescription === "") {
+                                    giveSnackbarMsg("Please give a description.")
+                                    openErrorSnackbar(true)
+                                } else if (parseInt(currentQuestionId) <= numOfQuestions) { // TODO investigate for cause of list ordering bug
+                                    dispatch(QuestionSlice.updateCurrentQuestion())
+                                    giveSnackbarMsg("Question details updated.")
+                                    openSuccessSnackbar(true)
+                                } else {
+                                    dispatch(QuestionSlice.addNewQuestion());
+                                    giveSnackbarMsg("New question created.")
+                                    openSuccessSnackbar(true)
+                                    //dispatch(QuestionSlice.clearQuestionCreator())
+                                }
+                            }}>
+                                <SaveIcon sx={{ color: "#F4C2C2", cursor: "pointer" }} />
+                            </button>
+                        </Tooltip>
+                    </Stack>
 
                     <Snackbar
                         open={isErrorSnackbarOpen}

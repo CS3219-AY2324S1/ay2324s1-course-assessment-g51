@@ -34,7 +34,10 @@ const CustomList = () => {
                     additionalStackContainerStyle = {}
                 }
                 return (
-                    <ListItem onClick={() => dispatch(QuestionSlice.updateCurrentId(question.Id))}>
+                    <ListItem onClick={() => {
+                        dispatch(QuestionSlice.toggleAddQuestionButton(false))
+                        dispatch(QuestionSlice.updateCurrentId(question.Id))
+                    }}>
                         <Stack direction="column" sx={{ ...Style.stackContainerStyle, ...additionalStackContainerStyle }}>
                             <Stack direction="row" justifyContent="space-between">
                                 <Stack direction="row" alignItems="center" sx={Style.questionHeadingsStyle}>

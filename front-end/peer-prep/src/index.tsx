@@ -104,6 +104,7 @@ const RootApp = () => {
 							}
 						>
 							<Route path="home" element={<QuestionsPage />} />
+							<Route path="match" element={<MatchingServicePage />} />
 							<Route path="user" element={<UserPage />} />
 						</Route>
 						{/* All non-protected routes are written here */}
@@ -113,10 +114,6 @@ const RootApp = () => {
 						<Route path="/goodbye" element={<GoodbyePage />} />
 						<Route path="/verify" element={<VerificationPage />} />
 						<Route path="/delete" element={<DeletePage />} />
-						<Route
-							path="/match"
-							element={<MatchingServicePage />}
-						/>
 					</Routes>
 				</BrowserRouter>
 			</div>

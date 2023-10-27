@@ -22,7 +22,6 @@ const QuestionsPage = () => {
     }
     const isUserAnAdmin: boolean = useSelector(UserSlice.isUserAnAdmin);
 
-
     return (
         <div style={questionPageContainerStyle}>
             <QuestionList />
