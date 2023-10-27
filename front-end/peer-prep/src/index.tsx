@@ -75,7 +75,7 @@ const RedirectUserRoute = () => {
 	}
 	axios({
 		method: "get",
-		url: `https://api.peerprepgroup51sem1y2023.xyz/users/${uid}`,
+		url: `https://api.peerprepgroup51sem1y2023.xyz/users/profile/${uid}`,
 	}).catch((error) => {
 		console.log(error);
 		dispatch(UserSlice.setIsFirstTimeLogin(true));
@@ -118,7 +118,10 @@ const RootApp = () => {
 							path="/match"
 							element={<MatchingServicePage />}
 						/>
+<<<<<<< HEAD
 						<Route path="/match" element={<AdminPage />} />
+=======
+>>>>>>> master
 					</Routes>
 				</BrowserRouter>
 			</div>

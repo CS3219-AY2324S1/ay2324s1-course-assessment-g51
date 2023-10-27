@@ -19,4 +19,10 @@ export class User {
 
 	@Column()
 	age: number;
+
+	@Column({ default: false })
+	isAdmin: boolean;
+
+	@Column({ default: false })
+	isRequestingAdmin: boolean;
 }
