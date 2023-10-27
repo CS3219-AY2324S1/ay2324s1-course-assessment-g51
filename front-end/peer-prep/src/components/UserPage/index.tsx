@@ -65,7 +65,7 @@ const UserPage = () => {
 	useEffect(() => {
 		axios({
 			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/users/${authUid}`,
+			url: `https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`,
 		})
 			.then((response) => {
 				const data = response.data.data;
@@ -96,7 +96,7 @@ const UserPage = () => {
 	// First time creation for new user if user does not exist.
 	const postUserData = () => {
 		axios
-			.post(`https://api.peerprepgroup51sem1y2023.xyz/users/`, {
+			.post(`https://api.peerprepgroup51sem1y2023.xyz/users/profile/`, {
 				username: currentUsername,
 				email: currentEmail,
 				firstName: currentFirstName,
@@ -119,14 +119,17 @@ const UserPage = () => {
 	// Updates user data after editing.
 	const putUserData = () =>
 		axios
-			.put(`https://api.peerprepgroup51sem1y2023.xyz/users/${authUid}`, {
-				username: currentUsername,
-				email: currentEmail,
-				firstName: currentFirstName,
-				lastName: currentLastName,
-				age: currentAge,
-				uid: authUid,
-			})
+			.put(
+				`https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`,
+				{
+					username: currentUsername,
+					email: currentEmail,
+					firstName: currentFirstName,
+					lastName: currentLastName,
+					age: currentAge,
+					uid: authUid,
+				}
+			)
 			.then(() => {
 				setHasEmptyDetails(false);
 			})
@@ -145,7 +148,9 @@ const UserPage = () => {
 	// Deletes user data from postgres database.
 	const deleteUserData = () => {
 		axios
-			.delete(`https://api.peerprepgroup51sem1y2023.xyz/users/${authUid}`)
+			.delete(
+				`https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`
+			)
 			.catch(() => {});
 	};
 
