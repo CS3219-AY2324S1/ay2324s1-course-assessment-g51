@@ -70,12 +70,18 @@ export const arrowStylesDisabled = {
 
 export const selectStyle = {
     color: "white",
+    backgroundColor: "#1B2735",
     '.MuiSvgIcon-root': {
         color: "white"
     },
     '& .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'pink',
-   }
+        borderColor: '#1B2735',
+   },
+   '&:hover': {
+        '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: "pink" // changes border color on hover 
+        }
+    }
 }
 
 export const stepperStyle = {
