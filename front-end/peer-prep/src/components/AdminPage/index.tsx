@@ -36,7 +36,11 @@ const AdminPage = () => {
 	if (isAdmin) {
 		return <></>;
 	} else {
-		return <RequestPage />;
+		if (currentUserUid) {
+			return <RequestPage uid={currentUserUid} />;
+		} else {
+			return <></>;
+		}
 	}
 };
 

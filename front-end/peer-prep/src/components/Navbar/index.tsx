@@ -25,6 +25,10 @@ const navbarRoutes = [
 		text: "Profile",
 		link: "/user",
 	},
+	{
+		text: "Admin",
+		link: "/admin",
+	},
 ];
 
 const settings = [

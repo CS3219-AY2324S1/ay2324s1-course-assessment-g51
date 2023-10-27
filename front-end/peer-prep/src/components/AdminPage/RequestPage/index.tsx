@@ -4,15 +4,29 @@ import { useNavigate } from "react-router-dom";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-const RequestPage = () => {
+const RequestPage = (props: any) => {
 	const navigate = useNavigate();
+	const [isClicked, setIsClicked] = useState(false);
 
 	//back button brings it back to sign in
 	const iconHandler = () => {
 		navigate("/home");
 		//window.location.reload();
+	};
+
+	//change requesting to yes
+	const buttonHandler = () => {
+		axios
+			.put(`https://api.peerprepgroup51sem1y2023.xyz/users/request/`, {
+				toUpdate: [[props.uid, true]],
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		setIsClicked(true);
 	};
 
 	return (
@@ -49,7 +63,8 @@ const RequestPage = () => {
 						}}
 						endIcon={<NavigateNextIcon />}
 						size="large"
-						onClick={() => {}}
+						onClick={buttonHandler}
+						disabled={isClicked}
 					>
 						Become an admin
 					</Button>
