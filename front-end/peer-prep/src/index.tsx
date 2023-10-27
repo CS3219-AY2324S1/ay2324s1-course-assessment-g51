@@ -118,10 +118,7 @@ const RootApp = () => {
 							path="/match"
 							element={<MatchingServicePage />}
 						/>
-<<<<<<< HEAD
-						<Route path="/match" element={<AdminPage />} />
-=======
->>>>>>> master
+						<Route path="/admin" element={<AdminPage />} />
 					</Routes>
 				</BrowserRouter>
 			</div>
