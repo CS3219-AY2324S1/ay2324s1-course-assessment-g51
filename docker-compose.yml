@@ -15,24 +15,24 @@ services:
         container_name: question-service
         image: question-service
 
-        # Comment below if hot-reloading
-        build:
-            context: ./services/question-service
-        ports:
-            - 8080:8080
-
-        # Comment build onwards for testing with k8
+        # Uncomment for testing with k8s 
         # build:
         #     context: ./services/question-service
-        #     target: dev
-        #     dockerfile: Dockerfile.dev
-        # environment:
-        #     - MONGODB_URI=mongodb://mongodb:27017/question-service-api
-        #     - PORT_NUMBER=8080
-        # depends_on:
-        #     - mongodb
-        # volumes:
-        #     - ./services/question-service:/app
+        # ports:
+        #     - 8080:8080
+
+        # Uncomment for hot reloading
+        build:
+            context: ./services/question-service
+            target: dev
+        command: ["npm", "run", "dev"]
+        environment:
+            - MONGODB_URI=mongodb://mongodb:27017/question-service-api
+            - PORT_NUMBER=8080
+        depends_on:
+            - mongodb
+        volumes:
+            - ./services/question-service:/app
 
     mongodb:
         container_name: mongodb
@@ -59,5 +59,67 @@ services:
         # volumes:
         #     - ./services/profile-service:/usr/src/app
 
+    matching-service:
+        container_name: matching-service
+        build: 
+            context: ./services/matching-service
+            target: dev
+        command: ["npm", "run", "dev"]
+        environment:
+            - PORT_NUMBER=8000
+            - AMQP_URL=amqp://rabbitmq:5672
+        ports:
+            - 8000:8000
+        depends_on:
+            - rabbitmq
+        links: 
+            - rabbitmq
+        volumes:
+            - ./services/matching-service:/app
+
+    rabbitmq:
+        image: rabbitmq:management
+        container_name: rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
+        ports:
+            - 5672:5672
+            - 15672:15672
+    
+    matching-worker-service:
+        container_name: matching-worker-service
+        build:
+            context: ./services/matching-worker-service
+            target: dev
+        command: ["npm", "run", "start:migrate:dev"]
+        environment:
+            - AMQP_URL=amqp://rabbitmq:5672
+            - DATABASE_URL=postgresql://root:secret@matching-service-db:5432/matching_service?schema=public
+        depends_on:
+            - rabbitmq
+            - matching-service-db
+        links: 
+            - rabbitmq
+            - matching-service-db
+        volumes:
+            - ./services/matching-worker-service:/app
+
+    matching-service-db:
+        image: postgres:16-alpine
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=secret
+            - POSTGRES_DB=matching_service
+        ports:
+            - 5432:5432
+        volumes:
+            - matching-service-data:/var/lib/postgresql/data
+
+networks:
+    default:
+        driver: bridge
+        
 volumes:
     db-data:
+    matching-service-data:

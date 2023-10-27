@@ -29,7 +29,8 @@ import SignInPage from "./components/Auth/SignInPage";
 import Navbar from "./components/Navbar";
 import GoodbyePage from "./components/Auth/GoodbyePage";
 import VerificationPage from "./components/Auth/VerificationPage";
-import DeletePage from "./components/DeletePage"
+import DeletePage from "./components/DeletePage";
+import MatchingServicePage from "./components/MatchingServicePage";
 
 import axios from "axios";
 
@@ -73,7 +74,7 @@ const RedirectUserRoute = () => {
 	}
 	axios({
 		method: "get",
-		url: `https://api.peerprepgroup51sem1y2023.xyz/users/${uid}`,
+		url: `https://api.peerprepgroup51sem1y2023.xyz/users/profile/${uid}`,
 	}).catch((error) => {
 		console.log(error);
 		dispatch(UserSlice.setIsFirstTimeLogin(true));
@@ -112,6 +113,10 @@ const RootApp = () => {
 						<Route path="/goodbye" element={<GoodbyePage />} />
 						<Route path="/verify" element={<VerificationPage />} />
 						<Route path="/delete" element={<DeletePage />} />
+						<Route
+							path="/match"
+							element={<MatchingServicePage />}
+						/>
 					</Routes>
 				</BrowserRouter>
 			</div>

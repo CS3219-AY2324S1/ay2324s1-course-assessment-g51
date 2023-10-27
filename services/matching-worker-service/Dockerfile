@@ -5,6 +5,7 @@ WORKDIR /app
 
 # Copy package.json and package-lock.json to cache dependencies
 COPY package*.json ./
+COPY prisma ./prisma/
 
 # Install production dependencies
 RUN npm install --omit=dev
@@ -31,5 +32,5 @@ COPY --from=build /app/src ./src
 # Build the application
 RUN npm run compile
 
-# Start the application
-CMD ["npm", "run", "start"]
+# Start the application 
+CMD ["npm", "run", "start:migrate:prod"]
