@@ -33,6 +33,7 @@ import DeletePage from "./components/DeletePage";
 import MatchingServicePage from "./components/MatchingServicePage";
 
 import axios from "axios";
+import AdminPage from "./components/AdminPage";
 
 const ProtectedRoute = () => {
 	const [user, loading, error] = useAuthState(auth);
@@ -113,7 +114,11 @@ const RootApp = () => {
 						<Route path="/goodbye" element={<GoodbyePage />} />
 						<Route path="/verify" element={<VerificationPage />} />
 						<Route path="/delete" element={<DeletePage />} />
-						<Route path="/match" element={<MatchingServicePage />}/>
+						<Route
+							path="/match"
+							element={<MatchingServicePage />}
+						/>
+						<Route path="/match" element={<AdminPage />} />
 					</Routes>
 				</BrowserRouter>
 			</div>

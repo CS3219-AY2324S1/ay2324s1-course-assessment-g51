@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import * as Styles from "./styles";
 import { useNavigate } from "react-router-dom";
-import MarkEmailReadOutlinedIcon from "@mui/icons-material/MarkEmailReadOutlined";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import LoopIcon from "@mui/icons-material/Loop";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 
@@ -41,7 +41,7 @@ const AdminPage = () => {
 
 			<div style={Styles.mainContainerStyle}>
 				<div style={Styles.iconStyle}>
-					<MarkEmailReadOutlinedIcon
+					<AdminPanelSettingsIcon
 						sx={{ color: "#ffdbe9", fontSize: 120 }}
 					/>
 				</div>
