@@ -5,9 +5,19 @@ const userController = new UserController();
 
 const router = express.Router();
 
-router.get("/:uid", userController.getUser);
-router.post("/", userController.createUser);
-router.put("/:uid", userController.updateUser);
-router.delete("/:uid", userController.deleteUser);
+//CRUD for users
+router.get("/profile/:uid", userController.getUser);
+router.post("/profile", userController.createUser);
+router.put("/profile/:uid", userController.updateUser);
+router.delete("/profile/:uid", userController.deleteUser);
+
+//for getting and assigning admin
+router.get("/admin", userController.getAdmin);
+router.get("/admin/:uid", userController.isAdmin);
+router.put("/admin", userController.setAdmin);
+
+//getting all request
+router.get("/request", userController.getRequest);
+router.put("/request", userController.setRequest);
 
 export default router;
