@@ -3,6 +3,9 @@ import React from "react";
 // import components
 import QuestionCreator from "./QuestionCreator";
 import QuestionList from "./QuestionList";
+import QuestionViewer from "./QuestionViewer";
+import * as UserSlice from "../redux/reducers/User/UserSlice"
+import { useSelector } from "react-redux/es/hooks/useSelector";
 
 // import styles
 import { questionPageContainerStyle } from "./styles";
@@ -17,11 +20,13 @@ const QuestionsPage = () => {
         bodyElement.style.padding = '0';
         bodyElement.style.margin = '0';
     }
-    
+    const isUserAnAdmin: boolean = useSelector(UserSlice.isUserAnAdmin);
+
+
     return (
         <div style={questionPageContainerStyle}>
-            <QuestionList/>
-            <QuestionCreator/>
+            <QuestionList />
+            {isUserAnAdmin ? <QuestionCreator /> : <QuestionViewer />}
         </div>
     )
 }

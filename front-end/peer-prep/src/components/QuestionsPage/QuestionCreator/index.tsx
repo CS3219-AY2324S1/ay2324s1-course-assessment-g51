@@ -41,7 +41,9 @@ const QuestionCreator = () => {
                 <div style={Styles.labelContainerStyle}>
                     <TextField label="id" id="test" value={currentQuestionId + "."} sx={Styles.idTextFieldStyle} disabled={true}></TextField>
 
-                    <TextField label="title" sx={Styles.labelStyle} value={currentTitle}
+                    <TextField label="title"
+                        sx={Styles.labelStyle}
+                        value={currentTitle}
                         onChange={(event) => dispatch(QuestionSlice.updateCurrentTitle(event.target.value))}>
                     </TextField>
 
@@ -70,9 +72,8 @@ const QuestionCreator = () => {
                         sx={Styles.labelStyle}
                         renderTags={(value, getTagProps) =>
                             value.map((option, index) => (
-                                option == "" ? "" :
+                                option === "" ? "" :
                                     <Chip style={Styles.chipStyle} label={option} {...getTagProps({ index })} onDelete={() => {
-                                        // TODO snackbar: do not allow deletion of last category
                                         dispatch(QuestionSlice.deleteFromCurrentCategories(index))
                                     }} />
                             ))}
@@ -85,7 +86,7 @@ const QuestionCreator = () => {
                                 error={duplicateCategoryError}
                                 helperText={duplicateCategoryErrorText}
                                 onKeyDown={(event) => {
-                                    if (event.key == "Enter" && categoryBuffer != "") {
+                                    if (event.key === "Enter" && categoryBuffer !== "") {
                                         if (!currentCategories.includes(categoryBuffer)) {
                                             dispatch(QuestionSlice.updateCurrentCategories(categoryBuffer))
                                             dispatch(QuestionSlice.clearCategoryBuffer())
@@ -111,16 +112,16 @@ const QuestionCreator = () => {
                     <Tooltip title="Save">
                         <button style={Styles.buttonStyle} onClick={() => {
                             // form error checks and handling
-                            if (currentTitle == "") {
+                            if (currentTitle === "") {
                                 giveSnackbarMsg("Please provide a title.")
                                 openErrorSnackbar(true)
-                            } else if (currentComplexity == "") {
+                            } else if (currentComplexity === "") {
                                 giveSnackbarMsg("Please choose a complexity.")
                                 openErrorSnackbar(true)
                             } else if (currentCategories.length < 1) {
                                 giveSnackbarMsg("Please provide at least 1 category.")
                                 openErrorSnackbar(true)
-                            } else if (currentDescription == "") {
+                            } else if (currentDescription === "") {
                                 giveSnackbarMsg("Please give a description.")
                                 openErrorSnackbar(true)
                             } else if (parseInt(currentQuestionId) <= numOfQuestions) { // TODO investigate for cause of list ordering bug
