@@ -7,7 +7,8 @@ export interface userState {
     currentFirstName: string,
     currentLastName: string,
     currentAge: number,
-    isAdmin: boolean
+    isAdmin: boolean,
+    isUpgradeRequested: boolean
 }
 
 interface userFormat {
@@ -28,7 +29,8 @@ const userSlice = createSlice({
         currentFirstName: "",
         currentLastName: "",
         currentAge: 0,
-        isAdmin: false
+        isAdmin: false,
+        isUpgradeRequested: false
     } as userState,
     reducers: {
         setIsFirstTimeLogin(state, action: PayloadAction<boolean>) {
@@ -40,7 +42,7 @@ const userSlice = createSlice({
             state.currentFirstName = action.payload.firstName
             state.currentLastName = action.payload.lastName
             state.currentAge = action.payload.age
-            state.isAdmin = action.payload.isAdmin
+            // state.isAdmin = action.payload.isAdmin
         },
         updateCurrentUsername(state, action: PayloadAction<string>) {
             state.currentUsername = action.payload
@@ -60,13 +62,16 @@ const userSlice = createSlice({
         },
         updateIsAdmin(state, action: PayloadAction<boolean>) {
             state.isAdmin = action.payload
+        },
+        setIsUpgradeRequested(state, action: PayloadAction<boolean>) {
+            state.isUpgradeRequested = action.payload
         }
     }
 })
 
 export const { updateUserData, updateCurrentUsername, updateCurrentEmail,
     updateCurrentFirstName, updateCurrentLastName,
-    updateCurrentAge, setIsFirstTimeLogin, updateIsAdmin } = userSlice.actions
+    updateCurrentAge, setIsFirstTimeLogin, updateIsAdmin, setIsUpgradeRequested } = userSlice.actions
 
 export default userSlice.reducer;
 
@@ -77,3 +82,4 @@ export const selectCurrentLastName = (state: any) => state.user.currentLastName
 export const selectCurrentAge = (state: any) => state.user.currentAge
 export const selectIsFirstTimeLogin = (state: any) => state.user.isFirstTimeLogin
 export const isUserAnAdmin = (state: any) => state.user.isAdmin
+export const isUpgradeRequested = (state: any) => state.user.isUpgradeRequested

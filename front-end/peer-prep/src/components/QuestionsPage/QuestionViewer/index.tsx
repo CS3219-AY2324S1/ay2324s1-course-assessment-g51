@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import * as Styles from "./styles";
-import { Stack, Chip, Button, Box } from "@mui/material"
+import { Stack, Chip, Button, Box, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux";
 import * as QuestionSlice from "../../redux/reducers/Question/QuestionSlice"
 import { useNavigate } from "react-router-dom";
@@ -30,18 +30,26 @@ const QuestionViewer = () => {
         <div style={Styles.questionViewerContainerStyle}>
             <div style={Styles.questionViewerViewStyle}>
                 <Stack direction="column" justifyContent="space-evenly" spacing={2} width="90%">
-                    <Box component="span" sx={Styles.questionViewerInnerStyle}>ID: {currentQuestionId}</Box>
-                    <Box component="span" sx={Styles.questionViewerInnerStyle}>Title: {currentTitle}</Box>
-                    <Box component="span" sx={Styles.questionViewerInnerStyle}>Complexity: {currentComplexity}</Box>
+                    <Box component="span" sx={Styles.questionViewerInnerStyle}>
+                        <Typography variant="subtitle1">ID: {currentQuestionId}</Typography>
+                    </Box>
+                    <Box component="span" sx={Styles.questionViewerInnerStyle}>
+                        <Typography variant="subtitle1">Title: {currentTitle}</Typography>
+                    </Box>
+                    <Box component="span" sx={Styles.questionViewerInnerStyle}>
+                        <Typography variant="subtitle1">Complexity: {currentComplexity}</Typography>
+                    </Box>
                     <Box component="span" sx={Styles.questionViewerInnerStyle}>
                         <Stack direction="row" alignItems="center" justifyContent="flex-start" spacing={2}>
-                            <div>Categories:</div>
+                            <Typography variant="subtitle1">Categories:</Typography>
                             {currentCategories.map((category) =>
                                 <Chip label={category} variant="outlined" sx={Styles.questionViewerInnerStyle}></Chip>
                             )}
                         </Stack>
                     </Box>
-                    <Box component="span" sx={Styles.questionViewerInnerStyle}>{currentDescription}</Box>
+                    <Box component="span" sx={Styles.questionViewerInnerStyle}>
+                        <Typography variant="subtitle1">Description: {currentDescription}</Typography>
+                    </Box>
                     <Button variant="outlined" onClick={attemptQuestion}>Attempt Question</Button>
                 </Stack>
             </div>

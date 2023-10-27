@@ -18,8 +18,12 @@ import { auth } from "../Auth/Firebase";
 
 const navbarRoutes = [
 	{
-		text: "Question",
+		text: "Questions",
 		link: "/home",
+	},
+	{
+		text: "Collaborate",
+		link: "/match"
 	},
 	{
 		text: "Profile",
