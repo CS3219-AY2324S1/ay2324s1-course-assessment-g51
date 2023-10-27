@@ -1,7 +1,5 @@
 name: Run Unit Tests For Modified Services
 
-id: unit-tests
-
 on:
   pull_request:
     types:
