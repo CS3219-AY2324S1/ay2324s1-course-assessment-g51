@@ -3,6 +3,7 @@ import { auth } from "../Auth/Firebase";
 import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState } from "react";
+import ManagePage from "./ManagePage";
 
 const AdminPage = () => {
 	const [user, loading, error] = useAuthState(auth);
@@ -34,7 +35,7 @@ const AdminPage = () => {
 	//useEffect(getIsAdmin, []);
 
 	if (isAdmin) {
-		return <></>;
+		return <ManagePage />;
 	} else {
 		if (currentUserUid) {
 			return <RequestPage uid={currentUserUid} />;
