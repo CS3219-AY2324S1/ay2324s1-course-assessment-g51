@@ -19,8 +19,12 @@ import {
  } from '@mui/material';
 import { ArrowForwardIos, ArrowBackIos } from '@mui/icons-material';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
+
+import { io } from "socket.io-client";
+
+import { auth } from "../Auth/Firebase";
 
 const languages = ["Python", "Java", "Javascript", "C#", "Java"];
 const steps = [
@@ -101,14 +105,47 @@ const FindPartner = () => {
 
 const MatchingServicePage = () => {
     const [activeStep, setActiveStep] = useState(0);
+    const [connect, setConnect] = useState(false);
+    console.log(connect);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       };
     
-      const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-      };
+    const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+
+    useEffect(() => {
+        const socket = io("http://localhost:8000");
+
+        console.log("test")
+        socket.on('connect', () => {
+            console.log("Connected");
+            socket.emit("match-request:create", {"userId": auth.currentUser?.uid,
+            "complexity": "easy"});
+            socket.on("match-response:success", () => {
+            console.log("success")
+            })
+            socket.on("match-reponse:failure", () => {
+            console.log("failure")
+            })
+            socket.on("match-reponse:error", () => {
+            console.log("error")
+            })
+
+        });
+        socket.on("error", (error) => {
+            console.log(error)
+        })
+    },[connect])
+
+    const handleConnect = () => {
+        console.log(activeStep);
+        setConnect(true);
+        handleNext();
+        console.log(connect);
+    };
 
     return(
         <div style={Styles.matchingServicePageContainerStyle}>
@@ -147,7 +184,9 @@ const MatchingServicePage = () => {
                         ? <QuestionSelection/>
                         : <FindPartner/>}
 
-                    <Button onClick={handleNext}>
+                    <Button onClick={activeStep === 2
+                                        ? handleConnect
+                                        : handleNext}>
                         {activeStep === steps.length - 1 
                             ? 'Finish' 
                             : <ArrowForwardIos sx={Styles.arrowStyle}/>}
