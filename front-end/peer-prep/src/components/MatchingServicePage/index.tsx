@@ -103,6 +103,8 @@ const FindPartner = () => {
     )
 }
 
+const socket = io("http://localhost:8000");
+
 const MatchingServicePage = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [connect, setConnect] = useState(false);
@@ -117,34 +119,33 @@ const MatchingServicePage = () => {
     };
 
     useEffect(() => {
-        const socket = io("http://localhost:8000");
-
-        console.log("test")
         socket.on('connect', () => {
             console.log("Connected");
-            socket.emit("match-request:create", {"userId": auth.currentUser?.uid,
-            "complexity": "easy"});
             socket.on("match-response:success", () => {
-            console.log("success")
-            })
-            socket.on("match-reponse:failure", () => {
-            console.log("failure")
-            })
-            socket.on("match-reponse:error", () => {
-            console.log("error")
-            })
-
+                console.log("success");
+            });
+            socket.on("match-response:failure", () => {
+                console.log("failure");
+            });
+            socket.on("match-response:error", () => {
+                console.log("error");
+            });
+            socket.on("error", (error) => {
+                console.log(error);
+            });
         });
-        socket.on("error", (error) => {
-            console.log(error)
-        })
-    },[connect])
+    },[socket])
+
 
     const handleConnect = () => {
-        console.log(activeStep);
         setConnect(true);
+        socket.emit("match-request:create",
+        {
+            "userId": auth.currentUser?.uid,
+            "complexity": "easy"
+        });
+        console.log(auth.currentUser?.uid)
         handleNext();
-        console.log(connect);
     };
 
     return(
