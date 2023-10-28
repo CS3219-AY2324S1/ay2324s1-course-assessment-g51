@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -15,6 +16,11 @@ const RequestPage = (props: any) => {
 	const iconHandler = () => {
 		navigate("/home");
 		//window.location.reload();
+	};
+
+	//back button brings it back to sign in
+	const refreshHandler = () => {
+		window.location.reload();
 	};
 
 	//change requesting to yes
@@ -35,6 +41,13 @@ const RequestPage = (props: any) => {
 				<ArrowBackOutlinedIcon
 					sx={{ color: "white", fontSize: 70, cursor: "pointer" }}
 					onClick={iconHandler}
+				/>
+			</div>
+
+			<div style={Styles.refreshStyle}>
+				<RefreshIcon
+					sx={{ color: "white", fontSize: 70, cursor: "pointer" }}
+					onClick={refreshHandler}
 				/>
 			</div>
 

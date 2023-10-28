@@ -30,6 +30,16 @@ export const backButtonStyle = {
 	paddingTop: "13px",
 };
 
+export const refreshStyle = {
+	height: "100px",
+	width: "100px",
+	gridColumn: "2/3",
+	gridRow: "2/3",
+	zIndex: "1",
+	paddingLeft: "615px",
+	paddingTop: "13px",
+};
+
 export const iconStyle = {
 	height: "30%",
 	width: "100%",
