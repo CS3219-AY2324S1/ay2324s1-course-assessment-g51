@@ -23,7 +23,6 @@ const AdminPage = () => {
 		})
 			.then((response) => {
 				const data = response.data.data;
-				console.log(data);
 				setIsAdmin(data);
 			})
 			.catch((error) => {
@@ -35,7 +34,7 @@ const AdminPage = () => {
 	//useEffect(getIsAdmin, []);
 
 	if (isAdmin) {
-		return <ManagePage />;
+		return <ManagePage uid={currentUserUid} />;
 	} else {
 		if (currentUserUid) {
 			return <RequestPage uid={currentUserUid} />;
