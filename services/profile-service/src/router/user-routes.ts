@@ -20,4 +20,7 @@ router.put("/admin", userController.setAdmin);
 router.get("/request", userController.getRequest);
 router.put("/request", userController.setRequest);
 
+//check super admin
+router.get("/superAdmin/:uid", userController.isSuperAdmin);
+
 export default router;

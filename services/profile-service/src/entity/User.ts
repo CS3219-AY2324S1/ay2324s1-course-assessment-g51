@@ -25,4 +25,7 @@ export class User {
 
 	@Column({ default: false })
 	isRequestingAdmin: boolean;
+
+	@Column({ default: false })
+	isSuperAdmin: boolean;
 }

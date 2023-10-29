@@ -14,6 +14,7 @@ const ManagePage = (props: any) => {
 	const [admins, setAdmins] = useState([]);
 	const [requestors, setRequestors] = useState([]);
 	const [reload, setReload] = useState(false);
+	const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
 	//api call to get list of admins
 	const getAllAdmin = () => {
@@ -47,9 +48,27 @@ const ManagePage = (props: any) => {
 			});
 	};
 
+	//api call to get list of admins
+	const getisSuperAdmin = () => {
+		axios({
+			method: "get",
+			//https://api.peerprepgroup51sem1y2023.xyz/users/superAdmin/${props.uid}
+			url: `http://localhost:3100/users/superAdmin/${props.uid}`,
+		})
+			.then((response) => {
+				const data = response.data.data;
+				console.log(data);
+				setIsSuperAdmin(data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
 	useEffect(() => {
 		getAllAdmin();
 		getAllRequestors();
+		getisSuperAdmin();
 	}, [reload]);
 
 	const deleteButtonHandler = (currAdmin: any) => {
@@ -116,19 +135,25 @@ const ManagePage = (props: any) => {
 									<ListItem
 										key={currAdmin.uid}
 										secondaryAction={
-											<IconButton
-												edge="end"
-												aria-label="delete"
-												onClick={() =>
-													deleteButtonHandler(
-														currAdmin
-													)
-												}
-											>
-												<DeleteIcon
-													sx={Styles.deleteIconStyle}
-												/>
-											</IconButton>
+											isSuperAdmin ? (
+												<IconButton
+													edge="end"
+													aria-label="delete"
+													onClick={() =>
+														deleteButtonHandler(
+															currAdmin
+														)
+													}
+												>
+													<DeleteIcon
+														sx={
+															Styles.deleteIconStyle
+														}
+													/>
+												</IconButton>
+											) : (
+												<></>
+											)
 										}
 									>
 										<Typography
