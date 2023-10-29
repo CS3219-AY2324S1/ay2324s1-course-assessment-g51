@@ -13,6 +13,8 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogContentText,
+	Tooltip,
+	Stack
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
@@ -33,8 +35,11 @@ const UserPage = () => {
 	const [isEditSuccess, setIsEditSuccess] = useState(false);
 	const [hasEmptyDetails, setHasEmptyDetails] = useState(false);
 
-	// State for deletion conformation pop up.
-	const [deletionConfimation, setDeletionConfirmation] = useState(false);
+	// State for deletion and upgrade conformation pop ups.
+	const [deletionConfirmation, setDeletionConfirmation] = useState(false);
+	const isUserAnAdmin: boolean = useSelector(UserSlice.isUserAnAdmin)
+	const isUpgradeRequested: boolean = useSelector(UserSlice.isUpgradeRequested)
+	const [upgradeConfirmation, setUpgradeConfirmation] = useState(false);
 
 	// Gets user details from firebase.
 	const user = auth.currentUser;
@@ -91,6 +96,15 @@ const UserPage = () => {
 
 	const closeDeleteConfirmation = () => {
 		setDeletionConfirmation(false);
+	};
+
+	const openUpgradeConfirmation = () => {
+		setUpgradeConfirmation(true);
+	};
+
+	const closeUpgradeConfirmation = () => {
+		dispatch(UserSlice.setIsUpgradeRequested(false));
+		setUpgradeConfirmation(false);
 	};
 
 	// First time creation for new user if user does not exist.
@@ -151,7 +165,7 @@ const UserPage = () => {
 			.delete(
 				`https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`
 			)
-			.catch(() => {});
+			.catch(() => { });
 	};
 
 	// Deletes user data from firebase.
@@ -161,11 +175,22 @@ const UserPage = () => {
 		}
 	};
 
+	const upgradeUserToAdmin = () => {
+		// add axios code here
+
+	}
+
 	const handleDeleteUser = () => {
 		closeDeleteConfirmation();
 		navigate("/delete");
 		deleteUserData();
 		deleteFirebaseUserData();
+	};
+
+	const handleUpgradeUser = () => {
+		closeUpgradeConfirmation();
+		upgradeUserToAdmin();
+		dispatch(UserSlice.updateIsAdmin(true))
 	};
 
 	return (
@@ -233,20 +258,31 @@ const UserPage = () => {
 							)
 						}
 					></TextField>
-					<IconButton
-						style={Styles.buttonStyle}
-						onClick={() => handleEditUserData()}
-					>
-						<SaveIcon
-							sx={{ color: "#F4C2C2", cursor: "pointer" }}
-						/>
-					</IconButton>
-					<Button
-						sx={Styles.deleteAccountButton}
-						onClick={openDeleteConfirmation}
-					>
-						delete account
-					</Button>
+					<Tooltip title="Save changes">
+						<IconButton
+							style={Styles.buttonStyle}
+							onClick={() => handleEditUserData()}
+						>
+							<SaveIcon
+								sx={{ color: "#F4C2C2", cursor: "pointer" }}
+							/>
+						</IconButton>
+					</Tooltip>
+					<Stack direction="row" justifyContent="space-between">
+						{!isUserAnAdmin ?
+							<Button
+								sx={Styles.upgradeAccountButton}
+								onClick={openUpgradeConfirmation}
+							>
+								upgrade account
+							</Button> : <></>}
+						<Button
+							sx={Styles.deleteAccountButton}
+							onClick={openDeleteConfirmation}
+						>
+							delete account
+						</Button>
+					</Stack>
 					<Snackbar
 						open={isEditSuccess}
 						autoHideDuration={3000}
@@ -269,7 +305,7 @@ const UserPage = () => {
 						message={EmptyDetailsWarning}
 					/>
 					<Dialog
-						open={deletionConfimation}
+						open={deletionConfirmation}
 						onClose={closeDeleteConfirmation}
 						aria-labelledby="alert-dialog-title"
 						aria-describedby="alert-dialog-description"
@@ -292,6 +328,34 @@ const UserPage = () => {
 								sx={Styles.deleteConfirmationButton}
 							>
 								Delete
+							</Button>
+						</DialogActions>
+					</Dialog>
+
+					<Dialog
+						open={upgradeConfirmation || isUpgradeRequested}
+						onClose={closeUpgradeConfirmation}
+						aria-labelledby="alert-dialog-title"
+						aria-describedby="alert-dialog-description"
+					>
+						<DialogTitle id="alert-dialog-title">
+							{"Upgrade Account"}
+						</DialogTitle>
+						<DialogContent>
+							<DialogContentText id="alert-dialog-description">
+								Upgrade your account to obtain question editing privileges?
+							</DialogContentText>
+						</DialogContent>
+						<DialogActions>
+							<Button onClick={closeUpgradeConfirmation}>
+								Back
+							</Button>
+							<Button
+								onClick={handleUpgradeUser}
+								autoFocus
+								sx={Styles.deleteConfirmationButton}
+							>
+								Yes
 							</Button>
 						</DialogActions>
 					</Dialog>

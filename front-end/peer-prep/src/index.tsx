@@ -105,6 +105,7 @@ const RootApp = () => {
 							}
 						>
 							<Route path="home" element={<QuestionsPage />} />
+							<Route path="match" element={<MatchingServicePage />} />
 							<Route path="user" element={<UserPage />} />
 							<Route path="/admin" element={<AdminPage />} />
 						</Route>
@@ -115,10 +116,6 @@ const RootApp = () => {
 						<Route path="/goodbye" element={<GoodbyePage />} />
 						<Route path="/verify" element={<VerificationPage />} />
 						<Route path="/delete" element={<DeletePage />} />
-						<Route
-							path="/match"
-							element={<MatchingServicePage />}
-						/>
 					</Routes>
 				</BrowserRouter>
 			</div>

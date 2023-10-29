@@ -103,8 +103,8 @@ const questionSlice = createSlice({
         categoryBuffer: ""
     } as questionState,
     reducers: {
-        toggleAddQuestionButton(state) {
-            state.isAddQuestionButtonToggled = true
+        toggleAddQuestionButton(state, action: PayloadAction<boolean>) {
+            state.isAddQuestionButtonToggled = action.payload
         },
         updateCurrentId(state, action: PayloadAction<string>) {
             const newId = action.payload
@@ -164,12 +164,13 @@ const questionSlice = createSlice({
                 "Complexity": state.currentComplexity,
                 "Description": state.currentDescription
             }
-            const currentIndex = parseInt(state.currentId) - 1
+            // const currentIndex = parseInt(state.currentId) - 1
+            const currentIndex = state.questionsData.findIndex(item => item.Id === (state.currentId));
             newQuestionsData.splice(currentIndex, 0, updatedQuestion);
             state.questionsData = newQuestionsData;
         },
         createNewQuestion(state) {
-            state.currentId = String(state.questionsData.length + 1)
+            state.currentId = String(Date.now()) // temporarily using date to ensure unique id b4 merging with backend
             state.currentTitle = "";
             state.currentCategories = [];
             state.currentComplexity = "";
