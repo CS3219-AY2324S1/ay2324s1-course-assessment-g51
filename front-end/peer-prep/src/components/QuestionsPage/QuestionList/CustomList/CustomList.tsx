@@ -8,11 +8,11 @@ import * as QuestionSlice from "../../../redux/reducers/Question/QuestionSlice";
 import * as UserSlice from "../../../redux/reducers/User/UserSlice";
 
 interface questionObject {
-    Id: string,
-    Title: string,
-    Categories: string[],
-    Complexity: string,
-    Description: string
+    _id: string,
+    title: string,
+    category: string[],
+    complexity: string,
+    description: string
 }
 
 const CustomList = () => {
@@ -23,10 +23,12 @@ const CustomList = () => {
 
     let additionalStackContainerStyle = {}
     const dispatch = useDispatch()
+
     return (
         <List sx={Style.listStyle}>
             {questions.map((question: questionObject) => {
-                if (question.Id === currentId) {
+                console.log(question);
+                if (question._id === currentId) {
                     additionalStackContainerStyle = {
                         border: "2px solid pink"
                     }
@@ -36,20 +38,20 @@ const CustomList = () => {
                 return (
                     <ListItem onClick={() => {
                         dispatch(QuestionSlice.toggleAddQuestionButton(false))
-                        dispatch(QuestionSlice.updateCurrentId(question.Id))
+                        dispatch(QuestionSlice.updateCurrentId(question._id))
                     }}>
                         <Stack direction="column" sx={{ ...Style.stackContainerStyle, ...additionalStackContainerStyle }}>
                             <Stack direction="row" justifyContent="space-between">
                                 <Stack direction="row" alignItems="center" sx={Style.questionHeadingsStyle}>
-                                    {questions.indexOf(question) + 1}. {question.Title}
-                                    <Chip label={question.Complexity} sx={Style.difficultyChipStyle}></Chip>
+                                    {questions.indexOf(question) + 1}. {question.title}
+                                    <Chip label={question.complexity} sx={Style.difficultyChipStyle}></Chip>
                                 </Stack>
                                 <Stack direction="row" justifyContent="flex-end">
                                     {isUserAnAdmin ?
                                         <Tooltip title="Delete">
                                             <IconButton style={Style.iconButtonStyle} onClick={(ev) => {
                                                 ev.stopPropagation()
-                                                dispatch(QuestionSlice.deleteQuestion(question.Id))
+                                                dispatch(QuestionSlice.deleteQuestion(question._id))
                                             }}><DeleteIcon />
                                             </IconButton>
                                         </Tooltip> : <></>
@@ -57,7 +59,7 @@ const CustomList = () => {
                                 </Stack>
                             </Stack>
                             <Stack direction="row" spacing={2} sx={{ marginLeft: "5%" }}>
-                                {question.Categories.map((category) => <Chip label={category} sx={Style.categoryChipStyle}></Chip>)}
+                                {question.category.map((category) => <Chip label={category} sx={Style.categoryChipStyle}></Chip>)}
                             </Stack>
                         </Stack>
                     </ListItem>

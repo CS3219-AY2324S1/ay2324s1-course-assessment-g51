@@ -9,6 +9,8 @@ import * as QuestionSlice from "../../redux/reducers/Question/QuestionSlice"
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import axios from 'axios';
+
 const QuestionCreator = () => {
     // for dispatching actions
     const dispatch = useDispatch()
@@ -30,12 +32,33 @@ const QuestionCreator = () => {
     var duplicateCategoryErrorText: string = ""
     var duplicateCategoryError: boolean = false
 
+    const postQuestionData = () => {
+		axios
+			.post(`https://api.peerprepgroup51sem1y2023.xyz/api/questions`, {
+			})
+			.then(() => {
+			})
+			.catch((error) => {
+			});
+	};
+
     // lifecycle methods here
 
     // for initializing default values for the question creator based on the first data entry
     // will run only once!
     useEffect(() => {
-        dispatch(QuestionSlice.initializeQuestionCreator())
+        axios({
+			method: "get",
+			url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
+		})
+			.then((response) => {
+                const data = response.data;
+                console.log(data);
+                dispatch(QuestionSlice.initializeQuestionCreator(data));
+			})
+			.catch((error) => {
+                console.log(error);
+			});
     }, [])
 
     const attemptQuestion = () => {
