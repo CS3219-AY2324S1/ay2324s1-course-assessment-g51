@@ -23,16 +23,16 @@ services:
 
     # Uncomment for hot reloading
     build:
-      context: ./services/question-service
-      target: dev
+        context: ./services/question-service
+        target: build
     command: ["npm", "run", "dev"]
     environment:
-      - MONGODB_URI=mongodb://mongodb:27017/question-service-api
-      - PORT_NUMBER=8080
+        - MONGODB_URI=mongodb://mongodb:27017/question-service-api
+        - PORT_NUMBER=8080
     depends_on:
-      - mongodb
+        - mongodb
     volumes:
-      - ./services/question-service:/app
+        - ./services/question-service:/app
 
   mongodb:
     container_name: mongodb
@@ -63,7 +63,7 @@ services:
     container_name: matching-service
     build:
       context: ./services/matching-service
-      target: dev
+      target: build
     command: ["npm", "run", "dev"]
     environment:
       - PORT_NUMBER=8000
@@ -93,7 +93,7 @@ services:
     container_name: matching-worker-service
     build:
       context: ./services/matching-worker-service
-      target: dev
+      target: build
     command: ["npm", "run", "start:migrate:dev"]
     environment:
       - AMQP_URL=amqp://rabbitmq:5672
