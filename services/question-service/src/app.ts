@@ -6,7 +6,7 @@ import questionRouter from "./routers/questions";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "*" })); // Allow requests from any origin
+app.use(cors({ origin: "*" })); // Allow requests from any origin.
 
 app.use("/api", questionRouter);
 
