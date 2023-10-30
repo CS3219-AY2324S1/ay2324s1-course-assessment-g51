@@ -19,12 +19,13 @@ import {
 } from '@mui/material';
 import { ArrowForwardIos, ArrowBackIos } from '@mui/icons-material';
 
-import { useEffect, useState } from 'react';
+import { ReactPropTypes, useEffect, useState } from 'react';
 import React from 'react';
 
 import { io } from "socket.io-client";
 
 import { auth } from "../Auth/Firebase";
+import { useNavigate } from 'react-router-dom';
 
 const languages = ["Python", "Java", "Javascript", "C#", "Java"];
 const steps = [
@@ -90,12 +91,25 @@ const QuestionSelection = () => {
     )
 };
 
-const FindPartner = () => {
+const FindPartner = ({ isPartnerFound }: { isPartnerFound: boolean }) => {
+    let firstText;
+    let secondText;
+    let navigate = useNavigate()
+    if (isPartnerFound) {
+        firstText = "Partner Found!";
+        secondText = "Redirecting you to the collaboration page...";
+    } else {
+        firstText = "Searching for partner...";
+        secondText = "Hang tight!"
+        setTimeout(() => {
+            navigate("/home")
+        }, 4000)
+    }
     return (
         <Stack direction="row" spacing={10}>
             <Stack>
-                <Typography sx={Styles.textStyle}>Searching for partner...</Typography>
-                <Typography sx={Styles.textStyle}>Hang tight!</Typography>
+                <Typography sx={Styles.textStyle}>{firstText}</Typography>
+                <Typography sx={Styles.textStyle}>{secondText}</Typography>
             </Stack>
             <CircularProgress sx={Styles.circularProgressStyle} />
         </Stack>
@@ -107,6 +121,7 @@ const socket = io("http://localhost:8000");
 const MatchingServicePage = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [connect, setConnect] = useState(false);
+    const [isPartnerFound, setPartnerFound] = useState(false)
     console.log(connect);
 
     const handleNext = () => {
@@ -122,7 +137,8 @@ const MatchingServicePage = () => {
             console.log("connected to server")
         })
         socket.on("match-response:success", () => {
-            console.log("success");
+            console.log("success! partner found")
+            setPartnerFound(true)
         });
         socket.on("match-response:failure", () => {
             console.log("failure");
@@ -181,7 +197,7 @@ const MatchingServicePage = () => {
                         ? <LanguageSelection />
                         : activeStep === 1
                             ? <DifficultySelection />
-                            : <FindPartner />}
+                            : <FindPartner isPartnerFound={isPartnerFound} />}
 
                     <Button onClick={activeStep === 1
                         ? handleConnect
