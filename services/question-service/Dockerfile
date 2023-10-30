@@ -23,7 +23,7 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/src ./src
 
 # Build the application
-RUN npm run compile
+RUN npm run build
 
 # Remove dev dependencies
 RUN npm prune --production
