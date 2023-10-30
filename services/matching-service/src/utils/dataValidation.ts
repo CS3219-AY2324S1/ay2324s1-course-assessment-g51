@@ -5,7 +5,11 @@ const matchRequestSchema = Joi.object({
   complexity: Joi.string().required().valid("easy", "medium", "difficult"),
   languages: Joi.array()
     .required()
-    .items(Joi.string().valid("python", "javascript", "c++", "java")),
+    .items(
+      Joi.string()
+        .valid("python", "javascript", "c++", "java", "c#")
+        .lowercase()
+    ),
 });
 
 const validateMatchRequestPromise = (data: any) =>
