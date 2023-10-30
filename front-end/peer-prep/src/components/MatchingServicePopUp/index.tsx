@@ -118,7 +118,7 @@ const FindPartner = ({ isPartnerFound }: { isPartnerFound: boolean }) => {
 
 const socket = io("http://localhost:8000");
 
-const MatchingServicePage = () => {
+const MatchingServicePopUp = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [connect, setConnect] = useState(false);
     const [isPartnerFound, setPartnerFound] = useState(false)
@@ -216,4 +216,4 @@ const MatchingServicePage = () => {
     )
 };
 
-export default MatchingServicePage;
+export default MatchingServicePopUp;
