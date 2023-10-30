@@ -119,20 +119,17 @@ const MatchingServicePage = () => {
     };
 
     useEffect(() => {
-        socket.on('connect', () => {
-            console.log("Connected");
-            socket.on("match-response:success", () => {
-                console.log("success");
-            });
-            socket.on("match-response:failure", () => {
-                console.log("failure");
-            });
-            socket.on("match-response:error", () => {
-                console.log("error");
-            });
-            socket.on("error", (error) => {
-                console.log(error);
-            });
+        socket.on("match-response:success", () => {
+            console.log("success");
+        });
+        socket.on("match-response:failure", () => {
+            console.log("failure");
+        });
+        socket.on("match-response:error", () => {
+            console.log("error");
+        });
+        socket.on("error", (error) => {
+            console.log(error);
         });
     },[socket])
 
