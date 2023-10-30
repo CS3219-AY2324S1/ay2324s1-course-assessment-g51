@@ -217,4 +217,16 @@ export class UserController {
 			return ResponseUtil.sendError(res, ERR_MSG_WRONGFORMAT, 400);
 		}
 	}
+
+	//isAdmin returns true false in data section
+	async isSuperAdmin(req: Request, res: Response): Promise<Response> {
+		const { uid } = req.params;
+		const user = await AppDataSource.getRepository(User).findOneBy({
+			uid: uid,
+		});
+		if (!user) {
+			return ResponseUtil.sendError(res, ERR_MSG_NO_USER, 404);
+		}
+		return ResponseUtil.sendResponse(res, user.isSuperAdmin, 200);
+	}
 }

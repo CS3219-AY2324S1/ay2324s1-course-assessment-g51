@@ -17,6 +17,7 @@ model MatchRequest {
   createdAt     DateTime @default(now())
   complexity    String
   status        String   @default("pending")
+  languages     String[]
   correlationId String
   replyTo       String
 }
@@ -28,4 +29,5 @@ model Match {
   createdAt  DateTime @default(now())
   complexity String
   status     String   @default("active")
+  language   String
 }
