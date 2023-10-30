@@ -19,6 +19,7 @@ FROM node:18-alpine AS production
 WORKDIR /app
 
 # Copy files from the build stage
+COPY --from=build /app/tsconfig.json ./
 COPY --from=build /app/package*.json ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/src ./src
