@@ -33,6 +33,7 @@ import DeletePage from "./components/DeletePage";
 import MatchingServicePage from "./components/MatchingServicePage";
 
 import axios from "axios";
+import AdminPage from "./components/AdminPage";
 
 const ProtectedRoute = () => {
 	const [user, loading, error] = useAuthState(auth);
@@ -106,6 +107,7 @@ const RootApp = () => {
 							<Route path="home" element={<QuestionsPage />} />
 							<Route path="match" element={<MatchingServicePage />} />
 							<Route path="user" element={<UserPage />} />
+							<Route path="/admin" element={<AdminPage />} />
 						</Route>
 						{/* All non-protected routes are written here */}
 						<Route path="/" element={<SignInPage />} />
