@@ -14,7 +14,7 @@ import {
 	DialogContent,
 	DialogContentText,
 	Tooltip,
-	Stack
+	Stack,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
@@ -34,11 +34,14 @@ const UserPage = () => {
 	// State for pop up box after editing user profile.
 	const [isEditSuccess, setIsEditSuccess] = useState(false);
 	const [hasEmptyDetails, setHasEmptyDetails] = useState(false);
+	const [duplicateUsername, setDuplicateUsername] = useState(false);
 
 	// State for deletion and upgrade conformation pop ups.
 	const [deletionConfirmation, setDeletionConfirmation] = useState(false);
-	const isUserAnAdmin: boolean = useSelector(UserSlice.isUserAnAdmin)
-	const isUpgradeRequested: boolean = useSelector(UserSlice.isUpgradeRequested)
+	const isUserAnAdmin: boolean = useSelector(UserSlice.isUserAnAdmin);
+	const isUpgradeRequested: boolean = useSelector(
+		UserSlice.isUpgradeRequested
+	);
 	const [upgradeConfirmation, setUpgradeConfirmation] = useState(false);
 
 	// Gets user details from firebase.
@@ -65,6 +68,7 @@ const UserPage = () => {
 	const EditUserSuccess = "User profile edited!";
 	const PromptUserDetails = "Please enter user details.";
 	const EmptyDetailsWarning = "User details cannot be empty!";
+	const DuplicateUsernameMsg = "Username already exists";
 
 	// Gets user profile data.
 	useEffect(() => {
@@ -110,6 +114,7 @@ const UserPage = () => {
 	// First time creation for new user if user does not exist.
 	const postUserData = () => {
 		axios
+			//.post(`http://localhost:3100/users/profile/`, {
 			.post(`https://api.peerprepgroup51sem1y2023.xyz/users/profile/`, {
 				username: currentUsername,
 				email: currentEmail,
@@ -124,17 +129,22 @@ const UserPage = () => {
 			})
 			.catch((error) => {
 				const code = error.request.status;
+				const errMsg = error.response.data.message;
 				if (code === 400) {
 					setHasEmptyDetails(true);
+				}
+				if (code === 409 && errMsg === "Username already exists") {
+					setDuplicateUsername(true);
 				}
 			});
 	};
 
 	// Updates user data after editing.
-	const putUserData = () =>
+	const putUserData = () => {
 		axios
 			.put(
 				`https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`,
+				//`http://localhost:3100/users/profile/${authUid}`,
 				{
 					username: currentUsername,
 					email: currentEmail,
@@ -149,12 +159,19 @@ const UserPage = () => {
 			})
 			.catch((error) => {
 				const code = error.request.status;
+				const errMsg = error.response.data.message;
+
 				if (code === 400) {
 					setHasEmptyDetails(true);
 				}
+				if (code === 409 && errMsg === "Username already exists") {
+					setDuplicateUsername(true);
+				}
 			});
+	};
 
 	const handleEditUserData = () => {
+		setDuplicateUsername(false);
 		isNewUser ? postUserData() : putUserData();
 		openEditSuccessSnackbar();
 	};
@@ -165,7 +182,7 @@ const UserPage = () => {
 			.delete(
 				`https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`
 			)
-			.catch(() => { });
+			.catch(() => {});
 	};
 
 	// Deletes user data from firebase.
@@ -177,8 +194,7 @@ const UserPage = () => {
 
 	const upgradeUserToAdmin = () => {
 		// add axios code here
-
-	}
+	};
 
 	const handleDeleteUser = () => {
 		closeDeleteConfirmation();
@@ -190,7 +206,7 @@ const UserPage = () => {
 	const handleUpgradeUser = () => {
 		closeUpgradeConfirmation();
 		upgradeUserToAdmin();
-		dispatch(UserSlice.updateIsAdmin(true))
+		dispatch(UserSlice.updateIsAdmin(true));
 	};
 
 	return (
@@ -269,13 +285,16 @@ const UserPage = () => {
 						</IconButton>
 					</Tooltip>
 					<Stack direction="row" justifyContent="space-between">
-						{!isUserAnAdmin ?
+						{!isUserAnAdmin ? (
 							<Button
 								sx={Styles.upgradeAccountButton}
 								onClick={openUpgradeConfirmation}
 							>
 								upgrade account
-							</Button> : <></>}
+							</Button>
+						) : (
+							<></>
+						)}
 						<Button
 							sx={Styles.deleteAccountButton}
 							onClick={openDeleteConfirmation}
@@ -303,6 +322,10 @@ const UserPage = () => {
 					<Snackbar
 						open={hasEmptyDetails}
 						message={EmptyDetailsWarning}
+					/>
+					<Snackbar
+						open={duplicateUsername}
+						message={DuplicateUsernameMsg}
 					/>
 					<Dialog
 						open={deletionConfirmation}
@@ -343,7 +366,8 @@ const UserPage = () => {
 						</DialogTitle>
 						<DialogContent>
 							<DialogContentText id="alert-dialog-description">
-								Upgrade your account to obtain question editing privileges?
+								Upgrade your account to obtain question editing
+								privileges?
 							</DialogContentText>
 						</DialogContent>
 						<DialogActions>

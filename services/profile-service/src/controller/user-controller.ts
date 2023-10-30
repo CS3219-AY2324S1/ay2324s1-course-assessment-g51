@@ -20,6 +20,7 @@ const ERR_MSG_DUPLICATE =
 	"Update a resource that already exists or has conflicting information";
 const ERR_MSG_AGE_TOO_LARGE = "Invalid age: too large";
 const ERR_MSG_WRONGFORMAT = "Wrong format in json body";
+const ERR_DUPLICATE_USERNAME = "Username already exists";
 
 //helper function to validate data
 async function validateData(userData: iUserData): Promise<string | null> {
@@ -74,6 +75,15 @@ export class UserController {
 		if (userInDB) {
 			return ResponseUtil.sendError(res, ERR_MSG_DUPLICATE, 409);
 		}
+
+		const sameUsername = await AppDataSource.getRepository(User).findOneBy({
+			username: userData.username,
+		});
+
+		if (sameUsername) {
+			return ResponseUtil.sendError(res, ERR_DUPLICATE_USERNAME, 409);
+		}
+
 		const user = repo.create(userData);
 		await repo.save(user);
 		return ResponseUtil.sendResponse(res, user, 201);
@@ -98,6 +108,15 @@ export class UserController {
 		});
 		if (!user) {
 			return ResponseUtil.sendError(res, ERR_MSG_NO_USER, 404);
+		}
+
+		const sameUsername = await AppDataSource.getRepository(User).findOneBy({
+			username: userData.username,
+		});
+		if (sameUsername) {
+			if (sameUsername.uid !== uid) {
+				return ResponseUtil.sendError(res, ERR_DUPLICATE_USERNAME, 409);
+			}
 		}
 
 		repo.merge(user, userData);

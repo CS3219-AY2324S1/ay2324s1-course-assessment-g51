@@ -52,8 +52,7 @@ const ManagePage = (props: any) => {
 	const getisSuperAdmin = () => {
 		axios({
 			method: "get",
-			//https://api.peerprepgroup51sem1y2023.xyz/users/superAdmin/${props.uid}
-			url: `http://localhost:3100/users/superAdmin/${props.uid}`,
+			url: `https://api.peerprepgroup51sem1y2023.xyz/users/superAdmin/${props.uid}`,
 		})
 			.then((response) => {
 				const data = response.data.data;
