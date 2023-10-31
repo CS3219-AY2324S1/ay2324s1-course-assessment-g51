@@ -16,6 +16,9 @@ const QuestionCreator = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    const createQuestionMessage = "New question created!";
+    const patchQuestionMessage = "Question updated!";
+
     // selectors
     const currentQuestionId: string = useSelector(QuestionSlice.selectCurrentId)
     const currentTitle: string = useSelector(QuestionSlice.selectCurrentTitle)
@@ -42,17 +45,23 @@ const QuestionCreator = () => {
                 title: currentTitle
 			})
 			.then(() => {
+                dispatch(QuestionSlice.addNewQuestion()); 
 			})
 			.catch((error) => {
                 console.log(error);
 			});
 	};
 
+    const handlePostQuestionData = () => {
+        postQuestionData();
+        giveSnackbarMsg(createQuestionMessage);
+    }
+
     // Update current question
-    const putQuestionData = () =>
+    const patchQuestionData = () => {
 		axios
 			.patch(
-				`https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}}`,
+				`https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}`,
 				{
                     category: currentCategories,
                     complexity: currentComplexity,
@@ -61,9 +70,16 @@ const QuestionCreator = () => {
 				}
 			)
 			.then(() => {
+                dispatch(QuestionSlice.updateCurrentQuestion());
 			})
 			.catch((error) => {
-			});
+			})
+    };
+
+    const handlePatchQuestionData = () => {
+        patchQuestionData();
+        giveSnackbarMsg(patchQuestionMessage);
+    }
 
     // lifecycle methods here
 
@@ -184,11 +200,10 @@ const QuestionCreator = () => {
                                     giveSnackbarMsg("Question details updated.")
                                     openSuccessSnackbar(true)
                                 } else {
-                                    postQuestionData();
-                                    dispatch(QuestionSlice.addNewQuestion()); 
-                                    giveSnackbarMsg("New question created.")
+                                    isAddQuestionButtonToggled 
+                                        ? handlePostQuestionData()
+                                        : handlePatchQuestionData();
                                     openSuccessSnackbar(true)
-                                    //dispatch(QuestionSlice.clearQuestionCreator())
                                 }
                             }}>
                                 <SaveIcon sx={{ color: "#F4C2C2", cursor: "pointer" }} />

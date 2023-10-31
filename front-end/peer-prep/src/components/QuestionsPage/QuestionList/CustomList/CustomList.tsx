@@ -23,7 +23,10 @@ const CustomList = () => {
 
     // Deletes current question
     const deleteQuestion = () => {
-        axios.delete(`https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}}`)
+        axios.delete(`https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}`)
+            .then(() => {
+                dispatch(QuestionSlice.deleteQuestion(currentId));
+            })
             .catch((error) => {
                 console.log(error);
             });
