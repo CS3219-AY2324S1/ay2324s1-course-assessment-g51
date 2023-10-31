@@ -26,11 +26,9 @@ const QuestionsPage = () => {
 		})
 			.then((response) => {
                 const data = response.data;
-                console.log(data);
                 dispatch(QuestionSlice.initializeQuestionData(data));
 			})
-			.catch((error) => {
-                console.log(error);
+			.catch(() => {
 			});
 	}, []);
 

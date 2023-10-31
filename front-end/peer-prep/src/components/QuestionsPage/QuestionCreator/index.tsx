@@ -18,6 +18,7 @@ const QuestionCreator = () => {
 
     const createQuestionMessage = "New question created!";
     const patchQuestionMessage = "Question updated!";
+    const sameQuestionTitleMessage = "Question title already exists!"
 
     // selectors
     const currentQuestionId: string = useSelector(QuestionSlice.selectCurrentId)
@@ -44,11 +45,17 @@ const QuestionCreator = () => {
                 complexity: currentComplexity,
                 title: currentTitle
 			})
-			.then(() => {
-                dispatch(QuestionSlice.addNewQuestion()); 
+			.then((reponse) => {
+                const id = reponse.data._id;
+                dispatch(QuestionSlice.addNewQuestion(id));
+                openSuccessSnackbar(true);
 			})
 			.catch((error) => {
-                console.log(error);
+                const code = error.response.status;
+                if (code === 400) {
+                    openErrorSnackbar(true);
+                    giveSnackbarMsg(sameQuestionTitleMessage);
+                }
 			});
 	};
 
@@ -70,6 +77,7 @@ const QuestionCreator = () => {
 				}
 			)
 			.then(() => {
+                openSuccessSnackbar(true);
                 dispatch(QuestionSlice.updateCurrentQuestion());
 			})
 			.catch((error) => {
@@ -92,11 +100,9 @@ const QuestionCreator = () => {
 		})
 			.then((response) => {
                 const data = response.data;
-                console.log(data);
                 dispatch(QuestionSlice.initializeQuestionCreator(data));
 			})
-			.catch((error) => {
-                console.log(error);
+			.catch(() => {
 			});
     }, [])
 
@@ -203,7 +209,6 @@ const QuestionCreator = () => {
                                     isAddQuestionButtonToggled 
                                         ? handlePostQuestionData()
                                         : handlePatchQuestionData();
-                                    openSuccessSnackbar(true)
                                 }
                             }}>
                                 <SaveIcon sx={{ color: "#F4C2C2", cursor: "pointer" }} />

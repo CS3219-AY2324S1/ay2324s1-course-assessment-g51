@@ -61,9 +61,9 @@ const questionSlice = createSlice({
             state.questionsData = action.payload;
         },
         // once a new question is added, show that the question is added!
-        addNewQuestion(state) {
+        addNewQuestion(state, action: PayloadAction<string>) {
             const newQuestion = {
-                "_id": state.currentId,
+                "_id": action.payload,
                 "title": state.currentTitle,
                 "category": state.currentCategories,
                 "complexity": state.currentComplexity,

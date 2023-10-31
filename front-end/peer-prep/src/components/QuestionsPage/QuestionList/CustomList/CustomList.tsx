@@ -8,7 +8,6 @@ import * as QuestionSlice from "../../../redux/reducers/Question/QuestionSlice";
 import * as UserSlice from "../../../redux/reducers/User/UserSlice";
 
 import axios from 'axios';
-import { useEffect } from "react";
 
 interface questionObject {
     _id: string,
@@ -27,8 +26,7 @@ const CustomList = () => {
             .then(() => {
                 dispatch(QuestionSlice.deleteQuestion(currentId));
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(() => {
             });
     }
 
@@ -39,7 +37,6 @@ const CustomList = () => {
 
     let additionalStackContainerStyle = {}
     const dispatch = useDispatch()
-    console.log(questions);
 
     return (
         <List sx={Style.listStyle}>
