@@ -26,8 +26,10 @@ import { io } from "socket.io-client";
 
 import { auth } from "../Auth/Firebase";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import * as MatchSlice from "../redux/reducers/Match/MatchSlice"
 
-const languages = ["Python", "Java", "Javascript", "C#", "Java"];
+const languages = ["python", "java", "javascript", "c#", "c++"];
 const steps = [
     "Select preferred languages",
     "Select preferred difficulty",
@@ -35,15 +37,38 @@ const steps = [
 ];
 
 const LanguageSelection = () => {
+    const languagesChosen: string[] = useSelector(MatchSlice.selectLanguagesChosen);
+    const dispatch = useDispatch();
+
+    const handleLanguageChange = (language: string, isChecked: boolean) => {
+        if (isChecked) {
+            if (!languagesChosen.includes(language)) {
+                const newLanguages = [...languagesChosen, language];
+                dispatch(MatchSlice.setLanguages(newLanguages));
+            }
+        } else {
+            const updatedLanguages = languagesChosen.filter((selectedLang: string) => selectedLang !== language);
+            dispatch(MatchSlice.setLanguages(updatedLanguages));
+        }
+    };
+
     return (
         <Stack direction="row" spacing={40}>
             <FormGroup>
                 {
                     languages.map((language) => {
                         return (
-                            <FormControlLabel control={<Checkbox sx={Styles.checkBoxStyle} />}
+                            <FormControlLabel
+                                key={language}
+                                control={<Checkbox sx={Styles.checkBoxStyle} name={language} />}
                                 label={language}
-                                sx={Styles.formControlLabelStyle} />
+                                sx={Styles.formControlLabelStyle}
+                                checked={languagesChosen.includes(language)}
+                                onChange={(event, checked) => {
+                                    handleLanguageChange(language, checked);
+                                }}
+
+                            />
                         );
                     })
                 }
@@ -53,6 +78,8 @@ const LanguageSelection = () => {
 };
 
 const DifficultySelection = () => {
+    const complexityChosen = useSelector(MatchSlice.selectComplexityChosen);
+    const dispatch = useDispatch();
     return (
         <FormControl sx={{
             '&:hover': {
@@ -67,11 +94,15 @@ const DifficultySelection = () => {
             <Select
                 label="Difficulty"
                 sx={Styles.selectStyle}
+                value={complexityChosen}
+                onChange={(event) => {
+                    const complexity = event.target.value
+                    dispatch(MatchSlice.setComplexity(complexity))
+                }}
             >
                 <MenuItem value={"easy"}>Easy</MenuItem>
                 <MenuItem value={"medium"}>Medium</MenuItem>
                 <MenuItem value={"hard"}>Hard</MenuItem>
-                <MenuItem value={"any"}>Any difficulty</MenuItem>
             </Select>
         </FormControl>
     )
@@ -122,6 +153,8 @@ const MatchingServicePopUp = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [connect, setConnect] = useState(false);
     const [isPartnerFound, setPartnerFound] = useState(false)
+    const languagesChosen: string[] = useSelector(MatchSlice.selectLanguagesChosen)
+    const complexityChosen: string = useSelector(MatchSlice.selectComplexityChosen)
     console.log(connect);
 
     const handleNext = () => {
@@ -157,10 +190,9 @@ const MatchingServicePopUp = () => {
         socket.emit("match-request:create",
             {
                 "userId": auth.currentUser?.uid,
-                "complexity": "easy",
-                "languages": ["python"]
+                "complexity": complexityChosen,
+                "languages": languagesChosen
             });
-        console.log(auth.currentUser?.uid)
         handleNext();
     };
 
