@@ -1,4 +1,3 @@
-import React from "react";
 import CustomList from "./CustomList/CustomList";
 
 // import Redux stuff

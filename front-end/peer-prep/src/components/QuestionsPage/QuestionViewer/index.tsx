@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as QuestionSlice from "../../redux/reducers/Question/QuestionSlice"
 import { useNavigate } from "react-router-dom";
 
+import axios from 'axios';
+
 const QuestionViewer = () => {
     // for dispatching actions
     const dispatch = useDispatch()
@@ -19,7 +21,16 @@ const QuestionViewer = () => {
     // for initializing default values for the question creator based on the first data entry
     // will run only once!
     useEffect(() => {
-        dispatch(QuestionSlice.initializeQuestionCreator())
+        axios({
+			method: "get",
+			url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
+		})
+			.then((response) => {
+                const data = response.data;
+                dispatch(QuestionSlice.initializeQuestionCreator(data));
+			})
+			.catch(() => {
+			});
     }, [])
 
     const attemptQuestion = () => {

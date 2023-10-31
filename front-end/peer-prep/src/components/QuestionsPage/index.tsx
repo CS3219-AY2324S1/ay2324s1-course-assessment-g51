@@ -1,4 +1,8 @@
 import React from "react";
+import { useEffect } from "react";
+
+import { useDispatch } from "react-redux";
+import * as QuestionSlice from "../redux/reducers/Question/QuestionSlice"
 
 // import components
 import QuestionCreator from "./QuestionCreator";
@@ -10,7 +14,24 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 // import styles
 import { questionPageContainerStyle } from "./styles";
 
+import axios from 'axios';
+
 const QuestionsPage = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+		axios({
+			method: "get",
+			url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
+		})
+			.then((response) => {
+                const data = response.data;
+                dispatch(QuestionSlice.initializeQuestionData(data));
+			})
+			.catch(() => {
+			});
+	}, []);
+
     const htmlElement = document.documentElement;
     const bodyElement = document.body;
     if (htmlElement && bodyElement) {
