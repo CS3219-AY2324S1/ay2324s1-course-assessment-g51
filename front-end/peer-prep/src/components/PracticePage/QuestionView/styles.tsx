@@ -1,0 +1,6 @@
+export const questionViewContainerStyle = {
+    backgroundColor: "#131B25",
+    height: "80%",
+    width: "90%",
+    display: "grid",
+}

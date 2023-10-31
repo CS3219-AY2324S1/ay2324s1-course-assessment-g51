@@ -6,12 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import * as PracticeSlice from "../redux/reducers/Practice/PracticeSlice"
 import MatchingServicePopUp from "../MatchingServicePopUp";
 import * as MatchSlice from "../redux/reducers/Match/MatchSlice";
+import QuestionView from "./QuestionView";
+import CodeView from "./CodeView";
 
 const PracticePage = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     return (
         <div id="PracticePage" style={Styles.practicePageContainerStyle}>
-            <BuildingPlayer otherStyles={Styles.buildingPlayerStyle} />
+            <QuestionView/>
+            <CodeView/>
             <Button variant="contained" onClick={() => dispatch(PracticeSlice.toggleFindPartnerButton(true))}>Find Partner</Button>
             <BackdropMatchingService />
         </div>
