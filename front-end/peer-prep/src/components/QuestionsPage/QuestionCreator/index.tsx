@@ -51,6 +51,7 @@ const QuestionCreator = () => {
                 openSuccessSnackbar(true);
 			})
 			.catch((error) => {
+                console.log(error)
                 const code = error.response.status;
                 if (code === 400) {
                     openErrorSnackbar(true);
@@ -131,7 +132,7 @@ const QuestionCreator = () => {
                             onChange={(event: SelectChangeEvent) => { dispatch(QuestionSlice.updateCurrentComplexity(event.target.value)) }}>
                             <MenuItem value={"easy"}>Easy</MenuItem>
                             <MenuItem value={"medium"}>Medium</MenuItem>
-                            <MenuItem value={"hard"}>Hard</MenuItem>
+                            <MenuItem value={"difficult"}>Difficult</MenuItem>
                         </Select>
                     </FormControl>
 

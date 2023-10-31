@@ -27,11 +27,9 @@ const QuestionViewer = () => {
 		})
 			.then((response) => {
                 const data = response.data;
-                console.log(data);
                 dispatch(QuestionSlice.initializeQuestionCreator(data));
 			})
-			.catch((error) => {
-                console.log(error);
+			.catch(() => {
 			});
     }, [])
 
