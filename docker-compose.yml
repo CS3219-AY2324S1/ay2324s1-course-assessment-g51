@@ -94,7 +94,7 @@ services:
     build:
       context: ./services/matching-worker-service
       target: build
-    command: ["npm", "run", "start:migrate:dev"]
+    command: ["npm", "run", "dev"]
     environment:
       - AMQP_URL=amqp://rabbitmq:5672
       - DATABASE_URL=postgresql://root:secret@matching-service-db:5432/matching_service?schema=public
