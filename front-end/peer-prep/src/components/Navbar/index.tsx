@@ -22,10 +22,6 @@ const navbarRoutes = [
 		link: "/home",
 	},
 	{
-		text: "Collaborate",
-		link: "/match"
-	},
-	{
 		text: "Profile",
 		link: "/user",
 	},
@@ -33,6 +29,10 @@ const navbarRoutes = [
 		text: "Admin",
 		link: "/admin",
 	},
+	{
+		text: "Practice",
+		link: "/practice"
+	}
 ];
 
 const settings = [
