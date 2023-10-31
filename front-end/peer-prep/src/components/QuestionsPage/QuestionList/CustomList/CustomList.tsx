@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as QuestionSlice from "../../../redux/reducers/Question/QuestionSlice";
 import * as UserSlice from "../../../redux/reducers/User/UserSlice";
 
+import axios from 'axios';
+
 interface questionObject {
     _id: string,
     title: string,
@@ -16,6 +18,13 @@ interface questionObject {
 }
 
 const CustomList = () => {
+    const currentQuestionId: string = useSelector(QuestionSlice.selectCurrentId);
+
+    // Deletes current question
+    const deleteQuestion = () => {
+        axios.delete(`https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}}`);
+    }
+
     //const [questions] = React.useState(localDatabase);
     const questions: questionObject[] = useSelector(QuestionSlice.selectQuestionsData)
     const currentId: string = useSelector(QuestionSlice.selectCurrentId)

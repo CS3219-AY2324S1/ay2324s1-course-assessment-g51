@@ -32,15 +32,38 @@ const QuestionCreator = () => {
     var duplicateCategoryErrorText: string = ""
     var duplicateCategoryError: boolean = false
 
+    // Adds new question 
     const postQuestionData = () => {
 		axios
-			.post(`https://api.peerprepgroup51sem1y2023.xyz/api/questions`, {
+			.post(`https://api.peerprepgroup51sem1y2023.xyz/api/questions/`, {
+                category: currentCategories,
+                description: currentDescription,
+                complexity: currentComplexity,
+                title: currentTitle
 			})
 			.then(() => {
 			})
 			.catch((error) => {
+                console.log(error);
 			});
 	};
+
+    // Update current question
+    const putQuestionData = () =>
+		axios
+			.patch(
+				`https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}}`,
+				{
+                    category: currentCategories,
+                    complexity: currentComplexity,
+                    description: currentDescription,
+                    title: currentTitle
+				}
+			)
+			.then(() => {
+			})
+			.catch((error) => {
+			});
 
     // lifecycle methods here
 
@@ -84,9 +107,9 @@ const QuestionCreator = () => {
                             value={currentComplexity}
                             label="complexity"
                             onChange={(event: SelectChangeEvent) => { dispatch(QuestionSlice.updateCurrentComplexity(event.target.value)) }}>
-                            <MenuItem value={"Easy"}>Easy</MenuItem>
-                            <MenuItem value={"Medium"}>Medium</MenuItem>
-                            <MenuItem value={"Hard"}>Hard</MenuItem>
+                            <MenuItem value={"easy"}>Easy</MenuItem>
+                            <MenuItem value={"medium"}>Medium</MenuItem>
+                            <MenuItem value={"hard"}>Hard</MenuItem>
                         </Select>
                     </FormControl>
 
@@ -161,7 +184,7 @@ const QuestionCreator = () => {
                                     giveSnackbarMsg("Question details updated.")
                                     openSuccessSnackbar(true)
                                 } else {
-                                    dispatch(QuestionSlice.addNewQuestion());
+                                    postQuestionData();
                                     giveSnackbarMsg("New question created.")
                                     openSuccessSnackbar(true)
                                     //dispatch(QuestionSlice.clearQuestionCreator())
