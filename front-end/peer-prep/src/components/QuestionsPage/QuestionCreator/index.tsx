@@ -185,6 +185,7 @@ const QuestionCreator = () => {
                                     openSuccessSnackbar(true)
                                 } else {
                                     postQuestionData();
+                                    dispatch(QuestionSlice.addNewQuestion()); 
                                     giveSnackbarMsg("New question created.")
                                     openSuccessSnackbar(true)
                                     //dispatch(QuestionSlice.clearQuestionCreator())

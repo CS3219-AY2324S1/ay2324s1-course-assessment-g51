@@ -8,6 +8,7 @@ import * as QuestionSlice from "../../../redux/reducers/Question/QuestionSlice";
 import * as UserSlice from "../../../redux/reducers/User/UserSlice";
 
 import axios from 'axios';
+import { useEffect } from "react";
 
 interface questionObject {
     _id: string,
@@ -22,7 +23,10 @@ const CustomList = () => {
 
     // Deletes current question
     const deleteQuestion = () => {
-        axios.delete(`https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}}`);
+        axios.delete(`https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}}`)
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     //const [questions] = React.useState(localDatabase);
@@ -32,11 +36,11 @@ const CustomList = () => {
 
     let additionalStackContainerStyle = {}
     const dispatch = useDispatch()
+    console.log(questions);
 
     return (
         <List sx={Style.listStyle}>
             {questions.map((question: questionObject) => {
-                console.log(question);
                 if (question._id === currentId) {
                     additionalStackContainerStyle = {
                         border: "2px solid pink"
@@ -60,7 +64,7 @@ const CustomList = () => {
                                         <Tooltip title="Delete">
                                             <IconButton style={Style.iconButtonStyle} onClick={(ev) => {
                                                 ev.stopPropagation()
-                                                dispatch(QuestionSlice.deleteQuestion(question._id))
+                                                deleteQuestion()
                                             }}><DeleteIcon />
                                             </IconButton>
                                         </Tooltip> : <></>
