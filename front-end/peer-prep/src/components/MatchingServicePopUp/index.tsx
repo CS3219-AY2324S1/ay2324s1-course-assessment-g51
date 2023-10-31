@@ -132,9 +132,6 @@ const FindPartner = ({ isPartnerFound }: { isPartnerFound: boolean }) => {
     } else {
         firstText = "Searching for partner...";
         secondText = "Hang tight!"
-        setTimeout(() => {
-            navigate("/home")
-        }, 4000)
     }
     return (
         <Stack direction="row" spacing={10}>
@@ -155,6 +152,7 @@ const MatchingServicePopUp = () => {
     const [isPartnerFound, setPartnerFound] = useState(false)
     const languagesChosen: string[] = useSelector(MatchSlice.selectLanguagesChosen)
     const complexityChosen: string = useSelector(MatchSlice.selectComplexityChosen)
+    const navigate = useNavigate()
     console.log(connect);
 
     const handleNext = () => {
@@ -172,6 +170,9 @@ const MatchingServicePopUp = () => {
         socket.on("match-response:success", () => {
             console.log("success! partner found")
             setPartnerFound(true)
+            setTimeout(() => {
+                navigate("/home")
+            }, 4000)
         });
         socket.on("match-response:failure", () => {
             console.log("failure");
