@@ -9,9 +9,14 @@ export const practicePageContainerStyle = {
 }
 
 export const dialogContainerStyle = {
-    height: "100%",
-    width: "100%",
-    border: "2px solid red"
+    height: "100vh",
+    width: "100vw",
+    '& .MuiDialog-paper': {
+        minHeight: "80vh",
+        height: "80vh",
+        minWidth: "80vw",
+        width: "80vw"
+    },
 }
 
 export const buildingPlayerStyle = {
