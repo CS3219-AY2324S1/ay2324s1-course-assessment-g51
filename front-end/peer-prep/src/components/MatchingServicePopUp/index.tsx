@@ -122,16 +122,23 @@ const QuestionSelection = () => {
     )
 };
 
-const FindPartner = ({ isPartnerFound }: { isPartnerFound: boolean }) => {
+const FindPartner = () => {
     let firstText;
     let secondText;
     let navigate = useNavigate()
-    if (isPartnerFound) {
+    const matchResponse = useSelector(MatchSlice.selectMatchResponse)
+    if (matchResponse == "success") {
         firstText = "Partner Found!";
-        secondText = "Redirecting you to the collaboration page...";
+        secondText = "Redirecting you to the practice page...";
+    } else if (matchResponse == "failure") {
+        firstText = "No suitable match found...";
+        secondText = "Please try again!"
+    } else if (matchResponse == "error") {
+        firstText = "Something went wrong...";
+        secondText = "Please try again!"
     } else {
         firstText = "Searching for partner...";
-        secondText = "Hang tight!"
+        secondText = "Hang Tight!"
     }
     return (
         <Stack direction="row" spacing={10}>
@@ -148,12 +155,10 @@ const socket = io("http://localhost:8000");
 
 const MatchingServicePopUp = () => {
     const [activeStep, setActiveStep] = useState(0);
-    const [connect, setConnect] = useState(false);
-    const [isPartnerFound, setPartnerFound] = useState(false)
     const languagesChosen: string[] = useSelector(MatchSlice.selectLanguagesChosen)
     const complexityChosen: string = useSelector(MatchSlice.selectComplexityChosen)
     const navigate = useNavigate()
-    console.log(connect);
+    const dispatch = useDispatch()
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -167,27 +172,28 @@ const MatchingServicePopUp = () => {
         socket.on("connect", () => {
             console.log("connected to server")
         })
-        socket.on("match-response:success", () => {
-            console.log("success! partner found")
-            setPartnerFound(true)
-            setTimeout(() => {
-                navigate("/home")
-            }, 4000)
+        socket.on("match-response:success", (data) => {
+            console.log("success! partner found");
+            dispatch(MatchSlice.setMatchResponse("success"));
+            dispatch(MatchSlice.setPartnerDetails(data));
+            console.log(data);
         });
         socket.on("match-response:failure", () => {
+            dispatch(MatchSlice.setMatchResponse("failure"));
             console.log("failure");
         });
         socket.on("match-response:error", () => {
+            dispatch(MatchSlice.setMatchResponse("error"));
             console.log("error");
         });
         socket.on("error", (error) => {
+            dispatch(MatchSlice.setMatchResponse("error"));
             console.log(error);
         });
     }, [socket])
 
 
     const handleConnect = () => {
-        setConnect(true);
         socket.emit("match-request:create",
             {
                 "userId": auth.currentUser?.uid,
@@ -230,7 +236,7 @@ const MatchingServicePopUp = () => {
                         ? <LanguageSelection />
                         : activeStep === 1
                             ? <DifficultySelection />
-                            : <FindPartner isPartnerFound={isPartnerFound} />}
+                            : <FindPartner />}
 
                     <Button onClick={activeStep === 1
                         ? handleConnect

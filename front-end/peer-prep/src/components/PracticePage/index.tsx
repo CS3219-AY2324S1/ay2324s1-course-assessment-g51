@@ -5,6 +5,7 @@ import { Dialog } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import * as PracticeSlice from "../redux/reducers/Practice/PracticeSlice"
 import MatchingServicePopUp from "../MatchingServicePopUp";
+import * as MatchSlice from "../redux/reducers/Match/MatchSlice";
 
 const PracticePage = () => {
     const dispatch = useDispatch()
@@ -18,8 +19,14 @@ const PracticePage = () => {
 }
 
 const BackdropMatchingService = () => {
-    const dispatch = useDispatch()
-    const isFindPartnerButtonPressed = useSelector(PracticeSlice.selectFindButtonState)
+    const dispatch = useDispatch();
+    const isFindPartnerButtonPressed = useSelector(PracticeSlice.selectFindButtonState);
+    const matchResponse = useSelector(MatchSlice.selectMatchResponse);
+    if (matchResponse !== "") {
+        setTimeout(() => {
+            dispatch(PracticeSlice.toggleFindPartnerButton(false))
+        }, 4000)
+    }
     return (
         <Dialog
             onClose={() => dispatch(PracticeSlice.toggleFindPartnerButton(false))}
