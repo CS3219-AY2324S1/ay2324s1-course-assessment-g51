@@ -1,0 +1,33 @@
+name: Build and Push matching-worker-service image to GitLab Container Registry
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master # Adjust this to the branch you want to trigger the workflow on
+    paths:
+      # github workflow will only trigger at the exact path
+      # add "**" at the end of the path so that any changes to sub-directories will be triggered
+      - "services/matching-worker-service/**"
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to GitLab Container Registry
+        run: docker login registry.gitlab.com -u ${{ secrets.GITLAB_USERNAME }} -p ${{ secrets.DOCKER}}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: services/matching-worker-service
+          file: ./services/matching-worker-service/Dockerfile
+          push: true
+          tags: registry.gitlab.com/peerprepgroup51sem1y2023/docker/matching-service:latest
