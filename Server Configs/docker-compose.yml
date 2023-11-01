@@ -114,7 +114,7 @@ services:
     image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/matching-worker-service:latest"
     environment:
       - AMQP_URL=amqp://rabbitmq:5672
-      - DATABASE_URL=postgresql://root:secret@matching-service-db:5432/matching_service?schema=public
+      - DATABASE_URL=postgresql://root:secret@matching-service-db:5435/matching_service?schema=public
     depends_on:
       - rabbitmq
       - matching-service-db

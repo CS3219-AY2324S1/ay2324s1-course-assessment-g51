@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://root:secret@35.240.242.81:5432/matching_service?schema=public"
+  url      = "postgresql://root:secret@35.240.242.81:5435/matching_service?schema=public"
 }
 
 model MatchRequest {
