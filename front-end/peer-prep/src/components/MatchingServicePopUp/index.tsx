@@ -151,7 +151,7 @@ const FindPartner = () => {
     )
 }
 
-const socket = io("http://localhost:8000");
+const socket = io("http://api.peerprepgroup51sem1y2023.xyz/");
 
 const MatchingServicePopUp = () => {
     const [activeStep, setActiveStep] = useState(0);
