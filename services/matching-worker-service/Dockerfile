@@ -30,5 +30,8 @@ RUN npm run compile
 # Remove dev dependencies
 RUN npm prune --production
 
+# Run Prisma migration
+RUN npx prisma migrate deploy
+
 # Start the application 
-CMD ["npm", "run", "start:migrate:prod"]
+CMD ["npm", "run", "start"]
