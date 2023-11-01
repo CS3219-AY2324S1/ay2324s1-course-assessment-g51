@@ -5,7 +5,7 @@ export const practicePageContainerStyle = {
     display: "grid",
     justifyItems: "center",
     alignItems: "center",
-    gridTemplateColumns: "10fr 10fr 1fr 1fr",
+    gridTemplateColumns: "6fr 6fr 1fr",
 }
 
 export const dialogContainerStyle = {

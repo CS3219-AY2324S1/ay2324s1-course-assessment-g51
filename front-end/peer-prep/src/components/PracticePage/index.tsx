@@ -8,16 +8,21 @@ import MatchingServicePopUp from "../MatchingServicePopUp";
 import * as MatchSlice from "../redux/reducers/Match/MatchSlice";
 import QuestionView from "./QuestionView";
 import CodeView from "./CodeView";
+import ChatView from "./ChatView"
 
 const PracticePage = () => {
     const dispatch = useDispatch();
     return (
-        <div id="PracticePage" style={Styles.practicePageContainerStyle}>
-            <QuestionView/>
-            <CodeView/>
-            <Button variant="contained" onClick={() => dispatch(PracticeSlice.toggleFindPartnerButton(true))}>Find Partner</Button>
+        <div>
+            <div id="PracticePage" style={Styles.practicePageContainerStyle}>
+                <QuestionView/>
+                <ChatView/>
+                <Button sx={{marginRight: "25%"}} variant="contained" onClick={() => dispatch(PracticeSlice.toggleFindPartnerButton(true))}>Find Partner</Button>
+            </div>
             <BackdropMatchingService />
         </div>
+
+
     )
 }
 
