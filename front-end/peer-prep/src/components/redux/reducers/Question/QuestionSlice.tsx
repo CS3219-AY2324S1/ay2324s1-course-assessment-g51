@@ -54,6 +54,9 @@ const questionSlice = createSlice({
             const currentCategoryData = action.payload;
             state.currentCategories.push(currentCategoryData);
         },
+        updateAllCurrentCatogires(state, action:PayloadAction<string[]>) {
+            state.currentCategories = action.payload;
+        },
         updateCurrentDescription(state, action: PayloadAction<string>) {
             state.currentDescription = action.payload;
         },
@@ -150,7 +153,7 @@ export const { toggleAddQuestionButton,
     addNewQuestion, clearQuestionCreator,
     initializeQuestionCreator, updateCurrentId,
     updateCurrentQuestion, createNewQuestion, deleteQuestion, deleteFromCurrentCategories,
-    updateCategoryBuffer, clearCategoryBuffer, initializeQuestionData } = questionSlice.actions
+    updateCategoryBuffer, clearCategoryBuffer, initializeQuestionData, updateAllCurrentCatogires } = questionSlice.actions
 
 // export main reducer
 export default questionSlice.reducer;
