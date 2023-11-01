@@ -30,4 +30,4 @@ jobs:
           context: services/matching-worker-service
           file: ./services/matching-worker-service/Dockerfile
           push: true
-          tags: registry.gitlab.com/peerprepgroup51sem1y2023/docker/matching-service:latest
+          tags: registry.gitlab.com/peerprepgroup51sem1y2023/docker/matching-worker-service:latest
