@@ -23,6 +23,7 @@ COPY --from=build /app/tsconfig.json ./
 COPY --from=build /app/package*.json ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/src ./src
+COPY --from=build /app/prisma ./prisma
 
 # Build the application
 RUN npm run compile
