@@ -11,7 +11,7 @@ export const questionViewContainerStyle = {
 export const questionViewMainStyle = {
     height: "80%",
     width: "80%",
-    gridTemplateRows: "1fr 1fr 1fr 1fr 8fr",
+    gridTemplateRows: "1fr 1fr 1fr 0.5fr 8fr",
     display: "grid",
 }
 
@@ -36,5 +36,22 @@ export const categoryChipStyle = {
 
 export const descriptionStyle = {
     color: "white",
-    gridRow: "5/5"
+    gridRow: "5/5",
+    overflow: "auto",
+    maxHeight: 400,
+       "&::-webkit-scrollbar": {
+		width: "12px", // Set the width of the scrollbar
+		borderRadius: "15px",
+		scrollTop: "100px",
+	},
+	"&::-webkit-scrollbar-thumb": {
+		backgroundColor: "#F4C2C2", // Set the color of the thumb (scrollbar handle)
+		borderRadius: "15px",
+		scrollTop: "100px",
+	},
+	"&::-webkit-scrollbar-thumb:hover": {
+		backgroundColor: "#F4C2C2", // Set the color of the thumb on hover
+		borderRadius: "15px",
+		scrollTop: "100px",
+	},
 }

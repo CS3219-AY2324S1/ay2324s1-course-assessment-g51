@@ -1,11 +1,11 @@
 import * as Styles from './styles';
 
-import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
+import Editor from '@monaco-editor/react';
 
 const CodeView = () => {
     return (
         <div style={Styles.CodeViewContainerStyle}>
-            <Editor defaultLanguage="javascript" defaultValue="// some comment" />
+            <Editor defaultLanguage="javascript" defaultValue="//@Kang Quan all yours bro :)" />
         </div>
     )
 }
