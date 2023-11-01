@@ -3,4 +3,5 @@ export const CodeViewContainerStyle = {
     height: "80%",
     width: "90%",
     display: "grid",
+    borderRadius: "15px"
 }
