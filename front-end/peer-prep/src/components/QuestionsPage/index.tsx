@@ -16,10 +16,30 @@ import { questionPageContainerStyle } from "./styles";
 
 import axios from 'axios';
 
+import { auth } from "../Auth/Firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+
 const QuestionsPage = () => {
     const dispatch = useDispatch();
+    const [user, loading, error] = useAuthState(auth);
+
+	const currentUserUid = user?.uid;
+
+    const getIsAdmin = () => {
+        axios({
+          method: "get",
+          url: `https://api.peerprepgroup51sem1y2023.xyz/users/admin/${currentUserUid}`,
+        })
+          .then((response) => {
+            const data = response.data.data;
+            dispatch(UserSlice.updateIsAdmin(data));
+          })
+          .catch(() => {
+          });
+    };
 
     useEffect(() => {
+        getIsAdmin();
 		axios({
 			method: "get",
 			url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,

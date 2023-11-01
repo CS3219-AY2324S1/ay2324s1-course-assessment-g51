@@ -38,7 +38,6 @@ const UserPage = () => {
 
 	// State for deletion and upgrade conformation pop ups.
 	const [deletionConfirmation, setDeletionConfirmation] = useState(false);
-	const isUserAnAdmin: boolean = useSelector(UserSlice.isUserAnAdmin);
 	const isUpgradeRequested: boolean = useSelector(
 		UserSlice.isUpgradeRequested
 	);
@@ -284,17 +283,7 @@ const UserPage = () => {
 							/>
 						</IconButton>
 					</Tooltip>
-					<Stack direction="row" justifyContent="space-between">
-						{!isUserAnAdmin ? (
-							<Button
-								sx={Styles.upgradeAccountButton}
-								onClick={openUpgradeConfirmation}
-							>
-								upgrade account
-							</Button>
-						) : (
-							<></>
-						)}
+					<Stack direction="row" justifyContent="center">
 						<Button
 							sx={Styles.deleteAccountButton}
 							onClick={openDeleteConfirmation}
