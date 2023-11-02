@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 
 //https://api.peerprepgroup51sem1y2023.xyz/
-const socket = io("http://localhost/3000");
+const socket = io("http://localhost:8576");
 
 type IMessage = {
     text: string;
@@ -22,15 +22,15 @@ const ChatView = () => {
         socket.on("connect", () => {
             console.log("connected to server")
         })
-    }, [socket]);
+    }, []);
 
     const handleSendMessage = (event:React.KeyboardEvent) => {
         if (event.key === 'Enter' && message != '') {
             console.log("enter pressed");
-
-          // Add the new message to the messages state
-          setMessages((prevMessages) => [...prevMessages, message]);
-          setMessage(''); // Clear the input field
+        
+        // Add the new message to the messages state
+        setMessages((prevMessages) => [...prevMessages, message]);
+        setMessage(''); // Clear the input field
         }
     };
 
