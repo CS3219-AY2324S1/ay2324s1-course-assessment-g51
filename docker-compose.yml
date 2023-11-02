@@ -118,6 +118,14 @@ services:
     volumes:
       - matching-service-data:/var/lib/postgresql/data
 
+  collaboration-service:
+    container_name: collaboration-service
+    image: collaboration-service
+    build:
+      context: ./services/collaboration-service
+    ports:
+      - 8576:8576
+
 networks:
   default:
     driver: bridge

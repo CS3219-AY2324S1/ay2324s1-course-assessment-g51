@@ -133,6 +133,11 @@ services:
     volumes:
       - ./matching-service-data:/var/lib/postgresql/data
 
+  collaboration-service:
+    image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/collaboration-service:latest"
+    ports:
+      - 8576:8576
+    
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
