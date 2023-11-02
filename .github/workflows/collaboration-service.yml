@@ -1,4 +1,4 @@
-name: Build and Push front-end image to GitLab Container Registry
+name: Build and Push Collaboration Service image to GitLab Container Registry
 
 on:
   workflow_dispatch:
