@@ -1,7 +1,7 @@
 import express from 'express';
 import http from 'http';
-import { SocketAddress } from 'net';
 import { Server as socketIo } from 'socket.io';
+import cors from "cors";
 
 interface IData {
     message: string,
@@ -9,6 +9,11 @@ interface IData {
 } 
 
 const app = express();
+app.use(
+	cors({
+		origin: "*", // Allow requests from any origin
+	})
+);
 const server = http.createServer(app);
 const io = new socketIo(server, {});
 
