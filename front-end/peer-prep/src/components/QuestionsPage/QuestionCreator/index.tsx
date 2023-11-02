@@ -38,27 +38,27 @@ const QuestionCreator = () => {
 
     // Adds new question 
     const postQuestionData = () => {
-		axios
-			.post(`https://api.peerprepgroup51sem1y2023.xyz/api/questions/`, {
+        axios
+            .post(`https://api.peerprepgroup51sem1y2023.xyz/api/questions/`, {
                 category: currentCategories,
                 description: currentDescription,
                 complexity: currentComplexity,
                 title: currentTitle
-			})
-			.then((reponse) => {
+            })
+            .then((reponse) => {
                 const id = reponse.data._id;
                 dispatch(QuestionSlice.addNewQuestion(id));
                 openSuccessSnackbar(true);
-			})
-			.catch((error) => {
+            })
+            .catch((error) => {
                 console.log(error)
                 const code = error.response.status;
                 if (code === 400) {
                     openErrorSnackbar(true);
                     giveSnackbarMsg(sameQuestionTitleMessage);
                 }
-			});
-	};
+            });
+    };
 
     const handlePostQuestionData = () => {
         postQuestionData();
@@ -67,22 +67,22 @@ const QuestionCreator = () => {
 
     // Update current question
     const patchQuestionData = () => {
-		axios
-			.patch(
-				`https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}`,
-				{
+        axios
+            .patch(
+                `https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}`,
+                {
                     category: currentCategories,
                     complexity: currentComplexity,
                     description: currentDescription,
                     title: currentTitle
-				}
-			)
-			.then(() => {
+                }
+            )
+            .then(() => {
                 openSuccessSnackbar(true);
                 dispatch(QuestionSlice.updateCurrentQuestion());
-			})
-			.catch((error) => {
-			})
+            })
+            .catch((error) => {
+            })
     };
 
     const handlePatchQuestionData = () => {
@@ -96,26 +96,27 @@ const QuestionCreator = () => {
     // will run only once!
     useEffect(() => {
         axios({
-			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
-		})
-			.then((response) => {
+            method: "get",
+            url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
+        })
+            .then((response) => {
                 const data = response.data;
                 dispatch(QuestionSlice.initializeQuestionCreator(data));
-			})
-			.catch(() => {
-			});
+            })
+            .catch(() => {
+            });
     }, [])
 
     const attemptQuestion = () => {
-        navigate("/match")
+        navigate("/practice")
     }
 
     return (
         <div style={Styles.questionCreatorContainerStyle}>
             <div style={Styles.questionCreatorViewStyle}>
                 <div style={Styles.labelContainerStyle}>
-                    <TextField label="id" id="test" value={currentQuestionId + "."} sx={Styles.idTextFieldStyle} disabled={true}></TextField>
+
+                    {(!isAddQuestionButtonToggled) ? <TextField label="id" id="test" value={currentQuestionId + "."} sx={Styles.idTextFieldStyle} disabled={true}></TextField> : <></>}
 
                     <TextField label="title"
                         sx={Styles.labelStyle}
@@ -207,7 +208,7 @@ const QuestionCreator = () => {
                                     giveSnackbarMsg("Question details updated.")
                                     openSuccessSnackbar(true)
                                 } else {
-                                    isAddQuestionButtonToggled 
+                                    isAddQuestionButtonToggled
                                         ? handlePostQuestionData()
                                         : handlePatchQuestionData();
                                 }
