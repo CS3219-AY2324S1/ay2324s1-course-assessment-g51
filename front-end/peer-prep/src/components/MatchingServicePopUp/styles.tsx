@@ -1,6 +1,6 @@
 export const matchingServicePageContainerStyle = {
-    height: "100vh",
-    width: "100vw",
+    height: "100%",
+    width: "100%",
     backgroundColor: "#131B25",
     display: "grid",
     justifyItems: "center",
@@ -76,8 +76,8 @@ export const selectStyle = {
     },
     '& .MuiOutlinedInput-notchedOutline': {
         borderColor: '#1B2735',
-   },
-   '&:hover': {
+    },
+    '&:hover': {
         '& .MuiOutlinedInput-notchedOutline': {
             borderColor: "pink" // changes border color on hover 
         }
@@ -92,7 +92,7 @@ export const stepperStyle = {
     '& .Mui-disabled': {
         color: "white"
     },
-    '.MuiStepLabel-root .Mui-completed' : {
+    '.MuiStepLabel-root .Mui-completed': {
         color: "#90EE90",
     },
     '.MuiStepLabel-root .Mui-active': {

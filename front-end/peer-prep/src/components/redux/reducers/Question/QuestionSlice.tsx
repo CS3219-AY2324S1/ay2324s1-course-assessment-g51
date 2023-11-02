@@ -12,11 +12,11 @@ interface questionState {
 }
 
 interface questionFormat {
-    "Id": string,
-    "Title": string,
-    "Categories": string[],
-    "Complexity": string,
-    "Description": string
+    "_id": string,
+    "title": string,
+    "category": string[],
+    "complexity": string,
+    "description": string
 }
 
 const questionSlice = createSlice({
@@ -28,78 +28,7 @@ const questionSlice = createSlice({
         currentComplexity: "",
         currentCategories: [""],
         currentDescription: "",
-        questionsData: [
-            {
-                "Id": "1",
-                "Title": "Reverse a String",
-                "Categories": ["Strings", "Algorithms"],
-                "Complexity": "Easy",
-                "Description": "hhh"
-            },
-            {
-                "Id": "2",
-                "Title": "Linked List Cycle Detection",
-                "Categories": ["Data Structures", "Algorithms"],
-                "Complexity": "Easy",
-                "Description": "xxx"
-            },
-            {
-                "Id": "3",
-                "Title": "Roman to Integer",
-                "Categories": ["Algorithms"],
-                "Complexity": "Easy",
-                "Description": "zzz"
-            },
-            {
-                "Id": "4",
-                "Title": "Add Binary",
-                "Categories": ["Bit Manipulation", "Algorithms"],
-                "Complexity": "Easy",
-                "Description": "heheh"
-            },
-            {
-                "Id": "5",
-                "Title": "Fibonacci Number",
-                "Categories": ["Recursion", "Algorithms"],
-                "Complexity": "Easy",
-                "Description": "what"
-            },
-            {
-                "Id": "6",
-                "Title": "Implement Stack using Queues ",
-                "Categories": ["Data Structures"],
-                "Complexity": "Easy",
-                "Description": "test"
-            },
-            {
-                "Id": "7",
-                "Title": "Combine Two Tables",
-                "Categories": ["Databases"],
-                "Complexity": "Easy",
-                "Description": "check"
-            },
-            {
-                "Id": "8",
-                "Title": "Repeated DNA Sequences",
-                "Categories": ["Algorithms", "Bit Manipulation"],
-                "Complexity": "Medium",
-                "Description": "nope"
-            },
-            {
-                "Id": "9",
-                "Title": "Course Schedule",
-                "Categories": ["Data Structures", "Algorithms"],
-                "Complexity": "Medium",
-                "Description": ""
-            },
-            {
-                "Id": "10",
-                "Title": "LRU Cache Design",
-                "Categories": ["Data Structures"],
-                "Complexity": "Medium",
-                "Description": ""
-            }
-        ],
+        questionsData: [],
         categoryBuffer: ""
     } as questionState,
     reducers: {
@@ -108,12 +37,12 @@ const questionSlice = createSlice({
         },
         updateCurrentId(state, action: PayloadAction<string>) {
             const newId = action.payload
-            const indexToRetrieve = state.questionsData.findIndex(item => item.Id === (newId));
+            const indexToRetrieve = state.questionsData.findIndex(item => item._id === (newId));
             state.currentId = newId
-            state.currentTitle = state.questionsData[indexToRetrieve].Title
-            state.currentCategories = state.questionsData[indexToRetrieve].Categories
-            state.currentComplexity = state.questionsData[indexToRetrieve].Complexity
-            state.currentDescription = state.questionsData[indexToRetrieve].Description
+            state.currentTitle = state.questionsData[indexToRetrieve].title
+            state.currentCategories = state.questionsData[indexToRetrieve].category
+            state.currentComplexity = state.questionsData[indexToRetrieve].complexity
+            state.currentDescription = state.questionsData[indexToRetrieve].description
         },
         updateCurrentTitle(state, action: PayloadAction<string>) {
             state.currentTitle = action.payload
@@ -125,17 +54,23 @@ const questionSlice = createSlice({
             const currentCategoryData = action.payload;
             state.currentCategories.push(currentCategoryData);
         },
+        updateAllCurrentCatogires(state, action:PayloadAction<string[]>) {
+            state.currentCategories = action.payload;
+        },
         updateCurrentDescription(state, action: PayloadAction<string>) {
-            state.currentDescription = action.payload
+            state.currentDescription = action.payload;
+        },
+        initializeQuestionData(state, action: PayloadAction<questionFormat[]>) {
+            state.questionsData = action.payload;
         },
         // once a new question is added, show that the question is added!
-        addNewQuestion(state) {
+        addNewQuestion(state, action: PayloadAction<string>) {
             const newQuestion = {
-                "Id": state.currentId,
-                "Title": state.currentTitle,
-                "Categories": state.currentCategories,
-                "Complexity": state.currentComplexity,
-                "Description": state.currentDescription
+                "_id": action.payload,
+                "title": state.currentTitle,
+                "category": state.currentCategories,
+                "complexity": state.currentComplexity,
+                "description": state.currentDescription
             }
             state.questionsData.push(newQuestion);
             state.isAddQuestionButtonToggled = false;
@@ -146,26 +81,27 @@ const questionSlice = createSlice({
             state.currentComplexity = "";
             state.currentDescription = "";
         },
-        initializeQuestionCreator(state: questionState) {
-            state.currentId = state.questionsData[0].Id
-            state.currentTitle = state.questionsData[0].Title
-            state.currentCategories = state.questionsData[0].Categories
-            state.currentComplexity = state.questionsData[0].Complexity
-            state.currentDescription = state.questionsData[0].Description
+        initializeQuestionCreator(state: questionState, action: PayloadAction<questionFormat[]>) {
+            const firstQuestion = action.payload[0]
+            state.currentId = firstQuestion._id
+            state.currentTitle = firstQuestion.title
+            state.currentCategories = firstQuestion.category
+            state.currentComplexity = firstQuestion.complexity
+            state.currentDescription = firstQuestion.description
         },
         updateCurrentQuestion(state) {
             let newQuestionsData = state.questionsData.filter(
-                (question: questionFormat) => question.Id !== state.currentId
+                (question: questionFormat) => question._id !== state.currentId
             )
             const updatedQuestion: questionFormat = {
-                "Id": state.currentId,
-                "Title": state.currentTitle,
-                "Categories": state.currentCategories,
-                "Complexity": state.currentComplexity,
-                "Description": state.currentDescription
+                "_id": state.currentId,
+                "title": state.currentTitle,
+                "category": state.currentCategories,
+                "complexity": state.currentComplexity,
+                "description": state.currentDescription
             }
             // const currentIndex = parseInt(state.currentId) - 1
-            const currentIndex = state.questionsData.findIndex(item => item.Id === (state.currentId));
+            const currentIndex = state.questionsData.findIndex(item => item._id === (state.currentId));
             newQuestionsData.splice(currentIndex, 0, updatedQuestion);
             state.questionsData = newQuestionsData;
         },
@@ -177,15 +113,15 @@ const questionSlice = createSlice({
             state.currentDescription = "";
         },
         deleteQuestion(state, action: PayloadAction<string>) {
-            const indexToDelete = state.questionsData.findIndex(item => item.Id === (action.payload));
+            const indexToDelete = state.questionsData.findIndex(item => item._id === (action.payload));
 
             if (state.questionsData.length > 1) {
                 state.questionsData.splice(indexToDelete, 1);
-                state.currentId = state.questionsData[0].Id
-                state.currentTitle = state.questionsData[0].Title
-                state.currentCategories = state.questionsData[0].Categories
-                state.currentComplexity = state.questionsData[0].Complexity
-                state.currentDescription = state.questionsData[0].Description
+                state.currentId = state.questionsData[0]._id
+                state.currentTitle = state.questionsData[0].title
+                state.currentCategories = state.questionsData[0].category
+                state.currentComplexity = state.questionsData[0].complexity
+                state.currentDescription = state.questionsData[0].description
                 // todo add delete api when ready
             } else {
                 state.questionsData.splice(indexToDelete, 1);
@@ -217,7 +153,7 @@ export const { toggleAddQuestionButton,
     addNewQuestion, clearQuestionCreator,
     initializeQuestionCreator, updateCurrentId,
     updateCurrentQuestion, createNewQuestion, deleteQuestion, deleteFromCurrentCategories,
-    updateCategoryBuffer, clearCategoryBuffer } = questionSlice.actions
+    updateCategoryBuffer, clearCategoryBuffer, initializeQuestionData, updateAllCurrentCatogires } = questionSlice.actions
 
 // export main reducer
 export default questionSlice.reducer;

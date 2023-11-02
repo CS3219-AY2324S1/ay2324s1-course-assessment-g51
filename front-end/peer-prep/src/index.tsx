@@ -30,9 +30,12 @@ import Navbar from "./components/Navbar";
 import GoodbyePage from "./components/Auth/GoodbyePage";
 import VerificationPage from "./components/Auth/VerificationPage";
 import DeletePage from "./components/DeletePage";
-import MatchingServicePage from "./components/MatchingServicePage";
+import MatchingServicePage from "./components/MatchingServicePopUp";
 
 import axios from "axios";
+import AdminPage from "./components/AdminPage";
+import PracticePage from "./components/PracticePage";
+import PracticeMatchedPage from "./components/PracticeMatchedPage";
 
 const ProtectedRoute = () => {
 	const [user, loading, error] = useAuthState(auth);
@@ -104,8 +107,10 @@ const RootApp = () => {
 							}
 						>
 							<Route path="home" element={<QuestionsPage />} />
-							<Route path="match" element={<MatchingServicePage />} />
 							<Route path="user" element={<UserPage />} />
+							<Route path="/admin" element={<AdminPage />} />
+							<Route path="practice" element={<PracticePage />} />
+							<Route path="matched" element={<PracticeMatchedPage/>} />
 						</Route>
 						{/* All non-protected routes are written here */}
 						<Route path="/" element={<SignInPage />} />

@@ -7,6 +7,8 @@ services:
       - '3000:3000'
     image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/frontend:latest"
     container_name: frontend
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   nginx-proxy-manager:
     image: 'jc21/nginx-proxy-manager:latest'
@@ -25,15 +27,17 @@ services:
     container_name: question-service
     image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/question-service:latest"
     ports:
-      - '3100:3100'
+      - '8080:8080'
     depends_on:
       - mongodb
     environment:
-      - MONGO_URI=mongodb://mongodb:27017/question-service-api
-    volumes:
-      - ./services/question-service:/usr/src/app
-      - /usr/src/app/node_modules
-    command: npm run start:dev
+      - MONGODB_URI=mongodb://root:password@35.240.242.81:27017/question-service-api?authMechanism=SCRAM-SHA-256&authSource=admin
+      - PORT_NUMBER=8080
+    # volumes:
+    #   - ./services/question-service:/app
+    # command: npm run start
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   profile-service:
     container_name: profile-service
@@ -42,17 +46,29 @@ services:
       - 3100:3100
     volumes:
       - ./services/profile-service:/app
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_HOST = "35.240.242.81"
+      - POSTGRES_PORT = "5432"
+      - POSTGRES_USERNAME = "postgres"
+      - POSTGRES_PASSWORD = "example"
+      - POSTGRES_DATABASE = "postgres"
     command: [ "npm", "start" ]
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   mongodb:
     container_name: mongodb
     image: mongo:6.0
+    environment: 
+      # provide your credentials here
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
     volumes:
-      - /data/db
+      - /data/db:/data/db
+      - ./mongo/config:/etc/mongo
     ports:
       - "27017:27017"
+    command: --config /etc/mongo/mongod.conf
 
   postgres:
     image: postgres
@@ -60,6 +76,67 @@ services:
     environment:
       POSTGRES_PASSWORD: example
     volumes:
-      - /var/lib/postgresql/data
+      # If the volume is not mapped to our Cloud's bare metal volume,
+      # the data is not persistent!
+      # Cloud Volume : Docker Container Volume
+      # - /var/lib/postgresql/data
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+  
+  matching-service:
+    container_name: matching-service
+    image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/matching-service:latest"
+    environment:
+      - PORT_NUMBER=8000
+      - AMQP_URL=amqp://rabbitmq:5672
+    ports:
+      - 8000:8000
+    depends_on:
+      - rabbitmq
+      - matching-worker-service
+    links:
+      - rabbitmq
+      - matching-worker-service
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  matching-worker-service:
+    container_name: matching-worker-service
+    image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/matching-worker-service:latest"
+    environment:
+      - AMQP_URL=amqp://rabbitmq:5672
+      - DATABASE_URL=postgresql://root:secret@matching-service-db:5435/matching_service?schema=public
+    depends_on:
+      - rabbitmq
+      - matching-service-db
+    links:
+      - rabbitmq
+      - matching-service-db
+
+  matching-service-db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=matching_service
+    ports:
+      - 5435:5432
+    volumes:
+      - ./matching-service-data:/var/lib/postgresql/data
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    command: --interval 30 --cleanup --label-enable

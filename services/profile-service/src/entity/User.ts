@@ -5,7 +5,7 @@ export class User {
 	@PrimaryColumn()
 	uid: string;
 
-	@Column()
+	@Column({ unique: true })
 	username: string;
 
 	@Column()
@@ -25,4 +25,7 @@ export class User {
 
 	@Column({ default: false })
 	isRequestingAdmin: boolean;
+
+	@Column({ default: false })
+	isSuperAdmin: boolean;
 }

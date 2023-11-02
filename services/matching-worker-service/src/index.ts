@@ -42,12 +42,14 @@ const amqpConnectionPromise = getQueueConnection(amqpUrl);
           userId: true,
           correlationId: true,
           replyTo: true,
+          languages: true,
         },
         where: {
           status: { equals: "pending" },
           complexity: { equals: matchRequest.complexity },
           createdAt: { gte: thirtySecondsAgo() },
           userId: { not: matchRequest.userId },
+          languages: { hasSome: matchRequest.languages },
         },
         orderBy: { createdAt: "asc" },
       });
@@ -60,7 +62,11 @@ const amqpConnectionPromise = getQueueConnection(amqpUrl);
       const userId1 = matchRequest.userId;
       const userId2 = compatibleMatch.userId;
       const complexity = matchRequest.complexity;
-      const match = { userId1, userId2, complexity, matchId };
+      const language = matchRequest.languages
+        .filter((lang: string) => compatibleMatch.languages.includes(lang))
+        .pop();
+      const match = { userId1, userId2, complexity, matchId, language };
+
       channel.sendToQueue(
         msg.properties.replyTo,
         Buffer.from(JSON.stringify(match)),
@@ -81,7 +87,7 @@ const amqpConnectionPromise = getQueueConnection(amqpUrl);
           data: { status: "fulfilled" },
         }),
         prisma.match.create({
-          data: { id: matchId, userId1, userId2, complexity },
+          data: { id: matchId, userId1, userId2, complexity, language },
         }),
       ]);
     });

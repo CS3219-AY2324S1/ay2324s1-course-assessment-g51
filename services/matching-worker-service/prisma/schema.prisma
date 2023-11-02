@@ -3,12 +3,12 @@
 
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["linux-musl-openssl-3.0.x"]
+  binaryTargets = ["linux-musl-openssl-3.0.x", "native", "linux-musl-arm64-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://root:secret@35.240.242.81:5435/matching_service?schema=public"
 }
 
 model MatchRequest {
@@ -17,6 +17,7 @@ model MatchRequest {
   createdAt     DateTime @default(now())
   complexity    String
   status        String   @default("pending")
+  languages     String[]
   correlationId String
   replyTo       String
 }
@@ -28,4 +29,5 @@ model Match {
   createdAt  DateTime @default(now())
   complexity String
   status     String   @default("active")
+  language   String
 }

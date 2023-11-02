@@ -9,10 +9,16 @@ import * as QuestionSlice from "../../redux/reducers/Question/QuestionSlice"
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import axios from 'axios';
+
 const QuestionCreator = () => {
     // for dispatching actions
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const createQuestionMessage = "New question created!";
+    const patchQuestionMessage = "Question updated!";
+    const sameQuestionTitleMessage = "Question title already exists!"
 
     // selectors
     const currentQuestionId: string = useSelector(QuestionSlice.selectCurrentId)
@@ -30,12 +36,75 @@ const QuestionCreator = () => {
     var duplicateCategoryErrorText: string = ""
     var duplicateCategoryError: boolean = false
 
+    // Adds new question 
+    const postQuestionData = () => {
+		axios
+			.post(`https://api.peerprepgroup51sem1y2023.xyz/api/questions/`, {
+                category: currentCategories,
+                description: currentDescription,
+                complexity: currentComplexity,
+                title: currentTitle
+			})
+			.then((reponse) => {
+                const id = reponse.data._id;
+                dispatch(QuestionSlice.addNewQuestion(id));
+                openSuccessSnackbar(true);
+			})
+			.catch((error) => {
+                console.log(error)
+                const code = error.response.status;
+                if (code === 400) {
+                    openErrorSnackbar(true);
+                    giveSnackbarMsg(sameQuestionTitleMessage);
+                }
+			});
+	};
+
+    const handlePostQuestionData = () => {
+        postQuestionData();
+        giveSnackbarMsg(createQuestionMessage);
+    }
+
+    // Update current question
+    const patchQuestionData = () => {
+		axios
+			.patch(
+				`https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}`,
+				{
+                    category: currentCategories,
+                    complexity: currentComplexity,
+                    description: currentDescription,
+                    title: currentTitle
+				}
+			)
+			.then(() => {
+                openSuccessSnackbar(true);
+                dispatch(QuestionSlice.updateCurrentQuestion());
+			})
+			.catch((error) => {
+			})
+    };
+
+    const handlePatchQuestionData = () => {
+        patchQuestionData();
+        giveSnackbarMsg(patchQuestionMessage);
+    }
+
     // lifecycle methods here
 
     // for initializing default values for the question creator based on the first data entry
     // will run only once!
     useEffect(() => {
-        dispatch(QuestionSlice.initializeQuestionCreator())
+        axios({
+			method: "get",
+			url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
+		})
+			.then((response) => {
+                const data = response.data;
+                dispatch(QuestionSlice.initializeQuestionCreator(data));
+			})
+			.catch(() => {
+			});
     }, [])
 
     const attemptQuestion = () => {
@@ -61,9 +130,9 @@ const QuestionCreator = () => {
                             value={currentComplexity}
                             label="complexity"
                             onChange={(event: SelectChangeEvent) => { dispatch(QuestionSlice.updateCurrentComplexity(event.target.value)) }}>
-                            <MenuItem value={"Easy"}>Easy</MenuItem>
-                            <MenuItem value={"Medium"}>Medium</MenuItem>
-                            <MenuItem value={"Hard"}>Hard</MenuItem>
+                            <MenuItem value={"easy"}>Easy</MenuItem>
+                            <MenuItem value={"medium"}>Medium</MenuItem>
+                            <MenuItem value={"difficult"}>Difficult</MenuItem>
                         </Select>
                     </FormControl>
 
@@ -138,10 +207,9 @@ const QuestionCreator = () => {
                                     giveSnackbarMsg("Question details updated.")
                                     openSuccessSnackbar(true)
                                 } else {
-                                    dispatch(QuestionSlice.addNewQuestion());
-                                    giveSnackbarMsg("New question created.")
-                                    openSuccessSnackbar(true)
-                                    //dispatch(QuestionSlice.clearQuestionCreator())
+                                    isAddQuestionButtonToggled 
+                                        ? handlePostQuestionData()
+                                        : handlePatchQuestionData();
                                 }
                             }}>
                                 <SaveIcon sx={{ color: "#F4C2C2", cursor: "pointer" }} />
