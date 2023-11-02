@@ -22,15 +22,15 @@ const QuestionViewer = () => {
     // will run only once!
     useEffect(() => {
         axios({
-			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
-		})
-			.then((response) => {
+            method: "get",
+            url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
+        })
+            .then((response) => {
                 const data = response.data;
                 dispatch(QuestionSlice.initializeQuestionCreator(data));
-			})
-			.catch(() => {
-			});
+            })
+            .catch(() => {
+            });
     }, [])
 
     const attemptQuestion = () => {
@@ -58,7 +58,7 @@ const QuestionViewer = () => {
                             )}
                         </Stack>
                     </Box>
-                    <Box component="span" sx={Styles.questionViewerInnerStyle}>
+                    <Box component="span" sx={Styles.questionViewerDescriptionStyle}>
                         <Typography variant="subtitle1">Description: {currentDescription}</Typography>
                     </Box>
                     <Button variant="outlined" onClick={attemptQuestion}>Attempt Question</Button>

@@ -24,3 +24,16 @@ export const questionViewerInnerStyle = {
     borderColor: "#F4C2C2",
     borderRadius: 2
 }
+
+export const questionViewerDescriptionStyle = {
+    display: 'block',
+    p: 1,
+    m: 1,
+    backgroundColor: "#1B2735",
+    color: "white",
+    border: '1px solid',
+    borderColor: "#F4C2C2",
+    borderRadius: 2,
+    overflow: "scroll",
+    height: "200px"
+}
