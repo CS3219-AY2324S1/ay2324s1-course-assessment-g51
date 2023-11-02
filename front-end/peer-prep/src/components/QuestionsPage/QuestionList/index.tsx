@@ -20,7 +20,7 @@ const QuestionList = () => {
 
     const upgrade = () => {
         dispatch(UserSlice.setIsUpgradeRequested(true))
-        navigate("/user")
+        navigate("/admin")
     }
 
     return (
