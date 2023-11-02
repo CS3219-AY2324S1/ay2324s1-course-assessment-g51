@@ -18,8 +18,8 @@ const PracticePage = () => {
     const dispatch = useDispatch();
 
     // Uncomment line 21 and comment out line 22 to test UI after matched
-    // const partnerDetails = {"test":3};
-    const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
+     const partnerDetails = {"test":3};
+    //const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
 
     const isPartnerDetailsEmpty = () => {
         return Object.keys(partnerDetails).length === 0;

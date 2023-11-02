@@ -3,25 +3,49 @@ import { List, TextField } from '@mui/material';
 import * as Styles from './styles';
 
 import ChatBubble from './ChatBubble/ChatBubble';
+import React, { useEffect, useState } from 'react';
+import io from 'socket.io-client';
+
+//https://api.peerprepgroup51sem1y2023.xyz/
+const socket = io("http://localhost/3000");
+
+type IMessage = {
+    text: string;
+    isMine: boolean;
+};
 
 const ChatView = () => {
+    const [messages, setMessages] = useState<string[]>([]);
+    const [message, setMessage] = useState<string>('');
+
+    useEffect(() => {
+        socket.on("connect", () => {
+            console.log("connected to server")
+        })
+    }, [socket]);
+
+    const handleSendMessage = (event:React.KeyboardEvent) => {
+        if (event.key === 'Enter' && message != '') {
+            console.log("enter pressed");
+
+          // Add the new message to the messages state
+          setMessages((prevMessages) => [...prevMessages, message]);
+          setMessage(''); // Clear the input field
+        }
+    };
+
     return (
         <div style={Styles.chatViewContainerStyle}>
                 <List sx={Styles.listStyle}>
-                    <ChatBubble text='hello how are youhello how are youhello how are youhello how are youhello how are you' isMine={true}/>
-                    <ChatBubble text='How are you todayHow are youHow are you todayHow are youHow are you todayHow are youHow are you todayHow are you ' isMine={false}/>
-                    <ChatBubble text='How are you todayHow are youHow are you todayHow are youHow are you todayHow are youHow are you todayHow are you ' isMine={false}/>
-                    <ChatBubble text='hello how are youhello how are youhello how are youhello how are youhello how are you' isMine={true}/>
-                    <ChatBubble text='How are you todayHow are youHow are you todayHow are youHow are you todayHow are youHow are you todayHow are you ' isMine={false}/>
-                    <ChatBubble text='How are you todayHow are youHow are you todayHow are youHow are you todayHow are youHow are you todayHow are you ' isMine={false}/>
-                    <ChatBubble text='hello how are youhello how are youhello how are youhello how are youhello how are you' isMine={true}/>
-                    <ChatBubble text='How are you todayHow are youHow are you todayHow are youHow are you todayHow are youHow are you todayHow are you ' isMine={false}/>
-                    <ChatBubble text='How are you todayHow are youHow are you todayHow are youHow are you todayHow are youHow are you todayHow are you ' isMine={false}/>
-                    <ChatBubble text='hello how are youhello how are youhello how are youhello how are youhello how are you' isMine={true}/>
-                    <ChatBubble text='How are you todayHow are youHow are you todayHow are youHow are you todayHow are youHow are you todayHow are you ' isMine={false}/>
-                    <ChatBubble text='How are you todayHow are youHow are you todayHow are youHow are you todayHow are youHow are you todayHow are you ' isMine={false}/>
+                    {messages.map((message) => {
+                        return (
+                            <ChatBubble text={message} isMine={true}/>
+                        );
+                    })};
                 </List>
-                <TextField sx={Styles.textFieldStyle}></TextField>
+                <TextField value={message} 
+                            onChange={(e) => setMessage(e.target.value)} 
+                            onKeyDown={handleSendMessage} sx={Styles.textFieldStyle}></TextField>
         </div>
     );
 };
