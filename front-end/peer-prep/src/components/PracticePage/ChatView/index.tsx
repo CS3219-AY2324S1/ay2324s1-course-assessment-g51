@@ -6,7 +6,7 @@ import ChatBubble from './ChatBubble/ChatBubble';
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 
-//https://api.peerprepgroup51sem1y2023.xyz/
+// change to this when live https://api.peerprepgroup51sem1y2023.xyz/
 const socket = io("http://localhost:8576");
 
 type IMessage = {
