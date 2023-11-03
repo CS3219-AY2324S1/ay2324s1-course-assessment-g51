@@ -9,8 +9,9 @@ interface ChatBubbleProps {
 const ChatBubble = ({ text, isMine }:ChatBubbleProps) => {
     const myChatBubbleStyle = {
         backgroundColor: "#281E5D",
-        width: `${text.length*8}px`,
+        width: "auto",
         borderRadius: "5px",
+        wordWrap: "break-word",
         maxWidth: "300px",
         color:"white",
         marginRight: "5%",
@@ -19,9 +20,10 @@ const ChatBubble = ({ text, isMine }:ChatBubbleProps) => {
 
     const otherChatBubbleStyle = {
         backgroundColor: "#1B2735",
-        width: `${text.length*8}px`,
-        maxWidth: "300px",
+        width: "auto",
         borderRadius: "5px",
+        wordWrap: "break-word",
+        maxWidth: "300px",
         color: "white",
         marginLeft: "5%",
         padding: "2%"
