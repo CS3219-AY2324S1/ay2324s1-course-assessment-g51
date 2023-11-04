@@ -10,19 +10,29 @@ import * as MatchSlice from '../../redux/reducers/Match/MatchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
 // change to this when live https://api.peerprepgroup51sem1y2023.xyz/
-const socket = io("http://localhost:8576");
+const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/");
 
 type IMessage = {
     message: string;
     roomId: string;
 };
 
+interface IPartnerDetails {
+    userId1: string,
+    userId2: string,
+    complexity: string
+    matchId: string
+    language: string
+}
+
 const ChatView = () => {
     const dispatch = useDispatch();
-    const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
-    const id = partnerDetails.matchId;
-    console.log(id);
-    let roomId = "test";
+    const partnerDetails: IPartnerDetails = useSelector(MatchSlice.selectPartnerDetails);
+    console.log(partnerDetails)
+    const roomId = partnerDetails.matchId
+    //const roomId = useSelector(MatchSlice.selectRoomId)
+    console.log(roomId);
+    // let roomId = "test";
 
     const [messages, setMessages] = useState<string[]>([]);
     const [message, setMessage] = useState<string>('');
@@ -33,25 +43,26 @@ const ChatView = () => {
         })
 
         socket.emit("joinRoom", roomId);
-    }, []);
+
+        socket.on("message", (data: IMessage) => {
+            console.log("Received message:", data.message);
+
+            // Update the messages state with the received message
+            setMessages((prevMessages) => [...prevMessages, data.message]);
+        });
+
+    }, [socket]);
 
     const handleSendMessage = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter' && message != '') {
             console.log("enter pressed");
 
             // Add the new message to the messages state
-            socket.emit("message", {"message": message, "roomId": roomId});
+            socket.emit("message", { "message": message, "roomId": roomId });
             setMessages((prevMessages) => [...prevMessages, message]);
             setMessage(''); // Clear the input field
         }
     };
-
-    socket.on("message", (data: IMessage) => {
-        console.log("Received message:", data.message);
-
-        // Update the messages state with the received message
-        setMessages((prevMessages) => [...prevMessages, data.message]);
-    });
 
     return (
         <div style={Styles.chatViewContainerStyle}>
