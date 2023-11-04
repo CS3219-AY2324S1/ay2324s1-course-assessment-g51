@@ -9,12 +9,13 @@ import io from 'socket.io-client';
 import * as MatchSlice from '../../redux/reducers/Match/MatchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
-// change to this when live https://api.peerprepgroup51sem1y2023.xyz/
 const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/");
 
-type IMessage = {
-    message: string;
-    roomId: string;
+interface IMessageData {
+    message: string,
+    roomId: string,
+    socketId: string,
+    isMine: boolean
 };
 
 interface IPartnerDetails {
@@ -26,15 +27,10 @@ interface IPartnerDetails {
 }
 
 const ChatView = () => {
-    const dispatch = useDispatch();
     const partnerDetails: IPartnerDetails = useSelector(MatchSlice.selectPartnerDetails);
-    console.log(partnerDetails)
-    const roomId = partnerDetails.matchId
-    //const roomId = useSelector(MatchSlice.selectRoomId)
-    console.log(roomId);
-    // let roomId = "test";
+    const roomId = partnerDetails.matchId;
 
-    const [messages, setMessages] = useState<string[]>([]);
+    const [messages, setMessages] = useState<IMessageData[]>([]);
     const [message, setMessage] = useState<string>('');
 
     useEffect(() => {
@@ -43,23 +39,26 @@ const ChatView = () => {
         })
 
         socket.emit("joinRoom", roomId);
+        console.log(roomId)
 
-        socket.on("message", (data: IMessage) => {
-            console.log("Received message:", data.message);
+        socket.on("message", (data:IMessageData) => {
+            console.log("Server Received message:", data);
 
+            // Checks if the message sent belongs to client using socket id
+            data.isMine = data.socketId === socket.id;
+            
             // Update the messages state with the received message
-            setMessages((prevMessages) => [...prevMessages, data.message]);
+            setMessages((prevMessages) => [...prevMessages, data]);
         });
-
     }, [socket]);
 
     const handleSendMessage = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter' && message != '') {
-            console.log("enter pressed");
-
             // Add the new message to the messages state
-            socket.emit("message", { "message": message, "roomId": roomId });
-            setMessages((prevMessages) => [...prevMessages, message]);
+            socket.emit("message", { "message": message, 
+                                            "roomId": roomId,
+                                            "socketId": socket.id,
+                                            "isMine": true });
             setMessage(''); // Clear the input field
         }
     };
@@ -69,9 +68,9 @@ const ChatView = () => {
             <List sx={Styles.listStyle}>
                 {messages.map((message) => {
                     return (
-                        <ChatBubble text={message} isMine={true} />
+                        <ChatBubble text={message.message} isMine={message.isMine} />
                     );
-                })};
+                })}
             </List>
             <TextField value={message}
                 onChange={(e) => setMessage(e.target.value)}
