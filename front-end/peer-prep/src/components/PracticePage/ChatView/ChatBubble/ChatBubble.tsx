@@ -1,5 +1,5 @@
 import * as Styles from './styles';
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 
 interface ChatBubbleProps {
     text: string;
@@ -9,7 +9,7 @@ interface ChatBubbleProps {
 const ChatBubble = ({ text, isMine }:ChatBubbleProps) => {
     const myChatBubbleStyle = {
         backgroundColor: "#281E5D",
-        width: "auto",
+        display: "inline",
         borderRadius: "5px",
         wordWrap: "break-word",
         maxWidth: "300px",
@@ -20,13 +20,13 @@ const ChatBubble = ({ text, isMine }:ChatBubbleProps) => {
 
     const otherChatBubbleStyle = {
         backgroundColor: "#1B2735",
-        width: "auto",
+        display: "inline",
         borderRadius: "5px",
         wordWrap: "break-word",
         maxWidth: "300px",
         color: "white",
         marginLeft: "5%",
-        padding: "2%"
+        padding: "2%",
     };
 
     const MyChatBubble = () => {
@@ -41,9 +41,12 @@ const ChatBubble = ({ text, isMine }:ChatBubbleProps) => {
 
     const OtherChatBubble = () => {
         return (
-            <Typography sx={otherChatBubbleStyle} mb={1}>
-                {text}
-            </Typography>
+            <Box mb={1}>
+                <Typography sx={otherChatBubbleStyle}>
+                    {text}
+                </Typography>
+            </Box>
+
         )
     };
   
