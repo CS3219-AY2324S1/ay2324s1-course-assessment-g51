@@ -3,10 +3,12 @@ import http from 'http';
 import { Server as socketIo } from 'socket.io';
 import cors from "cors";
 
-interface IData {
+interface IMessageData {
     message: string,
-    roomId: string
-} 
+    roomId: string,
+    socketId: string,
+    isMine: boolean
+};
 
 const app = express();
 app.use(
@@ -38,17 +40,17 @@ io.on('connection', (socket) => {
         console.log(`User joined room: ${room}`);
     });
 
-    // Define socket event handlers here
-    socket.on('message', (data:IData) => {
+    socket.on('message', (data:IMessageData) => {
+        console.log("test")
         console.log('Received message:', data);
         try {
-            // Broadcast the message to all connected clients
+        // Broadcast the message to all connected clients
             const room = data.roomId;
             if (!room) {
                 socket.emit('error', 'An error occurred while processing your request');
             }
             // Emit the message to the specified room
-            io.to(room).emit('message', data.message);
+            io.to(room).emit('message', data);
         } catch (error) {
         // Handle the error
         console.error('An error occurred in the event handler:', error);
