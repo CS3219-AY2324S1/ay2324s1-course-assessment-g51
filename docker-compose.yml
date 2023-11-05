@@ -3,13 +3,13 @@
 version: "3"
 
 services:
-  # front-end:
-  #     container_name: front-end
-  #     image: front-end
-  #     build:
-  #         context: ./front-end/peer-prep
-  #     ports:
-  #         - 3000:3000
+  front-end:
+      container_name: front-end
+      image: front-end
+      build:
+          context: ./front-end/peer-prep
+      ports:
+          - 3000:3000
 
   question-service:
     container_name: question-service
@@ -25,20 +25,20 @@ services:
     build:
         context: ./services/question-service
         target: build
-    command: ["npm", "run", "dev"]
-    environment:
-        - MONGODB_URI=mongodb://mongodb:27017/question-service-api
-        - PORT_NUMBER=8080
+    # command: ["npm", "run", "dev"]
+    # environment:
+    #     - MONGODB_URI=mongodb://mongodb:27017/question-service-api
+    #     - PORT_NUMBER=8080
     depends_on:
         - mongodb
-    volumes:
-        - ./services/question-service:/app
+    # volumes:
+    #     - ./services/question-service:/app
 
   mongodb:
     container_name: mongodb
     image: mongo:6.0
-    volumes:
-      - db-data:/data/db
+    # volumes:
+    #   - db-data:/data/db
     ports:
       - 27017:27017
 
@@ -61,13 +61,14 @@ services:
 
   matching-service:
     container_name: matching-service
+    image: matching-service
     build:
       context: ./services/matching-service
       target: build
-    command: ["npm", "run", "dev"]
-    environment:
-      - PORT_NUMBER=8000
-      - AMQP_URL=amqp://rabbitmq:5672
+    # command: ["npm", "run", "dev"]
+    # environment:
+    #   - PORT_NUMBER=8000
+    #   - AMQP_URL=amqp://rabbitmq:5672
     ports:
       - 8000:8000
     depends_on:
@@ -76,47 +77,49 @@ services:
     links:
       - rabbitmq
       - matching-worker-service
-    volumes:
-      - ./services/matching-service:/app
+    # volumes:
+    #   - ./services/matching-service:/app
 
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmq
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+    # environment:
+    #   - RABBITMQ_DEFAULT_USER=guest
+    #   - RABBITMQ_DEFAULT_PASS=guest
     ports:
       - 5672:5672
       - 15672:15672
 
   matching-worker-service:
     container_name: matching-worker-service
+    image: matching-worker-service
     build:
       context: ./services/matching-worker-service
       target: build
-    command: ["npm", "run", "dev"]
-    environment:
-      - AMQP_URL=amqp://rabbitmq:5672
-      - DATABASE_URL=postgresql://root:secret@matching-service-db:5432/matching_service?schema=public
+    # command: ["npm", "run", "dev"]
+    # environment:
+    #   - AMQP_URL=amqp://rabbitmq:5672
+    #   - DATABASE_URL=postgresql://root:secret@matching-service-db:5435/matching_service?schema=public
     depends_on:
       - rabbitmq
       - matching-service-db
     links:
       - rabbitmq
       - matching-service-db
-    volumes:
-      - ./services/matching-worker-service:/app
+    # volumes:
+    #   - ./services/matching-worker-service:/app
 
   matching-service-db:
+    container_name:  matching-service-db
     image: postgres:16-alpine
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=matching_service
+    # environment:
+    #   - POSTGRES_USER=root
+    #   - POSTGRES_PASSWORD=secret
+    #   - POSTGRES_DB=matching_service
     ports:
-      - 5432:5432
-    volumes:
-      - matching-service-data:/var/lib/postgresql/data
+      - 5435:5432
+    # volumes:
+    #   - matching-service-data:/var/lib/postgresql/data
 
   collaboration-service:
     container_name: collaboration-service
@@ -126,10 +129,10 @@ services:
     ports:
       - 8576:8576
 
-networks:
-  default:
-    driver: bridge
+# networks:
+#   default:
+#     driver: bridge
 
-volumes:
-  db-data:
-  matching-service-data:
+# volumes:
+#   db-data:
+#   matching-service-data:

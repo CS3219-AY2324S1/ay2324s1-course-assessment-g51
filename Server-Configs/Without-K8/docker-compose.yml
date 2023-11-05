@@ -33,9 +33,6 @@ services:
     environment:
       - MONGODB_URI=mongodb://root:password@35.240.242.81:27017/question-service-api?authMechanism=SCRAM-SHA-256&authSource=admin
       - PORT_NUMBER=8080
-    # volumes:
-    #   - ./services/question-service:/app
-    # command: npm run start
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
@@ -98,6 +95,8 @@ services:
     links:
       - rabbitmq
       - matching-worker-service
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   rabbitmq:
     image: rabbitmq:management
@@ -121,6 +120,8 @@ services:
     links:
       - rabbitmq
       - matching-service-db
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   matching-service-db:
     image: postgres:16-alpine
@@ -137,6 +138,8 @@ services:
     image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/collaboration-service:latest"
     ports:
       - 8576:8576
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
     
   watchtower:
     image: containrrr/watchtower

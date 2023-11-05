@@ -4,12 +4,14 @@ metadata:
     name: matching-service-deployment-dev # Name of the deployment
     namespace: dev # Namespace in which the deployment will be created
 spec:
-    replicas: 1 # Number of desired replicas
+    # replicas: 1 # Number of desired replicas
     selector:
         matchLabels:
             app: matching-service-api # Label selector for the pods controlled by this deployment
     strategy:
-        type: RollingUpdate # Deployment strategy, which recreates all pods when updating
+        type: Recreate # Deployment strategy, which recreates all pods when updating
+    dependsOn:
+
     template:
         metadata:
             labels:
@@ -19,6 +21,7 @@ spec:
                 - name: matching-service-api # Name of the container
                   image: matching-service # Docker image for the container
                   imagePullPolicy: Never
+                  # image: registry.gitlab.com/peerprepgroup51sem1y2023/docker/matching-service:latest
                   ports:
                       - containerPort: 8000 # Port on which the container listens
                   resources:
@@ -39,5 +42,5 @@ spec:
                             configMapKeyRef:
                                 name: matching-service-config-dev
                                 key: AMQP_URL
-            restartPolicy: Always # Restart policy for the pods
+            # restartPolicy: "OnFailure" # Restart policy for the pods
 status: {} # Empty status section

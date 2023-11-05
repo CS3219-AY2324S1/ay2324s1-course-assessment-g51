@@ -5,4 +5,4 @@ metadata:
     namespace: dev
 data:
     PORT_NUMBER: "8000"
-    AMQP_URL=amqp: //rabbitmq:5672
+    AMQP_URL: amqp://rabbitmq-service-dev:5672

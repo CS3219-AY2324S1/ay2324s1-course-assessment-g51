@@ -6,13 +6,11 @@ metadata:
 spec:
     selector:
         app: rabbitmq
+    clusterIP: None # Make it a headless service
     ports:
         - name: "5672"
-          port: 5672
-          targetPort: 5672
+          port: 5672 # Port used for Postgres
         - name: "15672"
-          port: 15672
-          targetPort: 15672
-    type: NodePort # Use NodePort for localtesting / port forwarding
+          port: 15672 # Port used for Postgres
 status:
     loadBalancer: {}

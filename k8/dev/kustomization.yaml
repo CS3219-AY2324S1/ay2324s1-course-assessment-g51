@@ -11,7 +11,8 @@ resources:
   - ../dev/deployments/prometheus-deployment-dev.yaml
   - ../dev/deployments/matching-service-deployment-dev.yaml
   - ../dev/deployments/rabbitmq-deployment-dev.yaml
-  - ../dev/deployment/matching-worker-service-dev.yaml
+  - ../dev/deployments/matching-worker-service-deployment-dev.yaml
+  - ../dev/deployments/matching-service-db-statefulset-dev.yaml
 
   # Ingresses
   - ../dev/ingresses/nginx-ingress-dev.yaml
@@ -27,12 +28,13 @@ resources:
   - ../dev/services/postgres-service-dev.yaml
   - ../dev/services/matching-service-service-dev.yaml
   - ../dev/services/rabbitmq-service-dev.yaml
-  - ../dev/services/matching-worker-service-service-dev.yaml
+  - ../dev/services/matching-service-db-service-dev.yaml
 
   # Volumes
   - ../dev/volumes/mongodb-pvc-dev.yaml
   - ../dev/volumes/postgres-pvc-dev.yaml
   - ../dev/volumes/prometheus-pvc-dev.yaml
+  - ../dev/volumes/matching-service-db-pvc-dev.yaml
 
   # ConfigMaps
   - ../dev/configMaps/question-service-config-dev.yaml
@@ -41,3 +43,4 @@ resources:
   - ../dev/configMaps/matching-service-config-dev.yaml
   - ../dev/configMaps/rabbitmq-config-dev.yaml
   - ../dev/configMaps/matching-worker-service-config-dev.yaml
+  - ../dev/configMaps/matching-service-db-config-dev.yaml

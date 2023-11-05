@@ -18,7 +18,6 @@ spec:
             containers:
                 - name: rabbitmq # Name of the container
                   image: rabbitmq # Docker image for the container
-                  imagePullPolicy: Never
                   ports:
                       - containerPort: 5672 # Port on which the container listens
                       - containerPort: 15672

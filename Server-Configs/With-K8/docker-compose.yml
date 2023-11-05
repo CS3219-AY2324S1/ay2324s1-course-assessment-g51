@@ -1,0 +1,64 @@
+# For local development purposes only
+
+version: "3"
+
+services:
+    front-end:
+        container_name: front-end
+        image: front-end
+        build:
+            context: ../../front-end/peer-prep
+        ports:
+            - 3000:3000
+
+    question-service:
+        container_name: question-service
+        image: question-service
+        build:
+            context: ../../services/question-service
+
+    mongodb:
+        container_name: mongodb
+        image: mongo:6.0
+        ports:
+        - 27017:27017
+
+    postgres:
+        container_name: postgres
+        image: postgres
+        restart: always
+        ports:
+        - "5432:5432"
+
+    profile-service:
+        container_name: profile-service
+        image: profile-service
+        build:
+            context: ../../services/profile-service
+
+    matching-service:
+        container_name: matching-service
+        image: matching-service
+        build:
+            context: ../../services/matching-service
+
+    rabbitmq:
+        image: rabbitmq:management
+        container_name: rabbitmq
+
+    matching-worker-service:
+        container_name: matching-worker-service
+        image: matching-worker-service
+        build:
+            context: ../../services/matching-worker-service
+
+    matching-service-db:
+        container_name:  matching-service-db
+        image: postgres:16-alpine
+
+    collaboration-service:
+        container_name: collaboration-service
+        image: collaboration-service
+        build:
+            context: ../../services/collaboration-service
+
