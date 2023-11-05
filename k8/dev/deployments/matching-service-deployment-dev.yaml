@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: matching-service-deployment-dev # Name of the deployment
+    namespace: dev # Namespace in which the deployment will be created
+spec:
+    replicas: 1 # Number of desired replicas
+    selector:
+        matchLabels:
+            app: matching-service-api # Label selector for the pods controlled by this deployment
+    strategy:
+        type: RollingUpdate # Deployment strategy, which recreates all pods when updating
+    template:
+        metadata:
+            labels:
+                app: matching-service-api # Label for pods created by this template
+        spec:
+            containers:
+                - name: matching-service-api # Name of the container
+                  image: matching-service # Docker image for the container
+                  imagePullPolicy: Never
+                  ports:
+                      - containerPort: 8000 # Port on which the container listens
+                  resources:
+                      requests:
+                          memory: "150Mi" # Request 256MB of memory
+                          cpu: "100m" # Request 0.1 CPU (100 milliCPU)
+                      limits:
+                          memory: "200Mi" # Limit memory to 512MB
+                          cpu: "200m" # Limit CPU to 0.2 CPU (200 milliCPU)
+                  env:
+                      - name: PORT_NUMBER
+                        valueFrom:
+                            configMapKeyRef:
+                                name: matching-service-config-dev
+                                key: PORT_NUMBER
+                      - name: AMQP_URL
+                        valueFrom:
+                            configMapKeyRef:
+                                name: matching-service-config-dev
+                                key: AMQP_URL
+            restartPolicy: Always # Restart policy for the pods
+status: {} # Empty status section

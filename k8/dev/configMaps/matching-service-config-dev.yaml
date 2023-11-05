@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: matching-service-config-dev
+    namespace: dev
+data:
+    PORT_NUMBER: "8000"
+    AMQP_URL=amqp: //rabbitmq:5672

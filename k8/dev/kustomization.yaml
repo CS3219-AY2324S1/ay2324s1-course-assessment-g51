@@ -9,6 +9,8 @@ resources:
   - ../dev/deployments/question-service-deployment-dev.yaml
   - ../dev/deployments/postgres-statefulset-dev.yaml
   - ../dev/deployments/prometheus-deployment-dev.yaml
+  - ../dev/deployments/matching-service-deployment-dev.yaml
+  - ../dev/deployments/rabbitmq-deployment-dev.yaml
 
   # Ingresses
   - ../dev/ingresses/nginx-ingress-dev.yaml
@@ -22,6 +24,8 @@ resources:
   - ../dev/services/profile-service-service-dev.yaml
   - ../dev/services/question-service-service-dev.yaml
   - ../dev/services/postgres-service-dev.yaml
+  - ../dev/services/matching-service-service-dev.yaml
+  - ../dev/services/rabbitmq-service-dev.yaml
 
   # Volumes
   - ../dev/volumes/mongodb-pvc-dev.yaml
@@ -32,3 +36,5 @@ resources:
   - ../dev/configMaps/question-service-config-dev.yaml
   - ../dev/configMaps/postgres-config-dev.yaml
   - ../dev/configMaps/prometheus-config-dev.yaml
+  - ../dev/configMaps/matching-service-config-dev.yaml
+  - ../dev/configMaps/rabbitmq-config-dev.yaml
