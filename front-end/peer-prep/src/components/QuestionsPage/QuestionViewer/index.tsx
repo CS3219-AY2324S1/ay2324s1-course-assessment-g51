@@ -34,7 +34,7 @@ const QuestionViewer = () => {
     }, [])
 
     const attemptQuestion = () => {
-        navigate("/match")
+        navigate("/practice")
     }
 
     return (
