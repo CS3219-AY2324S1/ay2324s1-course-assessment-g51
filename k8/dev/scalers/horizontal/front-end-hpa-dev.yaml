@@ -12,12 +12,12 @@ spec:
     maxReplicas: 6 # Maximum number of pod replicas to scale up to
     metrics:
         - type: Pods # Metric type, in this case, resource utilization
-          pods:                                                                                             
-            metric:
-                name: cpu
-            target:
-                type: Utilization 
-                averageValue: "100m"
+          pods:
+              metric:
+                  name: cpu
+              target:
+                  type: Utilization
+                  averageValue: "100m"
     behavior:
         scaleDown:
             policies:
