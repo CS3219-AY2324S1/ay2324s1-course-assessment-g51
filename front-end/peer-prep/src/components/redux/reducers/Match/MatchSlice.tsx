@@ -1,10 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IMatchState {
-    languagesChosen: string[]
-    complexityChosen: string
-    partnerDetails: {}
+    languagesChosen: string[],
+    complexityChosen: string,
+    partnerDetails: IPartnerDetails,
     matchResponse: string
+}
+
+interface IPartnerDetails {
+    userId1: string,
+    userId2: string,
+    complexity: string
+    matchId: string
+    language: string
 }
 
 const matchSlice = createSlice({
@@ -26,7 +34,8 @@ const matchSlice = createSlice({
         setComplexity(state, action: PayloadAction<string>) {
             state.complexityChosen = action.payload
         },
-        setPartnerDetails(state, action: PayloadAction<object>) {
+        setPartnerDetails(state, action: PayloadAction<IPartnerDetails>) {
+
             state.partnerDetails = action.payload
         },
         setMatchResponse(state, action: PayloadAction<string>) {
@@ -39,7 +48,8 @@ export const { setLanguages, setComplexity, setPartnerDetails, setMatchResponse 
 
 export default matchSlice.reducer;
 
-export const selectLanguagesChosen = (state: any) => state.match.languagesChosen;
-export const selectComplexityChosen = (state: any) => state.match.complexityChosen;
-export const selectPartnerDetails = (state: any) => state.match.partnerDetails;
-export const selectMatchResponse = (state: any) => state.match.matchResponse;
+export const selectLanguagesChosen = (state: { match: IMatchState }) => state.match.languagesChosen;
+export const selectComplexityChosen = (state: { match: IMatchState }) => state.match.complexityChosen;
+export const selectPartnerDetails = (state: { match: IMatchState }) => state.match.partnerDetails;
+export const selectRoomId = (state: { match: IMatchState }) => state.match.partnerDetails.matchId;
+export const selectMatchResponse = (state: { match: IMatchState }) => state.match.matchResponse;

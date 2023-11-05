@@ -36,6 +36,14 @@ const steps = [
     "Find partner"
 ];
 
+interface IPartnerDetails {
+    "userId1": string,
+    "userId2": string,
+    "complexity": string
+    "matchId": string
+    "language": string
+}
+
 const LanguageSelection = () => {
     const languagesChosen: string[] = useSelector(MatchSlice.selectLanguagesChosen);
     const dispatch = useDispatch();
@@ -175,7 +183,8 @@ const MatchingServicePopUp = () => {
         socket.on("match-response:success", (data) => {
             console.log("success! partner found");
             dispatch(MatchSlice.setMatchResponse("success"));
-            dispatch(MatchSlice.setPartnerDetails(data));
+            const partnerDetails: IPartnerDetails = JSON.parse(data)
+            dispatch(MatchSlice.setPartnerDetails(partnerDetails));
             console.log(data);
         });
         socket.on("match-response:failure", () => {
