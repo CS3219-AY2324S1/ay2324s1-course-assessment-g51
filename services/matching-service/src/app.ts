@@ -5,30 +5,37 @@ import { Server, Socket } from "socket.io";
 import registerDisconnectHandlers from "./handlers/disconnectHandler";
 import registerMatchRequestHandlers from "./handlers/matchRequestHandler";
 import { getQueueConnection } from "./rabbitmq/connection";
+import cors from "cors";
 
 const amqpUrl = process.env.AMQP_URL;
 const amqpConnectionPromise = getQueueConnection(amqpUrl);
 
 const app = express();
+app.use(
+	cors({
+		origin: "*", // Allow requests from any origin
+	})
+);
+
 const server = createServer(app);
 const io = new Server(server);
 
 const onConnection = async (socket: Socket) => {
-  console.log("a user connected");
-  const amqpConnection = await amqpConnectionPromise;
-  if (!amqpConnection) {
-    throw Error();
-  }
-  const channel = await amqpConnection.createChannel();
-  registerMatchRequestHandlers(io, socket, channel);
-  registerDisconnectHandlers(io, socket, channel);
+	console.log("a user connected");
+	const amqpConnection = await amqpConnectionPromise;
+	if (!amqpConnection) {
+		throw Error();
+	}
+	const channel = await amqpConnection.createChannel();
+	registerMatchRequestHandlers(io, socket, channel);
+	registerDisconnectHandlers(io, socket, channel);
 };
 
 io.on("connection", onConnection);
 
 // Catch all route handling
 app.all("*", (_, res) => {
-  return res.status(404).send();
+	return res.status(404).send();
 });
 
 export default server;
