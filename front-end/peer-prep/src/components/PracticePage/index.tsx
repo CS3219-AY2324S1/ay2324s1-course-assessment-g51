@@ -15,8 +15,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-//export const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/");
-export const socket = io("http://localhost:8576");
+export const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/");
+//export const socket = io("http://localhost:8576");
 
 const PracticePage = () => {
 	const dispatch = useDispatch();
