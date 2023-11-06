@@ -77,6 +77,7 @@ io.on("connection", (socket) => {
 
 	// Listen for code changes from clients
 	socket.on("code-change", (newCode) => {
+		console.log(newCode);
 		// Broadcast the code change to all connected clients
 		io.to(userRoom).emit("code-change", newCode);
 	});
