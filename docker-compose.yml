@@ -3,133 +3,133 @@
 version: "3"
 
 services:
-  # front-end:
-  #     container_name: front-end
-  #     image: front-end
-  #     build:
-  #         context: ./front-end/peer-prep
-  #     ports:
-  #         - 3000:3000
+    # front-end:
+    #     container_name: front-end
+    #     image: front-end
+    #     build:
+    #         context: ./front-end/peer-prep
+    #     ports:
+    #         - 3000:3000
 
-  question-service:
-    container_name: question-service
-    image: question-service
+    question-service:
+        container_name: question-service
+        image: question-service
 
-    # Uncomment for testing with k8s
-    # build:
-    #     context: ./services/question-service
-    # ports:
-    #     - 8080:8080
+        # Uncomment for testing with k8s
+        # build:
+        #     context: ./services/question-service
+        # ports:
+        #     - 8080:8080
 
-    # Uncomment for hot reloading
-    build:
-        context: ./services/question-service
-        target: build
-    command: ["npm", "run", "dev"]
-    environment:
-        - MONGODB_URI=mongodb://mongodb:27017/question-service-api
-        - PORT_NUMBER=8080
-    depends_on:
-        - mongodb
-    volumes:
-        - ./services/question-service:/app
+        # Uncomment for hot reloading
+        build:
+            context: ./services/question-service
+            target: build
+        command: ["npm", "run", "dev"]
+        environment:
+            - MONGODB_URI=mongodb://mongodb:27017/question-service-api
+            - PORT_NUMBER=8080
+        depends_on:
+            - mongodb
+        volumes:
+            - ./services/question-service:/app
 
-  mongodb:
-    container_name: mongodb
-    image: mongo:6.0
-    volumes:
-      - db-data:/data/db
-    ports:
-      - 27017:27017
+    mongodb:
+        container_name: mongodb
+        image: mongo:6.0
+        volumes:
+            - db-data:/data/db
+        ports:
+            - 27017:27017
 
-  postgres:
-    container_name: postgres
-    image: postgres
-    restart: always
-    ports:
-      - "5432:5432"
+    postgres:
+        container_name: postgres
+        image: postgres
+        restart: always
+        ports:
+            - "5432:5432"
 
-  profile-service:
-    container_name: profile-service
-    image: profile-service
-    build:
-      context: ./services/profile-service
-    ports:
-      - 3100:3100
-    # volumes:
-    #     - ./services/profile-service:/usr/src/app
+    profile-service:
+        container_name: profile-service
+        image: profile-service
+        build:
+            context: ./services/profile-service
+        ports:
+            - 3100:3100
+        # volumes:
+        #     - ./services/profile-service:/usr/src/app
 
-  matching-service:
-    container_name: matching-service
-    build:
-      context: ./services/matching-service
-      target: build
-    command: ["npm", "run", "dev"]
-    environment:
-      - PORT_NUMBER=8000
-      - AMQP_URL=amqp://rabbitmq:5672
-    ports:
-      - 8000:8000
-    depends_on:
-      - rabbitmq
-      - matching-worker-service
-    links:
-      - rabbitmq
-      - matching-worker-service
-    volumes:
-      - ./services/matching-service:/app
+    matching-service:
+        container_name: matching-service
+        build:
+            context: ./services/matching-service
+            target: build
+        command: ["npm", "run", "dev"]
+        environment:
+            - PORT_NUMBER=8000
+            - AMQP_URL=amqp://rabbitmq:5672
+        ports:
+            - 8000:8000
+        depends_on:
+            - rabbitmq
+            - matching-worker-service
+        links:
+            - rabbitmq
+            - matching-worker-service
+        volumes:
+            - ./services/matching-service:/app
 
-  rabbitmq:
-    image: rabbitmq:management
-    container_name: rabbitmq
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
-    ports:
-      - 5672:5672
-      - 15672:15672
+    rabbitmq:
+        image: rabbitmq:management
+        container_name: rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
+        ports:
+            - 5672:5672
+            - 15672:15672
 
-  matching-worker-service:
-    container_name: matching-worker-service
-    build:
-      context: ./services/matching-worker-service
-      target: build
-    command: ["npm", "run", "dev"]
-    environment:
-      - AMQP_URL=amqp://rabbitmq:5672
-      - DATABASE_URL=postgresql://root:secret@matching-service-db:5432/matching_service?schema=public
-    depends_on:
-      - rabbitmq
-      - matching-service-db
-    links:
-      - rabbitmq
-      - matching-service-db
-    volumes:
-      - ./services/matching-worker-service:/app
+    matching-worker-service:
+        container_name: matching-worker-service
+        build:
+            context: ./services/matching-worker-service
+            target: build
+        command: ["npm", "run", "dev"]
+        environment:
+            - AMQP_URL=amqp://rabbitmq:5672
+            - DATABASE_URL=postgresql://root:secret@matching-service-db:5432/matching_service?schema=public
+        depends_on:
+            - rabbitmq
+            - matching-service-db
+        links:
+            - rabbitmq
+            - matching-service-db
+        volumes:
+            - ./services/matching-worker-service:/app
 
-  matching-service-db:
-    image: postgres:16-alpine
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=matching_service
-    ports:
-      - 5432:5432
-    volumes:
-      - matching-service-data:/var/lib/postgresql/data
+    matching-service-db:
+        image: postgres:16-alpine
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=secret
+            - POSTGRES_DB=matching_service
+        ports:
+            - 5432:5432
+        volumes:
+            - matching-service-data:/var/lib/postgresql/data
 
-  collaboration-service:
-    container_name: collaboration-service
-    image: collaboration-service
-    build:
-      context: ./services/collaboration-service
-    ports:
-      - 8576:8576
+    collaboration-service:
+        container_name: collaboration-service
+        image: collaboration-service
+        build:
+            context: ./services/collaboration-service
+        ports:
+            - 8576:8576
 
 networks:
-  default:
-    driver: bridge
+    default:
+        driver: bridge
 
 volumes:
-  db-data:
-  matching-service-data:
+    db-data:
+    matching-service-data:

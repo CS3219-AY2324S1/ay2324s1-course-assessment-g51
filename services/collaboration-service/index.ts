@@ -75,11 +75,30 @@ io.on("connection", (socket) => {
 		io.to(userRoom).emit("userDisconnect");
 	});
 
-	// Listen for code changes from clients
-	socket.on("code-change", (newCode) => {
-		console.log(newCode);
-		// Broadcast the code change to all connected clients
-		io.to(userRoom).emit("code-change", newCode);
+	socket.on("code-change", (data: IMessageData) => {
+		console.log("test");
+		console.log("Received message:", data);
+		try {
+			// Broadcast the message to all connected clients
+			const room = data.roomId;
+			if (!room) {
+				socket.emit(
+					"error",
+					"An error occurred while processing your request"
+				);
+			}
+			// Emit the message to the specified room
+			io.to(room).emit("code-change", data);
+		} catch (error) {
+			// Handle the error
+			console.error("An error occurred in the event handler:", error);
+
+			// You can emit an error event back to the client if needed
+			socket.emit(
+				"error",
+				"An error occurred while processing your request"
+			);
+		}
 	});
 });
 
