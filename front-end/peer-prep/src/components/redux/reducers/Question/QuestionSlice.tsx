@@ -54,7 +54,7 @@ const questionSlice = createSlice({
             const currentCategoryData = action.payload;
             state.currentCategories.push(currentCategoryData);
         },
-        updateAllCurrentCatogires(state, action:PayloadAction<string[]>) {
+        updateAllCurrentCatogires(state, action: PayloadAction<string[]>) {
             state.currentCategories = action.payload;
         },
         updateCurrentDescription(state, action: PayloadAction<string>) {
@@ -106,7 +106,7 @@ const questionSlice = createSlice({
             state.questionsData = newQuestionsData;
         },
         createNewQuestion(state) {
-            state.currentId = String(Date.now()) // temporarily using date to ensure unique id b4 merging with backend
+            state.currentId = ""
             state.currentTitle = "";
             state.currentCategories = [];
             state.currentComplexity = "";
