@@ -36,12 +36,8 @@ const UserPage = () => {
 	const [hasEmptyDetails, setHasEmptyDetails] = useState(false);
 	const [duplicateUsername, setDuplicateUsername] = useState(false);
 
-	// State for deletion and upgrade conformation pop ups.
+	// State for deletion conformation pop up.
 	const [deletionConfirmation, setDeletionConfirmation] = useState(false);
-	const isUpgradeRequested: boolean = useSelector(
-		UserSlice.isUpgradeRequested
-	);
-	const [upgradeConfirmation, setUpgradeConfirmation] = useState(false);
 
 	// Gets user details from firebase.
 	const user = auth.currentUser;
@@ -99,15 +95,6 @@ const UserPage = () => {
 
 	const closeDeleteConfirmation = () => {
 		setDeletionConfirmation(false);
-	};
-
-	const openUpgradeConfirmation = () => {
-		setUpgradeConfirmation(true);
-	};
-
-	const closeUpgradeConfirmation = () => {
-		dispatch(UserSlice.setIsUpgradeRequested(false));
-		setUpgradeConfirmation(false);
 	};
 
 	// First time creation for new user if user does not exist.
@@ -181,7 +168,7 @@ const UserPage = () => {
 			.delete(
 				`https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`
 			)
-			.catch(() => {});
+			.catch(() => { });
 	};
 
 	// Deletes user data from firebase.
@@ -191,21 +178,11 @@ const UserPage = () => {
 		}
 	};
 
-	const upgradeUserToAdmin = () => {
-		// add axios code here
-	};
-
 	const handleDeleteUser = () => {
 		closeDeleteConfirmation();
 		navigate("/delete");
 		deleteUserData();
 		deleteFirebaseUserData();
-	};
-
-	const handleUpgradeUser = () => {
-		closeUpgradeConfirmation();
-		upgradeUserToAdmin();
-		dispatch(UserSlice.updateIsAdmin(true));
 	};
 
 	return (
@@ -340,35 +317,6 @@ const UserPage = () => {
 								sx={Styles.deleteConfirmationButton}
 							>
 								Delete
-							</Button>
-						</DialogActions>
-					</Dialog>
-
-					<Dialog
-						open={upgradeConfirmation || isUpgradeRequested}
-						onClose={closeUpgradeConfirmation}
-						aria-labelledby="alert-dialog-title"
-						aria-describedby="alert-dialog-description"
-					>
-						<DialogTitle id="alert-dialog-title">
-							{"Upgrade Account"}
-						</DialogTitle>
-						<DialogContent>
-							<DialogContentText id="alert-dialog-description">
-								Upgrade your account to obtain question editing
-								privileges?
-							</DialogContentText>
-						</DialogContent>
-						<DialogActions>
-							<Button onClick={closeUpgradeConfirmation}>
-								Back
-							</Button>
-							<Button
-								onClick={handleUpgradeUser}
-								autoFocus
-								sx={Styles.deleteConfirmationButton}
-							>
-								Yes
 							</Button>
 						</DialogActions>
 					</Dialog>

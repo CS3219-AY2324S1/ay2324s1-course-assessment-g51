@@ -7,8 +7,7 @@ export interface userState {
     currentFirstName: string,
     currentLastName: string,
     currentAge: number,
-    isAdmin: boolean,
-    isUpgradeRequested: boolean
+    isAdmin: boolean
 }
 
 interface userFormat {
@@ -29,8 +28,7 @@ const userSlice = createSlice({
         currentFirstName: "",
         currentLastName: "",
         currentAge: 0,
-        isAdmin: false,
-        isUpgradeRequested: false
+        isAdmin: false
     } as userState,
     reducers: {
         setIsFirstTimeLogin(state, action: PayloadAction<boolean>) {
@@ -62,16 +60,13 @@ const userSlice = createSlice({
         },
         updateIsAdmin(state, action: PayloadAction<boolean>) {
             state.isAdmin = action.payload
-        },
-        setIsUpgradeRequested(state, action: PayloadAction<boolean>) {
-            state.isUpgradeRequested = action.payload
         }
     }
 })
 
 export const { updateUserData, updateCurrentUsername, updateCurrentEmail,
     updateCurrentFirstName, updateCurrentLastName,
-    updateCurrentAge, setIsFirstTimeLogin, updateIsAdmin, setIsUpgradeRequested } = userSlice.actions
+    updateCurrentAge, setIsFirstTimeLogin, updateIsAdmin } = userSlice.actions
 
 export default userSlice.reducer;
 
@@ -82,4 +77,3 @@ export const selectCurrentLastName = (state: any) => state.user.currentLastName
 export const selectCurrentAge = (state: any) => state.user.currentAge
 export const selectIsFirstTimeLogin = (state: any) => state.user.isFirstTimeLogin
 export const isUserAnAdmin = (state: any) => state.user.isAdmin
-export const isUpgradeRequested = (state: any) => state.user.isUpgradeRequested

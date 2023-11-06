@@ -5,11 +5,17 @@ import { Server, Socket } from "socket.io";
 import registerDisconnectHandlers from "./handlers/disconnectHandler";
 import registerMatchRequestHandlers from "./handlers/matchRequestHandler";
 import { getQueueConnection } from "./rabbitmq/connection";
+import cors from "cors";
 
 const amqpUrl = process.env.AMQP_URL;
 const amqpConnectionPromise = getQueueConnection(amqpUrl);
 
 const app = express();
+app.use(
+	cors({
+		origin: "*", // Allow requests from any origin
+	})
+);
 
 const server = createServer(app);
 const io = new Server(server);
