@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import * as QuestionSlice from "../../redux/reducers/Question/QuestionSlice"
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import TrimWhitespace from "../../../util/util";
 
 import axios from 'axios';
 
@@ -166,8 +165,8 @@ const QuestionCreator = () => {
                                 onKeyDown={(event) => {
                                     if (event.key === "Enter" && categoryBuffer !== "") {
                                         // dispatch(QuestionSlice.updateCurrentCategories(TrimWhitespace(categoryBuffer)))
-                                        if (!currentCategories.includes(TrimWhitespace(categoryBuffer))) {
-                                            dispatch(QuestionSlice.updateCurrentCategories(TrimWhitespace(categoryBuffer)))
+                                        if (!currentCategories.includes(categoryBuffer.trim())) {
+                                            dispatch(QuestionSlice.updateCurrentCategories(categoryBuffer.trim()))
                                             dispatch(QuestionSlice.clearCategoryBuffer())
                                         }
                                         else { // TODO snackbar: duplicate category
