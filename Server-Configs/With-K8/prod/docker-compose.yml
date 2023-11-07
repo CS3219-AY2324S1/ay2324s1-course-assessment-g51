@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+    front-end:
+        image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/frontend:latest"
+        container_name: frontend
+
+    question-service:
+        container_name: question-service
+        image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/question-service:latest"
+        depends_on:
+        - mongodb
+
+    profile-service:
+        container_name: profile-service
+        image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/profile-service:latest"
+
+    mongodb:
+        container_name: mongodb
+        image: mongo:6.0
+
+    postgres:
+        image: postgres
+        restart: always
+    
+    matching-service:
+        container_name: matching-service
+        image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/matching-service:latest"
+
+    rabbitmq:
+        image: rabbitmq:management
+        container_name: rabbitmq
+
+    matching-worker-service:
+        container_name: matching-worker-service
+        image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/matching-worker-service:latest"
+
+    matching-service-db:
+        container_name: matching-service-db
+        image: postgres:16-alpine
+
+    collaboration-service:
+        image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/collaboration-service:latest"
