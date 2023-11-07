@@ -4,5 +4,5 @@ metadata:
     name: matching-worker-service-config-prod
     namespace: prod
 data:
-    AMQP_URL: amqp://rabbitmq-service-prod:5672
-    DATABASE_URL: postgresql://root:secret@matching-service-db-headless:5432/matching_service?schema=public
+    AMQP_URL: amqp://rabbitmq-service-prod
+    DATABASE_URL: postgresql://root:secret@matching-service-db-headless/matching_service?schema=public

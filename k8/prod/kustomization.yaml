@@ -31,10 +31,17 @@ resources:
   - ../prod/services/matching-service-db-service-prod.yaml
 
   # Volumes
+  ## PVC
   - ../prod/volumes/mongodb-pvc-prod.yaml
   - ../prod/volumes/postgres-pvc-prod.yaml
   - ../prod/volumes/prometheus-pvc-prod.yaml
   - ../prod/volumes/matching-service-db-pvc-prod.yaml
+
+  ## PV
+  - ../prod/volumes/mongodb-pv-prod.yaml
+  - ../prod/volumes/postgres-pv-prod.yaml
+  - ../prod/volumes/prometheus-pv-prod.yaml
+  - ../prod/volumes/matching-service-db-pv-prod.yaml
 
   # ConfigMaps
   - ../prod/configMaps/question-service-config-prod.yaml

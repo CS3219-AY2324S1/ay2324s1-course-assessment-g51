@@ -33,4 +33,4 @@ spec:
             volumes:
                 - name: mongodb-volume-data
                   persistentVolumeClaim:
-                      claimName: mongodb-data
+                      claimName: mongodb-pvc-prod

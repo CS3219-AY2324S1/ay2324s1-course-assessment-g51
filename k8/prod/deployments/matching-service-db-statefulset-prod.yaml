@@ -50,4 +50,4 @@ spec:
             volumes:
                 - name: matching-service-db-volume-data
                   persistentVolumeClaim:
-                      claimName: matching-service-db-data
+                      claimName: matching-service-db-pvc-prod

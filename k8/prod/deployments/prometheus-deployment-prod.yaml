@@ -40,4 +40,4 @@ spec:
             volumes:
                 - name: prometheus-volume-data
                   persistentVolumeClaim:
-                      claimName: prometheus-data
+                      claimName: prometheus-pvc-prod

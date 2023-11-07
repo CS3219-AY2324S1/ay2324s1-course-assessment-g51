@@ -1,12 +1,15 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-    name: matching-service-db-data
+    name: matching-service-db-pvc-prod
     namespace: prod
 spec:
     accessModes:
         - ReadWriteOnce
+    storageClassName: matching-service-storage-prod
     resources:
         requests:
-            storage: 100Mi
+            storage: 200Mi
+        limits:
+            storage: 1Gi
 status: {}
