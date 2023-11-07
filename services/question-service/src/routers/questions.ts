@@ -76,7 +76,7 @@ router.delete("/questions/:id", async (req, res) => {
       });
       return;
     }
-    res.status(204).json(question);
+    res.status(204).send();
   } catch (error) {
     res.status(500).json(error);
   }
