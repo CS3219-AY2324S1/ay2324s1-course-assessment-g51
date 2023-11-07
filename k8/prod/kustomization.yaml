@@ -9,6 +9,10 @@ resources:
   - ../prod/deployments/question-service-deployment-prod.yaml
   - ../prod/deployments/postgres-statefulset-prod.yaml
   - ../prod/deployments/keel-deployment-prod.yaml
+  - ../prod/deployments/matching-service-deployment-prod.yaml
+  - ../prod/deployments/rabbitmq-deployment-prod.yaml
+  - ../prod/deployments/matching-worker-service-deployment-prod.yaml
+  - ../prod/deployments/matching-service-db-statefulset-prod.yaml
 
   # Ingresses
   - ../prod/ingresses/nginx-ingress-prod.yaml
@@ -22,14 +26,24 @@ resources:
   - ../prod/services/profile-service-service-prod.yaml
   - ../prod/services/question-service-service-prod.yaml
   - ../prod/services/postgres-service-prod.yaml
+  - ../prod/services/matching-service-service-prod.yaml
+  - ../prod/services/rabbitmq-service-prod.yaml
+  - ../prod/services/matching-service-db-service-prod.yaml
 
   # Volumes
   - ../prod/volumes/mongodb-pvc-prod.yaml
   - ../prod/volumes/postgres-pvc-prod.yaml
+  - ../prod/volumes/prometheus-pvc-prod.yaml
+  - ../prod/volumes/matching-service-db-pvc-prod.yaml
 
   # ConfigMaps
   - ../prod/configMaps/question-service-config-prod.yaml
   - ../prod/configMaps/postgres-config-prod.yaml
+  - ../prod/configMaps/prometheus-config-prod.yaml
+  - ../prod/configMaps/matching-service-config-prod.yaml
+  - ../prod/configMaps/rabbitmq-config-prod.yaml
+  - ../prod/configMaps/matching-worker-service-config-prod.yaml
+  - ../prod/configMaps/matching-service-db-config-prod.yaml
 
   # Cluster Roles
   - ../prod/accessControls/clusterRoles/list-watch-cluster-prod.yaml
