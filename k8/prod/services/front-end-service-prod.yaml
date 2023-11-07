@@ -10,6 +10,6 @@ spec:
         - name: "front-end-port"
           port: 3000
           targetPort: 3000
-    type: NodePort # Service type (internal access within the cluster)
+    type: ClusterIP # Service type
 status:
     loadBalancer: {}

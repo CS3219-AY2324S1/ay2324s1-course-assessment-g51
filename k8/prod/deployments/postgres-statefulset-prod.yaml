@@ -23,6 +23,13 @@ spec:
                   image: postgres:16 # Docker image for the Postgres container
                   ports:
                       - containerPort: 5432 # Port to expose
+                  resources:
+                      requests:
+                          memory: "100Mi" # Request 256MB of memory
+                          cpu: "100m" # Request 0.1 CPU (100 milliCPU)
+                      limits:
+                          memory: "100Mi" # Limit memory to 512MB
+                          cpu: "100m" # Limit CPU to 0.2 CPU (200 milliCPU)
                   env:
                       - name: POSTGRES_PASSWORD
                         valueFrom:

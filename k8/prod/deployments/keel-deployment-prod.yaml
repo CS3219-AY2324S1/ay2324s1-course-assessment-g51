@@ -21,8 +21,8 @@ spec:
                   imagePullPolicy: IfNotPresent # Set your desired pull policy
                   resources:
                       limits:
-                          memory: "128Mi" # Adjust resource limits as needed
+                          memory: "100Mi" # Adjust resource limits as needed
                           cpu: "100m" # Request 0.1 CPU (100 milliCPU)
                       requests:
-                          memory: "64Mi"
+                          memory: "100Mi"
                           cpu: "100m" # Request 0.1 CPU (100 milliCPU)

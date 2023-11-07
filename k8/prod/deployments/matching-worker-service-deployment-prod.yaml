@@ -22,11 +22,11 @@ spec:
                       - containerPort: 8000 # Port on which the container listens
                   resources:
                       requests:
-                          memory: "150Mi" # Request 256MB of memory
+                          memory: "100Mi" # Request 256MB of memory
                           cpu: "100m" # Request 0.1 CPU (100 milliCPU)
                       limits:
-                          memory: "200Mi" # Limit memory to 512MB
-                          cpu: "200m" # Limit CPU to 0.2 CPU (200 milliCPU)
+                          memory: "100Mi" # Limit memory to 512MB
+                          cpu: "100m" # Limit CPU to 0.2 CPU (200 milliCPU)
                   env:
                       - name: AMQP_URL
                         valueFrom:

@@ -5,7 +5,7 @@ metadata: # Metadata for the Ingress resource
     namespace: prod
 spec: # Specification for the Ingress resource
     rules: # List of routing rules
-        - host: app.peerprepgroup51sem1y2023.xyz # Hostname to match in incoming requests
+        - host: k8.peerprepgroup51sem1y2023.xyz # Hostname to match in incoming requests
           http: # Define how to handle HTTP traffic
               paths: # List of paths to match
                   - path: / # Path to match in the request
@@ -15,10 +15,6 @@ spec: # Specification for the Ingress resource
                             name: front-end-service # Name of the service to route to
                             port: # Port on the service
                                 number: 3000 # Port number to route to on the service
-
-        - host: api.peerprepgroup51sem1y2023.xyz
-          http:
-              paths:
                   - path: /user # Match requests with a path prefix of "/user"
                     pathType: Prefix
                     backend:
@@ -33,7 +29,7 @@ spec: # Specification for the Ingress resource
                             name: question-service-service-prod
                             port:
                                 number: 8080
-                  - path: /
+                  - path: /match
                     pathType: Prefix
                     backend:
                         service:
