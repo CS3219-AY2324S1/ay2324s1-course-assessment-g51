@@ -4,7 +4,7 @@ metadata:
     name: matching-service-db-config-prod
     namespace: prod
 data:
-    POSTGRES_HOST: "matching-service-db-headless"
+    POSTGRES_HOST: "matching-service-db-headless.prod.svc.cluster.local"
     POSTGRES_PORT: "5432"
     POSTGRES_USER: "root"
     POSTGRES_PASSWORD: "secret"

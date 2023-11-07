@@ -5,4 +5,4 @@ metadata:
     namespace: prod
 data:
     PORT_NUMBER: "8000"
-    AMQP_URL: amqp://rabbitmq-service-prod:5672
+    AMQP_URL: amqp://rabbitmq-service-prod.prod.svc.cluster.local:5672
