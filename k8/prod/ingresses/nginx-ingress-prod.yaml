@@ -38,6 +38,8 @@ spec: # Specification for the Ingress resource
                     backend:
                         service:
                             name: matching-service-service-prod
+                            port:
+                                number: 8000
 
         # - host: collab.api.peerprepgroup51sem1y2023.xyz
         #   http:
