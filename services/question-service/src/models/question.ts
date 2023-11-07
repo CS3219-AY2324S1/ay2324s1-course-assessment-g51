@@ -72,8 +72,8 @@ const deleteQuestion = async (req: any) => {
 
 export {
   createQuestion,
+  deleteQuestion,
   readQuestion,
   readQuestions,
   updateQuestion,
-  deleteQuestion,
 };
