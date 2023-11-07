@@ -31,7 +31,7 @@ spec: # Specification for the Ingress resource
                             name: question-service-service-dev
                             port:
                                 number: 8080
-                  - path: /match
+                  - path: /
                     pathType: Prefix
                     backend:
                         service:

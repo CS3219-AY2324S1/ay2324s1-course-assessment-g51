@@ -18,24 +18,32 @@ spec: # Specification for the Ingress resource
 
         - host: api.peerprepgroup51sem1y2023.xyz
           http:
-            paths:
-                - path: /user   # Match requests with a path prefix of "/user"
-                  pathType: Prefix
-                  backend:
-                        service: 
-                            name: profile-service-service
+              paths:
+                  - path: /user # Match requests with a path prefix of "/user"
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: profile-service-service-prod
                             port:
                                 number: 3100
-                - path: /question
-                  pathType: Prefix
-                  backend:
+                  - path: /question
+                    pathType: Prefix
+                    backend:
                         service:
-                            name: question-service-service-dev
+                            name: question-service-service-prod
                             port:
                                 number: 8080
-                            
-    # For adding SSL here next time
-    # tls:
-    # - hosts:
-    #   - api.peerprepgroup51sem1y2023.xyz
-    #   secretName: your-tls-secret
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: matching-service-service-prod
+
+        # - host: collab.api.peerprepgroup51sem1y2023.xyz
+        #   http:
+        #       paths:
+        #           - path: /
+        #             pathType: Prefix
+        #             backend:
+        #                 service:
+        #                     name: collaboration-service-service-prod

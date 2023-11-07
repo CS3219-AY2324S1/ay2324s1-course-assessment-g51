@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+    name: matching-service-db-statefulset-prod # The name of the StatefulSet
+    namespace: prod # The namespace where the StatefulSet will be created
+
+spec:
+    replicas: 1 # Number of replica pods to create
+    serviceName: matching-service-db-headless # A headless service for DNS-based discovery
+    selector:
+        matchLabels:
+            app: matching-service-db # Select pods with the label "app: postgres"
+    updateStrategy:
+        type: RollingUpdate
+    template:
+        metadata:
+            labels:
+                app: matching-service-db # Labels for pods created by the StatefulSet
+
+        spec:
+            containers:
+                - name: matching-service-db # Name of the container
+                  image: postgres:16-alpine # Docker image for the Postgres container
+                  ports:
+                      - containerPort: 5432 # Port to expose
+                  env:
+                      - name: POSTGRES_USER
+                        valueFrom:
+                            configMapKeyRef:
+                                name: matching-service-db-config-prod
+                                key: POSTGRES_USER
+                      - name: POSTGRES_PASSWORD
+                        valueFrom:
+                            configMapKeyRef:
+                                name: matching-service-db-config-prod
+                                key: POSTGRES_PASSWORD
+                      - name: POSTGRES_DB
+                        valueFrom:
+                            configMapKeyRef:
+                                name: matching-service-db-config-prod
+                                key: POSTGRES_DB
+
+            volumes:
+                - name: matching-service-db-volume-data
+                  persistentVolumeClaim:
+                      claimName: matching-service-db-data
