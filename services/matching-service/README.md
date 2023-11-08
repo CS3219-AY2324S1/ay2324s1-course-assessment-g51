@@ -97,9 +97,6 @@ match-response:error
 ## Documentation
 
 - [Socket.io Client API Documentation](https://socket.io/docs/v4/client-api)
-
 - [Socket.io Server API Documentation](https://socket.io/docs/v4/server-api)
-
 - [RabbitMQ RPC pattern tutorial](https://www.rabbitmq.com/tutorials/tutorial-six-javascript.html)
-
 - [RabbitMQ Direct Reply-to tutorial](https://www.rabbitmq.com/direct-reply-to.html)
