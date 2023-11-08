@@ -49,7 +49,7 @@ const CodeView = () => {
 		<div style={Styles.CodeViewContainerStyle}>
 			<Editor
 				defaultLanguage="javascript"
-				defaultValue="//@Kang Quan all yours bro :)"
+				defaultValue=""
 				language="javascript"
 				value={code}
 				onChange={handleCodeChange}
