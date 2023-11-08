@@ -164,8 +164,9 @@ const QuestionCreator = () => {
                                 helperText={duplicateCategoryErrorText}
                                 onKeyDown={(event) => {
                                     if (event.key === "Enter" && categoryBuffer !== "") {
-                                        if (!currentCategories.includes(categoryBuffer)) {
-                                            dispatch(QuestionSlice.updateCurrentCategories(categoryBuffer))
+                                        // dispatch(QuestionSlice.updateCurrentCategories(TrimWhitespace(categoryBuffer)))
+                                        if (!currentCategories.includes(categoryBuffer.trim())) {
+                                            dispatch(QuestionSlice.updateCurrentCategories(categoryBuffer.trim()))
                                             dispatch(QuestionSlice.clearCategoryBuffer())
                                         }
                                         else { // TODO snackbar: duplicate category
