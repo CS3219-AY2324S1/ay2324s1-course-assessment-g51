@@ -125,7 +125,7 @@ const QuestionCreator = () => {
                     </TextField>
 
                     <FormControl fullWidth sx={Styles.labelStyle}>
-                        <InputLabel sx={Styles.labelStyle}>complexity</InputLabel>
+                        <InputLabel sx={{ ...Styles.labelStyle, ...Styles.additionalFormStyle }}>complexity</InputLabel>
                         <Select
                             style={{ color: "white" }}
                             value={currentComplexity}
@@ -146,7 +146,7 @@ const QuestionCreator = () => {
                         disableClearable
                         value={currentCategories}
                         options={[]}
-                        sx={Styles.labelStyle}
+                        //sx={Styles.labelStyle}
                         renderTags={(value, getTagProps) =>
                             value.map((option, index) => (
                                 option === "" ? "" :
@@ -179,6 +179,7 @@ const QuestionCreator = () => {
                                     dispatch(QuestionSlice.updateCategoryBuffer(event.target.value))
 
                                 }}
+                                sx={Styles.labelStyle}
                             />
                         )}
                     />
