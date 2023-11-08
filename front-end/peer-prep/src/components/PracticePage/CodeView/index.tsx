@@ -30,7 +30,7 @@ const CodeView = () => {
 	useEffect(() => {
 		// Listen for code changes from other clients and update the editor
 		socket.on("code-change", (data: IMessageData) => {
-			console.log(data.message);
+			//console.log(data.message);
 			setCode(data.message);
 		});
 	}, [socket]);
