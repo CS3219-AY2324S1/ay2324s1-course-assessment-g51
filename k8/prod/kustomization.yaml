@@ -16,6 +16,7 @@ resources:
 
   # Ingresses
   - ../prod/ingresses/nginx-ingress-prod.yaml
+  - ../prod/services/nginx-ingress-service-prod.yaml
 
   # Scalers
   - ../prod/scalers/horizontal/front-end-hpa-prod.yaml

@@ -12,7 +12,7 @@ spec: # Specification for the Ingress resource
                     pathType: Prefix # Type of path matching (Prefix matches paths with this prefix)
                     backend: # Define where to route the matching requests
                         service: # Specify a service as the backend
-                            name: front-end-service # Name of the service to route to
+                            name: front-end-service-prod # Name of the service to route to
                             port: # Port on the service
                                 number: 3000 # Port number to route to on the service
                   - path: /user # Match requests with a path prefix of "/user"
