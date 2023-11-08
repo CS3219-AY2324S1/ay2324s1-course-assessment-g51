@@ -2,14 +2,14 @@
 export const questionListContainerStyle = {
     justifyItems: "center",
     alignItems: "center",
-    display: "grid", 
+    display: "grid",
 }
 
 export const questionListViewStyle = {
     backgroundColor: "#131B25",
     height: "80%",
     width: "90%",
-    borderRadius: "3%", 
+    borderRadius: "3%",
 }
 
 export const headerStyle = {
@@ -23,10 +23,11 @@ export const headerStyle = {
 export const buttonStyle = {
     color: "white",
     backgroundColor: "#1B2735",
-    width: "95%",
+    width: "96%",
     borderRadius: "15px",
     border: "none",
-    "&:focus" : {
+    marginRight: "20px",
+    "&:focus": {
         boxShadow: 'none',
         backgroundColor: "#1B2735",
         borderColor: "#F4C2C2",
