@@ -1,15 +1,16 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-    name: mongodb-pvc-prod
+    name: prometheus-pvc-prod
     namespace: prod
 spec:
     accessModes:
         - ReadWriteOnce
-    storageClassName: mongodb-storage-prod
+    storageClassName: prometheus-storage-prod
     resources:
         requests:
             storage: 200Mi
         limits:
             storage: 1Gi
+
 status: {}

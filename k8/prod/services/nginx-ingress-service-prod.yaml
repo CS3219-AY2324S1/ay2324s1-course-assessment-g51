@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ingress-service-prod
+  namespace: prod
+spec:
+  selector:
+    app: nginx-ingress-prod
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
+  type: NodePort
+  # externalIPs:
+  #   - 10.148.0.9

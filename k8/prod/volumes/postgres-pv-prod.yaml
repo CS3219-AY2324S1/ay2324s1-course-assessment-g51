@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    name: postgres-pv-prod
+    namespace: prod
+spec:
+    capacity:
+        storage: 1Gi
+    accessModes:
+        - ReadWriteOnce
+    storageClassName: postgres-storage-prod
+    hostPath:
+        path: "/storage/postgres-data"

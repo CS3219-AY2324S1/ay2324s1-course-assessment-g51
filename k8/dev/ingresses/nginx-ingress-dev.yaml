@@ -31,7 +31,13 @@ spec: # Specification for the Ingress resource
                             name: question-service-service-dev
                             port:
                                 number: 8080
-
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: matching-service-service-dev
+                            port:
+                                number: 8000
     # For adding SSL here next time
     # tls:
     # - hosts:

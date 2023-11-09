@@ -33,25 +33,22 @@ services:
     environment:
       - MONGODB_URI=mongodb://root:password@35.240.242.81:27017/question-service-api?authMechanism=SCRAM-SHA-256&authSource=admin
       - PORT_NUMBER=8080
-    # volumes:
-    #   - ./services/question-service:/app
-    # command: npm run start
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
   profile-service:
     container_name: profile-service
     image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/profile-service:latest"
-    ports:
+    ports:                                    
       - 3100:3100
     volumes:
       - ./services/profile-service:/app
     environment:
-      - POSTGRES_HOST = "35.240.242.81"
-      - POSTGRES_PORT = "5432"
-      - POSTGRES_USERNAME = "postgres"
-      - POSTGRES_PASSWORD = "example"
-      - POSTGRES_DATABASE = "postgres"
+      - POSTGRES_HOST="35.240.242.81"
+      - POSTGRES_PORT="5432"
+      - POSTGRES_USERNAME="postgres"
+      - POSTGRES_PASSWORD="example"
+      - POSTGRES_DATABASE="postgres"
     command: [ "npm", "start" ]
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
@@ -68,7 +65,7 @@ services:
       - ./mongo/config:/etc/mongo
     ports:
       - "27017:27017"
-    command: --config /etc/mongo/mongod.conf
+    # command: --config /etc/mongo/mongod.conf
 
   postgres:
     image: postgres
@@ -98,6 +95,8 @@ services:
     links:
       - rabbitmq
       - matching-worker-service
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   rabbitmq:
     image: rabbitmq:management
@@ -121,6 +120,8 @@ services:
     links:
       - rabbitmq
       - matching-service-db
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   matching-service-db:
     image: postgres:16-alpine
@@ -137,6 +138,8 @@ services:
     image: "registry.gitlab.com/peerprepgroup51sem1y2023/docker/collaboration-service:latest"
     ports:
       - 8576:8576
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
     
   watchtower:
     image: containrrr/watchtower

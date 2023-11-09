@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: matching-service-db-config-dev
+    namespace: dev
+data:
+    POSTGRES_HOST: "matching-service-db-headless"
+    POSTGRES_PORT: "5432"
+    POSTGRES_USER: "root"
+    POSTGRES_PASSWORD: "secret"
+    POSTGRES_DB: "matching-service"

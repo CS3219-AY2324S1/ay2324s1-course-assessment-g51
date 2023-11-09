@@ -4,11 +4,11 @@ metadata:
     name: keel-deployment
     namespace: prod
 spec:
-    replicas: 2
+    replicas: 1
     selector:
         matchLabels:
             app: keel
-    strategy: 
+    strategy:
         type: RollingUpdate
     template:
         metadata:
@@ -20,9 +20,9 @@ spec:
                   image: keelhq/keel
                   imagePullPolicy: IfNotPresent # Set your desired pull policy
                   resources:
-                    limits:
-                        memory: "128Mi" # Adjust resource limits as needed
-                        cpu: "100m" # Request 0.1 CPU (100 milliCPU)
-                    requests:
-                        memory: "64Mi"
-                        cpu: "100m" # Request 0.1 CPU (100 milliCPU)
+                      limits:
+                          memory: "100Mi" # Adjust resource limits as needed
+                          cpu: "100m" # Request 0.1 CPU (100 milliCPU)
+                      requests:
+                          memory: "100Mi"
+                          cpu: "100m" # Request 0.1 CPU (100 milliCPU)

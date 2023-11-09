@@ -23,7 +23,14 @@ spec:
                   image: mongo:6.0 # Docker image for the MongoDB container
                   ports:
                       - containerPort: 27017 # Port to expose
+                  resources:
+                      requests:
+                          memory: "100Mi" # Request 256MB of memory
+                          cpu: "100m" # Request 0.1 CPU (100 milliCPU)
+                      limits:
+                          memory: "100Mi" # Limit memory to 512MB
+                          cpu: "100m" # Limit CPU to 0.2 CPU (200 milliCPU)
             volumes:
                 - name: mongodb-volume-data
                   persistentVolumeClaim:
-                      claimName: mongodb-data
+                      claimName: mongodb-pvc-prod

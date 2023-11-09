@@ -5,37 +5,43 @@ metadata: # Metadata for the Ingress resource
     namespace: prod
 spec: # Specification for the Ingress resource
     rules: # List of routing rules
-        - host: app.peerprepgroup51sem1y2023.xyz # Hostname to match in incoming requests
+        - host: k8.peerprepgroup51sem1y2023.xyz # Hostname to match in incoming requests
           http: # Define how to handle HTTP traffic
               paths: # List of paths to match
                   - path: / # Path to match in the request
                     pathType: Prefix # Type of path matching (Prefix matches paths with this prefix)
                     backend: # Define where to route the matching requests
                         service: # Specify a service as the backend
-                            name: front-end-service # Name of the service to route to
+                            name: front-end-service-prod # Name of the service to route to
                             port: # Port on the service
                                 number: 3000 # Port number to route to on the service
-
-        - host: api.peerprepgroup51sem1y2023.xyz
-          http:
-            paths:
-                - path: /user   # Match requests with a path prefix of "/user"
-                  pathType: Prefix
-                  backend:
-                        service: 
-                            name: profile-service-service
+                  - path: /user # Match requests with a path prefix of "/user"
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: profile-service-service-prod
                             port:
                                 number: 3100
-                - path: /question
-                  pathType: Prefix
-                  backend:
+                  - path: /question
+                    pathType: Prefix
+                    backend:
                         service:
-                            name: question-service-service-dev
+                            name: question-service-service-prod
                             port:
                                 number: 8080
-                            
-    # For adding SSL here next time
-    # tls:
-    # - hosts:
-    #   - api.peerprepgroup51sem1y2023.xyz
-    #   secretName: your-tls-secret
+                  - path: /match
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: matching-service-service-prod
+                            port:
+                                number: 8000
+
+          # - host: collab.api.peerprepgroup51sem1y2023.xyz
+          #   http:
+          #       paths:
+          #           - path: /
+          #             pathType: Prefix
+          #             backend:
+          #                 service:
+          #                     name: collaboration-service-service-prod
