@@ -30,7 +30,7 @@ const CodeView = () => {
 	useEffect(() => {
 		// Listen for code changes from other clients and update the editor
 		socket.on("code-change", (data: IMessageData) => {
-			console.log(data.message);
+			//console.log(data.message);
 			setCode(data.message);
 		});
 	}, [socket]);
@@ -49,7 +49,7 @@ const CodeView = () => {
 		<div style={Styles.CodeViewContainerStyle}>
 			<Editor
 				defaultLanguage="javascript"
-				defaultValue="//@Kang Quan all yours bro :)"
+				defaultValue=""
 				language="javascript"
 				value={code}
 				onChange={handleCodeChange}
