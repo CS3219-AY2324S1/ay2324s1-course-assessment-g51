@@ -40,7 +40,7 @@ export default function CustomCircularProgress() {
 
   React.useEffect(() => {
     const timer = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress > 0.2 ? prevProgress - 3.33 : 100));
+      setProgress((prevProgress) => (prevProgress > 0.2 ? prevProgress - 3.33 : 0));
     }, 1000);
     return () => {
       clearInterval(timer);
