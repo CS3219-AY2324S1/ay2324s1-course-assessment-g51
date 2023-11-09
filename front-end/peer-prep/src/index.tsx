@@ -35,7 +35,6 @@ import MatchingServicePage from "./components/MatchingServicePopUp";
 import axios from "axios";
 import AdminPage from "./components/AdminPage";
 import PracticePage from "./components/PracticePage";
-import PracticeMatchedPage from "./components/PracticeMatchedPage";
 
 const ProtectedRoute = () => {
 	const [user, loading, error] = useAuthState(auth);
@@ -110,7 +109,6 @@ const RootApp = () => {
 							<Route path="user" element={<UserPage />} />
 							<Route path="/admin" element={<AdminPage />} />
 							<Route path="practice" element={<PracticePage />} />
-							<Route path="matched" element={<PracticeMatchedPage/>} />
 						</Route>
 						{/* All non-protected routes are written here */}
 						<Route path="/" element={<SignInPage />} />

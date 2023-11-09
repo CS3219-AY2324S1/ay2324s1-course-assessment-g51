@@ -3,9 +3,10 @@ export const listStyle = {
 	maxWidth: "100%",
 	position: "relative",
 	overflow: "auto",
-	maxHeight: 500,
+	maxHeight: 550,
+	cursor: "pointer",
 	"&::-webkit-scrollbar": {
-		width: "12px", // Set the width of the scrollbar
+		width: "20px", // Set the width of the scrollbar
 		borderRadius: "15px",
 		scrollTop: "100px",
 	},

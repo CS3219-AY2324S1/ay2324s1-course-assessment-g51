@@ -1,32 +1,43 @@
-# Match Worker Service
+# Matching Worker Service
 
-## Prerequisites
+## Architecture
 
-- node:18
-- postgres:16
-- rabbitmq:latest
-- a locally running instance of `matching-service`
+The high-level architecture of the matching service is decribed [here](../matching-service/README.md#architecture).
 
-## Running locally
+This service is a Node.js application interfacing with a running RabbitMQ work queue using `amqplib` and a running PostgreSQL database using Prisma ORM.
 
-1. Run `npm i` to install all dependencies.
-2. Create a `.env` file with the following field: DATABASE_URL="postgresql://{user}:{password}@{host}:{port}/matching_service?schema=public"
-3. Run `npx prisma migrate dev` to set up the database.
-4. Run `npm run dev`.
+## Getting Started
 
-## Running with docker-compose
+Follow these steps to run this service locally.
 
-`docker-compose up --build matching-worker-service`
+### Prerequisites
+
+_Preferred setup method is via docker compose._
+
+- Docker Desktop
+
+### Steps
+
+1. Clone the project root repository.
+2. `cd` into the project directory.
+3. Build the service by running `docker compose up --build matching-worker-service`, then wait for the container to start up.
 
 ## Matching workflow + logic
 
-1. Insert match request into database
+1. Insert match request into `MatchRequest` table
 2. Query database for match request with the following conditions:
    - Same complexity level
-   - Not cancelled
    - Not expired (calculated via timestamp difference, now - createdAt < 30s)
    - Not fulfilled
    - Does not belong to the same user (user ID)
-3. If a match is found, return the pair of user IDs and complexity level to both callback queues (by correlation id)
+   - Shares at least 1 common language
+3. If a match is found, return the pair of user IDs, complexity level, and a shared language to both callback queues (by correlation id)
    - Update both requests to be fulfilled in the database
+   - Insert a match into `Match` table
 4. If a match is not found, do nothing
+
+## Documentation
+
+- [Prisma ORM client reference](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference)
+- [RabbitMQ RPC pattern tutorial](https://www.rabbitmq.com/tutorials/tutorial-six-javascript.html)
+- [RabbitMQ Direct Reply-to tutorial](https://www.rabbitmq.com/direct-reply-to.html)

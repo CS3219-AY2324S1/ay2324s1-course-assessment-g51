@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import { createServer } from "node:http";
 import { Server, Socket } from "socket.io";
@@ -10,6 +11,8 @@ const amqpUrl = process.env.AMQP_URL;
 const amqpConnectionPromise = getQueueConnection(amqpUrl);
 
 const app = express();
+app.use(cors({ origin: "*" })); // Allow requests from any origin
+
 const server = createServer(app);
 const io = new Server(server);
 
