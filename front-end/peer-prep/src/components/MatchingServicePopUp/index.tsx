@@ -28,6 +28,7 @@ import { auth } from "../Auth/Firebase";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as MatchSlice from "../redux/reducers/Match/MatchSlice"
+import CustomCircularProgress from './CustomCircularProgress';
 
 const languages = ["python", "java", "javascript", "c#", "c++"];
 const steps = [
@@ -154,7 +155,7 @@ const FindPartner = () => {
                 <Typography sx={Styles.textStyle}>{firstText}</Typography>
                 <Typography sx={Styles.textStyle}>{secondText}</Typography>
             </Stack>
-            <CircularProgress sx={Styles.circularProgressStyle} />
+            <CustomCircularProgress />
         </Stack>
     )
 }
