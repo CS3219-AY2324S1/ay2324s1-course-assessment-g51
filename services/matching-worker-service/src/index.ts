@@ -28,6 +28,8 @@ const amqpConnectionPromise = getQueueConnection(amqpUrl);
       const matchRequest = JSON.parse(msg.content.toString());
       const correlationId = msg.properties.correlationId;
 
+      console.log(`received match request ${JSON.stringify(matchRequest)}`);
+
       const matchRequestEntry = await prisma.matchRequest.create({
         data: {
           ...matchRequest,
@@ -57,6 +59,7 @@ const amqpConnectionPromise = getQueueConnection(amqpUrl);
       if (!compatibleMatch) {
         return;
       }
+      console.log(`found compatible match ${JSON.stringify(compatibleMatch)}`);
 
       const matchId = randomUUID();
       const userId1 = matchRequest.userId;
@@ -93,5 +96,7 @@ const amqpConnectionPromise = getQueueConnection(amqpUrl);
     });
   } catch (err) {
     console.error(err);
+    console.log("exiting");
+    process.exit(1);
   }
 })();

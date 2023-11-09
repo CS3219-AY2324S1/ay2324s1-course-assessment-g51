@@ -1,6 +1,6 @@
 # For local development purposes only
 
-version: "3"
+version: "3.4"
 
 services:
     judge0:
@@ -22,14 +22,8 @@ services:
     question-service:
         container_name: question-service
         image: question-service
-
-        # Uncomment for testing with k8s
-        # build:
-        #     context: ./services/question-service
-        # ports:
-        #     - 8080:8080
-
-        # Uncomment for hot reloading
+        ports:
+            - 8080:8080
         build:
             context: ./services/question-service
             target: build
@@ -55,7 +49,7 @@ services:
         image: postgres
         restart: always
         ports:
-            - "5432:5432"
+            - 5433:5433
 
     profile-service:
         container_name: profile-service
@@ -96,6 +90,12 @@ services:
         ports:
             - 5672:5672
             - 15672:15672
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:15672"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 40s
 
     matching-worker-service:
         container_name: matching-worker-service
@@ -112,6 +112,7 @@ services:
         links:
             - rabbitmq
             - matching-service-db
+        restart: on-failure
         volumes:
             - ./services/matching-worker-service:/app
 
