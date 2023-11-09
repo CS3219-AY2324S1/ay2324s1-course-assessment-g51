@@ -11,7 +11,7 @@ import MatchingServicePopUp from "../MatchingServicePopUp";
 import QuestionView from "./QuestionView";
 import CodeView from "./CodeView";
 import ChatView from "./ChatView";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
@@ -27,10 +27,6 @@ const PracticePage = () => {
 	// Uncomment line 21 and comment out line 22 to test UI after matched
 	//const partnerDetails = {"test":3};
 	const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
-
-	const isPartnerDetailsEmpty = () => {
-		return Object.keys(partnerDetails).length === 0;
-	};
 
 	// Displays first question if user refreshes the browser
 	useEffect(() => {
@@ -61,19 +57,19 @@ const PracticePage = () => {
 			.catch(() => {});
 	}, []);
 
+	let practicePageStyle;
+	if (Object.keys(partnerDetails).length === 0) {
+		practicePageStyle = Styles.practicePageContainerStyle;
+	} else {
+		practicePageStyle = Styles.practicePageMatchedContainerStyle;
+	}
+
 	return (
 		<div>
-			<div
-				id="PracticePage"
-				style={
-					isPartnerDetailsEmpty()
-						? Styles.practicePageContainerStyle
-						: Styles.practicePageMatchedContainerStyle
-				}
-			>
+			<div id="PracticePage" style={practicePageStyle}>
 				<QuestionView />
 				<CodeView />
-				{isPartnerDetailsEmpty() ? (
+				{Object.keys(partnerDetails).length === 0 ? (
 					<Button
 						sx={{ marginRight: "25%" }}
 						variant="contained"
