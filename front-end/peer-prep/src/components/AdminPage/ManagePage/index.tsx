@@ -9,18 +9,24 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Divider } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import ClearIcon from "@mui/icons-material/Clear";
+import { useSelector } from "react-redux";
+import * as RoutesSlice from "../../redux/reducers/Routes/RoutesSlice"
 
 const ManagePage = (props: any) => {
 	const [admins, setAdmins] = useState([]);
 	const [requestors, setRequestors] = useState([]);
 	const [reload, setReload] = useState(false);
 	const [isSuperAdmin, setIsSuperAdmin] = useState(false);
-
+	const environment = useSelector(RoutesSlice.selectEnvironment);
+	let port = ""
+	if (environment == "localhost") {
+		port = ":3100"
+	}
 	//api call to get list of admins
 	const getAllAdmin = () => {
 		axios({
 			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/users/admin/`,
+			url: `https://` + environment + port + `/users/admin/`,
 		})
 			.then((response) => {
 				const data = response.data.data;
@@ -35,7 +41,7 @@ const ManagePage = (props: any) => {
 	const getAllRequestors = () => {
 		axios({
 			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/users/request/`,
+			url: `https://` + environment + port + `/users/request/`,
 		})
 			.then((response) => {
 				const data = response.data.data;
@@ -52,7 +58,7 @@ const ManagePage = (props: any) => {
 	const getisSuperAdmin = () => {
 		axios({
 			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/users/superAdmin/${props.uid}`,
+			url: `https://` + environment + port + `/users/superAdmin/${props.uid}`,
 		})
 			.then((response) => {
 				const data = response.data.data;
@@ -72,7 +78,7 @@ const ManagePage = (props: any) => {
 
 	const deleteButtonHandler = (currAdmin: any) => {
 		axios
-			.put(`https://api.peerprepgroup51sem1y2023.xyz/users/admin`, {
+			.put(`https://` + environment + port + `/users/admin`, {
 				toUpdate: [[currAdmin.uid, false]],
 			})
 			.then(() => {
@@ -85,13 +91,13 @@ const ManagePage = (props: any) => {
 
 	const tickButtonHandler = (currAdmin: any) => {
 		axios
-			.put(`https://api.peerprepgroup51sem1y2023.xyz/users/request`, {
+			.put(`https://` + environment + port + `/users/request`, {
 				toUpdate: [[currAdmin.uid, false]],
 			})
 			.then(() => {
 				axios
 					.put(
-						`https://api.peerprepgroup51sem1y2023.xyz/users/admin`,
+						`https:/` + environment + port + `/users/admin`,
 						{
 							toUpdate: [[currAdmin.uid, true]],
 						}
@@ -111,7 +117,7 @@ const ManagePage = (props: any) => {
 	const crossButtonHandler = (currAdmin: any) => {
 		console.log(currAdmin);
 		axios
-			.put(`https://api.peerprepgroup51sem1y2023.xyz/users/request`, {
+			.put(`https://` + environment + port + `/users/request`, {
 				toUpdate: [[currAdmin.uid, false]],
 			})
 			.then(() => {

@@ -164,8 +164,12 @@ const FindPartner = () => {
 		</Stack>
 	)
 }
-
-const socket = io("https://api.peerprepgroup51sem1y2023.xyz/", {
+const environment = process.env.REACT_APP_ENVIRONMENT
+let port = "";
+if (environment === "localhost") {
+	port = ":8000"
+}
+const socket = io("https://" + environment + port + "/", {
 	transports: ["websocket"],
 	withCredentials: true,
 });

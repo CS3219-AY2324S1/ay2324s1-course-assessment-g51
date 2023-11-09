@@ -17,6 +17,8 @@ services:
         image: front-end
         build:
             context: ../../../front-end/peer-prep
+        environment:
+            REACT_APP_ENVIRONMENT: "localhost"
         ports:
             - 3000:3000
 

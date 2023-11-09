@@ -2,7 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 
 import { useDispatch } from "react-redux";
-import * as QuestionSlice from "../redux/reducers/Question/QuestionSlice"
+import * as QuestionSlice from "../redux/reducers/Question/QuestionSlice";
+import * as RoutesSlice from "../redux/reducers/Routes/RoutesSlice";
 
 // import components
 import QuestionCreator from "./QuestionCreator";
@@ -22,35 +23,42 @@ import { useAuthState } from "react-firebase-hooks/auth";
 const QuestionsPage = () => {
     const dispatch = useDispatch();
     const [user, loading, error] = useAuthState(auth);
-
-	const currentUserUid = user?.uid;
+    const environment = useSelector(RoutesSlice.selectEnvironment)
+    let port = ""
+    const currentUserUid = user?.uid;
 
     const getIsAdmin = () => {
+        if (environment == "localhost") {
+            port = ":3100"
+        }
         axios({
-          method: "get",
-          url: `https://api.peerprepgroup51sem1y2023.xyz/users/admin/${currentUserUid}`,
+            method: "get",
+            url: `https://` + environment + port + `/users/admin/${currentUserUid}`,
         })
-          .then((response) => {
-            const data = response.data.data;
-            dispatch(UserSlice.updateIsAdmin(data));
-          })
-          .catch(() => {
-          });
+            .then((response) => {
+                const data = response.data.data;
+                dispatch(UserSlice.updateIsAdmin(data));
+            })
+            .catch(() => {
+            });
     };
 
     useEffect(() => {
+        if (environment == "localhost") {
+            port = ":8080"
+        }
         getIsAdmin();
-		axios({
-			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
-		})
-			.then((response) => {
+        axios({
+            method: "get",
+            url: `https://` + environment + port + `/api/questions`,
+        })
+            .then((response) => {
                 const data = response.data;
                 dispatch(QuestionSlice.initializeQuestionData(data));
-			})
-			.catch(() => {
-			});
-	}, []);
+            })
+            .catch(() => {
+            });
+    }, []);
 
     const htmlElement = document.documentElement;
     const bodyElement = document.body;

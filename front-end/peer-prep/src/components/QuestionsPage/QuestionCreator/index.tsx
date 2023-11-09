@@ -6,6 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import { TextField, Chip, Autocomplete, Select, FormControl, InputLabel, MenuItem, SelectChangeEvent, Tooltip, Snackbar, Alert, Button, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import * as QuestionSlice from "../../redux/reducers/Question/QuestionSlice"
+import * as RoutesSlice from "../../redux/reducers/Routes/RoutesSlice"
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -29,17 +30,21 @@ const QuestionCreator = () => {
     const numOfQuestions: number = useSelector(QuestionSlice.selectNumOfQuestions)
     const categoryBuffer: string = useSelector(QuestionSlice.selectCategoryBuffer)
     const isAddQuestionButtonToggled: boolean = useSelector(QuestionSlice.selectAddQuestionButtonStatus)
+    const environment = useSelector(RoutesSlice.selectEnvironment)
 
     const [isErrorSnackbarOpen, openErrorSnackbar] = React.useState(false)
     const [isSuccessSnackbarOpen, openSuccessSnackbar] = React.useState(false)
     const [snackbarMsg, giveSnackbarMsg] = React.useState("")
     var duplicateCategoryErrorText: string = ""
     var duplicateCategoryError: boolean = false
-
+    let port = "";
+    if (environment == "localhost") {
+        port = ":8080"
+    }
     // Adds new question 
     const postQuestionData = () => {
         axios
-            .post(`https://api.peerprepgroup51sem1y2023.xyz/api/questions/`, {
+            .post(`https://` + environment + port + `/api/questions/`, {
                 category: currentCategories,
                 description: currentDescription,
                 complexity: currentComplexity,
@@ -69,7 +74,7 @@ const QuestionCreator = () => {
     const patchQuestionData = () => {
         axios
             .patch(
-                `https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}`,
+                `https://` + environment + port + `/api/questions/${currentQuestionId}`,
                 {
                     category: currentCategories,
                     complexity: currentComplexity,
@@ -97,7 +102,7 @@ const QuestionCreator = () => {
     useEffect(() => {
         axios({
             method: "get",
-            url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
+            url: `https://` + environment + port + `/api/questions`,
         })
             .then((response) => {
                 const data = response.data;

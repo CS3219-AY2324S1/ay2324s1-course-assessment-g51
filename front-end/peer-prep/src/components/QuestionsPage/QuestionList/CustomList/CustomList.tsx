@@ -6,6 +6,7 @@ import * as Style from "./styles"
 import { useDispatch, useSelector } from "react-redux";
 import * as QuestionSlice from "../../../redux/reducers/Question/QuestionSlice";
 import * as UserSlice from "../../../redux/reducers/User/UserSlice";
+import * as RoutesSlice from "../../../redux/reducers/Routes/RoutesSlice";
 
 import axios from 'axios';
 
@@ -19,10 +20,14 @@ interface questionObject {
 
 const CustomList = () => {
     const currentQuestionId: string = useSelector(QuestionSlice.selectCurrentId);
-
+    const environment = useSelector(RoutesSlice.selectEnvironment);
+    let port = "";
+    if (environment === "localhost") {
+        port = ":8080"
+    }
     // Deletes current question
     const deleteQuestion = () => {
-        axios.delete(`https://api.peerprepgroup51sem1y2023.xyz/api/questions/${currentQuestionId}`)
+        axios.delete(`https://` + environment + port + `/api/questions/${currentQuestionId}`)
             .then(() => {
                 dispatch(QuestionSlice.deleteQuestion(currentId));
             })
@@ -34,7 +39,6 @@ const CustomList = () => {
     const questions: questionObject[] = useSelector(QuestionSlice.selectQuestionsData)
     const currentId: string = useSelector(QuestionSlice.selectCurrentId)
     const isUserAnAdmin: boolean = useSelector(UserSlice.isUserAnAdmin)
-
     let additionalStackContainerStyle = {}
     const dispatch = useDispatch()
 

@@ -7,10 +7,17 @@ import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import * as RoutesSlice from "../../redux/reducers/Routes/RoutesSlice";
+import { useSelector } from "react-redux";
 
 const RequestPage = (props: any) => {
 	const navigate = useNavigate();
 	const [isClicked, setIsClicked] = useState(false);
+	const environment = useSelector(RoutesSlice.selectEnvironment);
+	let port = "";
+	if (environment == "localhost") {
+		port = ":3100"
+	}
 
 	//back button brings it back to sign in
 	const iconHandler = () => {
@@ -26,7 +33,7 @@ const RequestPage = (props: any) => {
 	//change requesting to yes
 	const buttonHandler = () => {
 		axios
-			.put(`https://api.peerprepgroup51sem1y2023.xyz/users/request/`, {
+			.put(`https://` + environment + port + `/users/request/`, {
 				toUpdate: [[props.uid, true]],
 			})
 			.catch((error) => {

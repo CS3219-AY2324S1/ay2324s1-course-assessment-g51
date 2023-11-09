@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as PracticeSlice from "../redux/reducers/Practice/PracticeSlice";
 import * as QuestionSlice from "../redux/reducers/Question/QuestionSlice";
 import * as MatchSlice from "../redux/reducers/Match/MatchSlice";
+import * as RoutesSlice from "../redux/reducers/Routes/RoutesSlice";
 
 import MatchingServicePopUp from "../MatchingServicePopUp";
 import QuestionView from "./QuestionView";
@@ -15,24 +16,29 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-export const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/", {
+const environment = process.env.REACT_APP_ENVIRONMENT
+let port = ""
+if (environment == "localhost") {
+	port = ":8576"
+}
+export const socket = io("https://" + environment + port + "/", {
 	transports: ["websocket"],
 	withCredentials: true,
 });
-//export const socket = io("http://localhost:8576");
 
 const PracticePage = () => {
 	const dispatch = useDispatch();
-
-	// Uncomment line 21 and comment out line 22 to test UI after matched
-	//const partnerDetails = {"test":3};
 	const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
-
+	const environment = useSelector(RoutesSlice.selectEnvironment);
+	let port = "";
+	if (environment == "localhost") {
+		port = ":8080"
+	}
 	// Displays first question if user refreshes the browser
 	useEffect(() => {
 		axios({
 			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
+			url: `https://` + environment + port + `/api/questions`,
 		})
 			.then((response) => {
 				const data = response.data;
@@ -54,7 +60,7 @@ const PracticePage = () => {
 					)
 				);
 			})
-			.catch(() => {});
+			.catch(() => { });
 	}, []);
 
 	let practicePageStyle;

@@ -3,6 +3,7 @@ import * as Styles from "./styles";
 import { Stack, Chip, Button, Box, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux";
 import * as QuestionSlice from "../../redux/reducers/Question/QuestionSlice"
+import * as RoutesSlice from "../../redux/reducers/Routes/RoutesSlice"
 import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
@@ -17,13 +18,17 @@ const QuestionViewer = () => {
     const currentComplexity: string = useSelector(QuestionSlice.selectCurrentComplexity)
     const currentCategories: string[] = useSelector(QuestionSlice.selectCurrentCategories)
     const currentDescription: string = useSelector(QuestionSlice.selectCurrentDescription)
-
+    const environment = useSelector(RoutesSlice.selectEnvironment)
+    let port = ""
+    if (environment === "localhost") {
+        port = ":8080"
+    }
     // for initializing default values for the question creator based on the first data entry
     // will run only once!
     useEffect(() => {
         axios({
             method: "get",
-            url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
+            url: `https://` + environment + port + `/api/questions`,
         })
             .then((response) => {
                 const data = response.data;

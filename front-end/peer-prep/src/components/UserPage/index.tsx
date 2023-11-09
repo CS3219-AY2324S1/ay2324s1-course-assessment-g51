@@ -21,6 +21,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { useDispatch, useSelector } from "react-redux";
 import * as UserSlice from "../redux/reducers/User/UserSlice";
+import * as RoutesSlice from "../redux/reducers/Routes/RoutesSlice";
 
 import axios from "axios";
 
@@ -65,11 +66,16 @@ const UserPage = () => {
 	const EmptyDetailsWarning = "User details cannot be empty!";
 	const DuplicateUsernameMsg = "Username already exists";
 
+	const environment = useSelector(RoutesSlice.selectEnvironment);
+	let port = "";
+	if (environment === "localhost") {
+		port = ":3100"
+	}
 	// Gets user profile data.
 	useEffect(() => {
 		axios({
 			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`,
+			url: `https://` + environment + port + `/users/profile/${authUid}`,
 		})
 			.then((response) => {
 				const data = response.data.data;
@@ -101,7 +107,7 @@ const UserPage = () => {
 	const postUserData = () => {
 		axios
 			//.post(`http://localhost:3100/users/profile/`, {
-			.post(`https://api.peerprepgroup51sem1y2023.xyz/users/profile/`, {
+			.post(`https://` + environment + port + `/users/profile/ `, {
 				username: currentUsername,
 				email: currentEmail,
 				firstName: currentFirstName,
@@ -129,7 +135,7 @@ const UserPage = () => {
 	const putUserData = () => {
 		axios
 			.put(
-				`https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`,
+				`https://` + environment + port + `/users/profile/${authUid}`,
 				//`http://localhost:3100/users/profile/${authUid}`,
 				{
 					username: currentUsername,
@@ -166,7 +172,7 @@ const UserPage = () => {
 	const deleteUserData = () => {
 		axios
 			.delete(
-				`https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`
+				`https://` + environment + port + `/users/profile/${authUid}`
 			)
 			.catch(() => { });
 	};
