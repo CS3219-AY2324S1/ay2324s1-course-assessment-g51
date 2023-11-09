@@ -3,14 +3,14 @@
 version: "3.4"
 
 services:
-    # judge0:
-    #     image: judge0/judge0:latest
-    #     ports:
-    #         - "8080:80"
-    #     environment:
-    #         - JUDGE0_API_DOMAIN=your-judge0-domain
-    #         - JUDGE0_USE_REDIS=false
-    #         - JUDGE0_STORAGE_PATH=/sandbox
+    judge0:
+        image: judge0/judge0:latest
+        ports:
+            - "8080:80"
+        environment:
+            - JUDGE0_API_DOMAIN=your-judge0-domain
+            - JUDGE0_USE_REDIS=false
+            - JUDGE0_STORAGE_PATH=/sandbox
     # front-end:
     #     container_name: front-end
     #     image: front-end
