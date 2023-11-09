@@ -6,7 +6,7 @@ A real-time matchmaking API powered by Socket.io.
 
 While this service can _technically_ run on its own, in most cases and especially on production it only serves its purpose working together with its companion service `matching-worker-service`. This relationship can be described with the following diagram:
 
-![](docs/images/architecture-diagram.png)
+![](docs/diagrams/architecture-diagram.png)
 
 In summary, this service only concerns itself with serving the clients' requests, and does not handle the matchmaking work. The service offloads the matching request into a work queue, and dispatch messages returned from the work queue to the correct clients. Using this design pattern, this service is able to serve many concurrent clients at once without being blocked by long-running processes.
 
