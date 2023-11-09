@@ -5,7 +5,7 @@ metadata: # Metadata for the Ingress resource
     namespace: prod
 spec: # Specification for the Ingress resource
     rules: # List of routing rules
-        - host: 10.148.0.9 # Hostname to match in incoming requests
+        - host: k8.peerprepgroup51sem1y2023.xyz # Hostname to match in incoming requests
           http: # Define how to handle HTTP traffic
               paths: # List of paths to match
                   - path: / # Path to match in the request
