@@ -14,6 +14,7 @@ const registerMatchRequestHandlers = (
   channel: Channel
 ) => {
   const createMatchRequest = async (data: any) => {
+    console.log("creating match request with ", data);
     try {
       const matchRequest = await validateMatchRequestPromise(data);
       const correlationId = randomUUID();
@@ -25,6 +26,10 @@ const registerMatchRequestHandlers = (
           if (!message) {
             return;
           }
+          console.log(
+            `match found, returning match object 
+            ${message.content.toString()} to ${data.userId}`
+          );
           socket.emit("match-response:success", message.content.toString());
           socket.disconnect();
           isMatchFound = true;
@@ -40,6 +45,7 @@ const registerMatchRequestHandlers = (
 
       setTimeout(async () => {
         if (!isMatchFound) {
+          console.log(`match not found for user ${data.userId}`);
           socket.emit("match-response:failure");
           socket.disconnect();
         }
