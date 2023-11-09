@@ -14,8 +14,7 @@ import {
 	Stepper,
 	Step,
 	StepLabel,
-	Button,
-	CircularProgress,
+	Button
 } from "@mui/material";
 import { ArrowForwardIos, ArrowBackIos } from "@mui/icons-material";
 
@@ -138,32 +137,32 @@ const QuestionSelection = () => {
 };
 
 const FindPartner = () => {
-    let firstText;
-    let secondText;
-    let navigate = useNavigate()
-    const matchResponse = useSelector(MatchSlice.selectMatchResponse)
-    if (matchResponse == "success") {
-        firstText = "Partner Found!";
-        secondText = "Redirecting you to the practice page...";
-    } else if (matchResponse == "failure") {
-        firstText = "No suitable match found...";
-        secondText = "Please try again!"
-    } else if (matchResponse == "error") {
-        firstText = "Something went wrong...";
-        secondText = "Please try again!"
-    } else {
-        firstText = "Searching for partner...";
-        secondText = "Hang Tight!"
-    }
-    return (
-        <Stack direction="row" spacing={10}>
-            <Stack>
-                <Typography sx={Styles.textStyle}>{firstText}</Typography>
-                <Typography sx={Styles.textStyle}>{secondText}</Typography>
-            </Stack>
-            <CustomCircularProgress />
-        </Stack>
-    )
+	let firstText;
+	let secondText;
+	let navigate = useNavigate()
+	const matchResponse = useSelector(MatchSlice.selectMatchResponse)
+	if (matchResponse == "success") {
+		firstText = "Partner Found!";
+		secondText = "Redirecting you to the practice page...";
+	} else if (matchResponse == "failure") {
+		firstText = "No suitable match found...";
+		secondText = "Please try again!"
+	} else if (matchResponse == "error") {
+		firstText = "Something went wrong...";
+		secondText = "Please try again!"
+	} else {
+		firstText = "Searching for partner...";
+		secondText = "Hang Tight!"
+	}
+	return (
+		<Stack direction="row" spacing={10}>
+			<Stack>
+				<Typography sx={Styles.textStyle}>{firstText}</Typography>
+				<Typography sx={Styles.textStyle}>{secondText}</Typography>
+			</Stack>
+			<CustomCircularProgress />
+		</Stack>
+	)
 }
 
 const socket = io("https://api.peerprepgroup51sem1y2023.xyz/", {
