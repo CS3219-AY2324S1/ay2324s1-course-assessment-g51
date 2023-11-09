@@ -93,5 +93,7 @@ const amqpConnectionPromise = getQueueConnection(amqpUrl);
     });
   } catch (err) {
     console.error(err);
+    console.log("exiting");
+    process.exit(1);
   }
 })();
