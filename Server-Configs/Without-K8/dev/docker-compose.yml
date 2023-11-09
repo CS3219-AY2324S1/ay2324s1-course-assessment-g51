@@ -1,128 +1,159 @@
 # For local development purposes only
 
-version: "3"
+version: "3.4"
 
 services:
-  front-end:
-      container_name: front-end
-      image: front-end
-      build:
-          context: .././front-end/peer-prep
-      ports:
-          - 3000:3000
+    # judge0:
+    #     image: judge0/judge0:latest
+    #     ports:
+    #         - "8081:80"
+    #     environment:
+    #         - JUDGE0_API_DOMAIN=your-judge0-domain
+    #         - JUDGE0_USE_REDIS=false
+    #         - JUDGE0_STORAGE_PATH=/sandbox
 
-  question-service:
-    container_name: question-service
-    image: question-service
-    build:
-        context: .././services/question-service
-        target: build
-    command: ["npm", "run", "dev"]
-    environment:
-        - MONGODB_URI=mongodb://mongodb:27017/question-service-api
-        - PORT_NUMBER=8080
-    depends_on:
-        - mongodb
-    volumes:
-        - ./services/question-service:/app
+    front-end:
+        container_name: front-end
+        image: front-end
+        build:
+            context: ../../../front-end/peer-prep
+        ports:
+            - 3000:3000
 
-  mongodb:
-    container_name: mongodb
-    image: mongo:6.0
-    volumes:
-      - db-data:/data/db
-    ports:
-      - 27017:27017
+    question-service:
+        container_name: question-service
+        image: question-service
+        ports:
+            - 8080:8080
+        build:
+            context: ../../../services/question-service
+            target: build
+        command: ["npm", "run", "dev"]
+        environment:
+            - MONGODB_URI=mongodb://mongodb:27017/question-service-api
+            - PORT_NUMBER=8080
+        depends_on:
+            - mongodb
+        # volumes:
+        #     - ./services/question-service:/app
 
-  postgres:
-    container_name: postgres
-    image: postgres
-    restart: always
-    ports:
-      - "5432:5432"
+    mongodb:
+        container_name: mongodb
+        image: mongo:6.0
+        volumes:
+            - db-data:/data/db
+        ports:
+            - 27017:27017
+        environment: 
+            # provide your credentials here
+            - MONGO_INITDB_ROOT_USERNAME=root
+            - MONGO_INITDB_ROOT_PASSWORD=password
 
-  profile-service:
-    container_name: profile-service
-    image: profile-service
-    build:
-      context: .././services/profile-service
-    ports:
-      - 3100:3100
+    postgres:
+        container_name: postgres
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: example
+        volumes:
+            - /var/lib/postgresql/data:/var/lib/postgresql/data
+        ports:
+            - 5433:5433
 
-  matching-service:
-    container_name: matching-service
-    image: matching-service
-    build:
-      context: ./services/matching-service
-      target: build
-    command: ["npm", "run", "dev"]
-    environment:
-      - PORT_NUMBER=8000
-      - AMQP_URL=amqp://rabbitmq:5672
-    ports:
-      - 8000:8000
-    depends_on:
-      - rabbitmq
-      - matching-worker-service
-    links:
-      - rabbitmq
-      - matching-worker-service
-    volumes:
-      - ./services/matching-service:/app
+    profile-service:
+        container_name: profile-service
+        image: profile-service
+        build:
+            context: ../../../services/profile-service
+        ports:
+            - 3100:3100
+        environment:
+            - POSTGRES_HOST="localhost"
+            - POSTGRES_PORT="5432"
+            - POSTGRES_USERNAME="postgres"
+            - POSTGRES_PASSWORD="example"
+            - POSTGRES_DATABASE="postgres"
+        # volumes:
+        #     - ./services/profile-service:/usr/src/app
 
-  rabbitmq:
-    image: rabbitmq:management
-    container_name: rabbitmq
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
-    ports:
-      - 5672:5672
-      - 15672:15672
+    matching-service:
+        container_name: matching-service
+        build:
+            context: ../../../services/matching-service
+            target: build
+        command: ["npm", "run", "dev"]
+        environment:
+            - PORT_NUMBER=8000
+            - AMQP_URL=amqp://rabbitmq:5672
+        ports:
+            - 8000:8000
+        depends_on:
+            - rabbitmq
+            - matching-worker-service
+        links:
+            - rabbitmq
+            - matching-worker-service
+        # volumes:
+        #     - ./services/matching-service:/app
 
-  matching-worker-service:
-    container_name: matching-worker-service
-    image: matching-worker-service
-    build:
-      context: .././services/matching-worker-service
-      target: build
-    command: ["npm", "run", "dev"]
-    environment:
-      - AMQP_URL=amqp://rabbitmq:5672
-      - DATABASE_URL=postgresql://root:secret@matching-service-db:5435/matching_service?schema=public
-    depends_on:
-      - rabbitmq
-      - matching-service-db
-    links:
-      - rabbitmq
-      - matching-service-db
-    volumes:
-      - ./services/matching-worker-service:/app
+    rabbitmq:
+        image: rabbitmq:management
+        container_name: rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
+        ports:
+            - 5672:5672
+            - 15672:15672
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:15672"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 40s
 
-  matching-service-db:
-    container_name:  matching-service-db
-    image: postgres:16-alpine
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=matching_service
-    ports:
-      - 5435:5432
-    volumes:
-      - matching-service-data:/var/lib/postgresql/data
+    matching-worker-service:
+        container_name: matching-worker-service
+        build:
+            context: ../../../services/matching-worker-service
+            target: build
+        command: ["npm", "run", "dev"]
+        environment:
+            - AMQP_URL=amqp://rabbitmq:5672
+            - DATABASE_URL=postgresql://root:secret@matching-service-db:5432/matching_service?schema=public
+        depends_on:
+            - rabbitmq
+            - matching-service-db
+        links:
+            - rabbitmq
+            - matching-service-db
+        restart: on-failure
+        # volumes:
+        #     - ./services/matching-worker-service:/app
 
-  collaboration-service:
-    container_name: collaboration-service
-    image: collaboration-service
-    build:
-      context: .././services/collaboration-service
-    ports:
-      - 8576:8576
+    matching-service-db:
+        image: postgres:16-alpine
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=secret
+            - POSTGRES_DB=matching_service
+        ports:
+            - 5432:5432
+        volumes:
+            - matching-service-data:/var/lib/postgresql/data
 
-networks:
-  default:
-    driver: bridge
+    collaboration-service:
+        container_name: collaboration-service
+        image: collaboration-service
+        build:
+            context: ../../../services/collaboration-service
+        ports:
+            - 8576:8576
+
+networks:       
+    default:
+        driver: bridge
 
 volumes:
-  db-data:
-  matching-service-data:
+    db-data:
+    matching-service-data:

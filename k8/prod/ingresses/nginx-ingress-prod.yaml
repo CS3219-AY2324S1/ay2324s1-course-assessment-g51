@@ -5,7 +5,7 @@ metadata: # Metadata for the Ingress resource
     namespace: prod
 spec: # Specification for the Ingress resource
     rules: # List of routing rules
-        - host: k8.peerprepgroup51sem1y2023.xyz # Hostname to match in incoming requests
+        - host: 10.148.0.9 # Hostname to match in incoming requests
           http: # Define how to handle HTTP traffic
               paths: # List of paths to match
                   - path: / # Path to match in the request
@@ -37,11 +37,11 @@ spec: # Specification for the Ingress resource
                             port:
                                 number: 8000
 
-        # - host: collab.api.peerprepgroup51sem1y2023.xyz
-        #   http:
-        #       paths:
-        #           - path: /
-        #             pathType: Prefix
-        #             backend:
-        #                 service:
-        #                     name: collaboration-service-service-prod
+          # - host: collab.api.peerprepgroup51sem1y2023.xyz
+          #   http:
+          #       paths:
+          #           - path: /
+          #             pathType: Prefix
+          #             backend:
+          #                 service:
+          #                     name: collaboration-service-service-prod
