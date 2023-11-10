@@ -2,6 +2,7 @@
 
 version: "3.4"
 
+
 services:
     # judge0:
     #     image: judge0/judge0:latest
@@ -21,6 +22,8 @@ services:
             REACT_APP_ENVIRONMENT: "localhost"
         ports:
             - 3000:3000
+        networks:
+            - localNetwork
 
     question-service:
         container_name: question-service
@@ -38,6 +41,8 @@ services:
             - mongodb
         # volumes:
         #     - ./services/question-service:/app
+        networks:
+            - localNetwork
 
     mongodb:
         container_name: mongodb
@@ -50,6 +55,8 @@ services:
             # provide your credentials here.
             - MONGO_INITDB_ROOT_USERNAME=root
             - MONGO_INITDB_ROOT_PASSWORD=password
+        networks:
+            - localNetwork
 
     postgres:
         container_name: postgres
@@ -61,6 +68,8 @@ services:
             - /var/lib/postgresql/data:/var/lib/postgresql/data
         ports:
             - 5433:5432
+        networks:
+            - localNetwork
 
     profile-service:
         container_name: profile-service
@@ -69,14 +78,12 @@ services:
             context: ../../../services/profile-service
         ports:
             - 3100:3100
-        environment:
-            - POSTGRES_HOST=localhost
-            - POSTGRES_PORT=5433
-            - POSTGRES_USERNAME=postgres
-            - POSTGRES_PASSWORD=example
-            - POSTGRES_DATABASE=postgres
+        env_file:
+            - ../../../services/profile-service/.env
         # volumes:
         #     - ./services/profile-service:/usr/src/app
+        networks:
+            - localNetwork
 
     matching-service:
         container_name: matching-service
@@ -97,6 +104,8 @@ services:
             - matching-worker-service
         # volumes:
         #     - ./services/matching-service:/app
+        networks:
+            - localNetwork
 
     rabbitmq:
         image: rabbitmq:management
@@ -113,6 +122,8 @@ services:
             timeout: 10s
             retries: 5
             start_period: 40s
+        networks:
+            - localNetwork
 
     matching-worker-service:
         container_name: matching-worker-service
@@ -132,6 +143,8 @@ services:
         restart: on-failure
         # volumes:
         #     - ./services/matching-worker-service:/app
+        networks:
+            - localNetwork
 
     matching-service-db:
         image: postgres:16-alpine
@@ -143,6 +156,8 @@ services:
             - 5432:5432
         volumes:
             - matching-service-data:/var/lib/postgresql/data
+        networks:
+        - localNetwork
 
     collaboration-service:
         container_name: collaboration-service
@@ -151,10 +166,13 @@ services:
             context: ../../../services/collaboration-service
         ports:
             - 8576:8576
+        networks:
+            - localNetwork
 
 networks:       
-    default:
+    localNetwork:
         driver: bridge
+
 
 volumes:
     db-data:

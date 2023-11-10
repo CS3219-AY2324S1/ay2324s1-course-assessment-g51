@@ -73,7 +73,7 @@ const UserPage = () => {
 	useEffect(() => {
 		axios({
 			method: "get",
-			url: routes.profile + `${authUid}`,
+			url: routes.profile[0] + `${authUid}`,
 		})
 			.then((response) => {
 				const data = response.data.data;
