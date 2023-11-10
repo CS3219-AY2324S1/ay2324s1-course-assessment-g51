@@ -24,8 +24,9 @@ const PracticePage = () => {
 	const dispatch = useDispatch();
 
 	// Uncomment line 21 and comment out line 22 to test UI after matched
-	const partnerDetails = {"test":3};
-	//const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
+	//const partnerDetails = {"test":3};
+	const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
+	const isPartnerDetailsEmpty = Object.keys(partnerDetails).length === 0;
 
 	// Displays first question if user refreshes the browser
 	useEffect(() => {
@@ -56,8 +57,12 @@ const PracticePage = () => {
 			.catch(() => {});
 	}, []);
 
+	const handleLeaveRoom = () => {
+		socket.emit("disconnect")
+	}
+
 	let practicePageStyle;
-	if (Object.keys(partnerDetails).length === 0) {
+	if (isPartnerDetailsEmpty) {
 		practicePageStyle = Styles.practicePageContainerStyle;
 	} else {
 		practicePageStyle = Styles.practicePageMatchedContainerStyle;
@@ -68,7 +73,7 @@ const PracticePage = () => {
 			<div id="PracticePage" style={practicePageStyle}>
 				<QuestionView />
 				<CodeView />
-				{Object.keys(partnerDetails).length === 0 ? (
+				{isPartnerDetailsEmpty ? (
 					<Button
 						sx={{ marginRight: "25%" }}
 						variant="contained"
@@ -84,9 +89,15 @@ const PracticePage = () => {
 					<ChatView />
 				)}
 			</div>
-			<Button variant="contained" sx={Styles.leaveRoomButtonStyle}>
-				Leave Room
-			</Button>
+			{isPartnerDetailsEmpty 
+				? 	<></>	
+				:	<Button variant="contained" 
+						sx={Styles.leaveRoomButtonStyle}
+						onClick={handleLeaveRoom}>
+							Leave Room
+					</Button> 	
+			}
+			
 			<BackdropMatchingService />
 		</div>
 	);
