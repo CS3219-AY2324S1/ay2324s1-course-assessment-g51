@@ -6,39 +6,26 @@ import { useDispatch, useSelector } from "react-redux";
 import * as PracticeSlice from "../redux/reducers/Practice/PracticeSlice";
 import * as QuestionSlice from "../redux/reducers/Question/QuestionSlice";
 import * as MatchSlice from "../redux/reducers/Match/MatchSlice";
-import * as RoutesSlice from "../redux/reducers/Routes/RoutesSlice";
 
 import MatchingServicePopUp from "../MatchingServicePopUp";
 import QuestionView from "./QuestionView";
 import CodeView from "./CodeView";
 import ChatView from "./ChatView";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
-import { Socket, io } from "socket.io-client";
+import { io } from "socket.io-client";
 import { IRoutes, getRoutes } from "../Routes";
 
-const environment = process.env.REACT_APP_ENVIRONMENT
-let port = ""
-let newSocket: Socket;
-if (environment == "localhost") {
-	port = ":8576"
-	newSocket = io("http://" + environment + port + "/", {
-		transports: ["websocket"],
-		withCredentials: true,
-	});
-} else {
-	newSocket = io("https://" + environment + port + "/", {
-		transports: ["websocket"],
-		withCredentials: true,
-	});
-}
 
-export const socket = newSocket;
+const routes: IRoutes = getRoutes();
+export const socket = io(routes.socketIO[1], {
+	transports: ["websocket"],
+	withCredentials: true,
+});
 
 const PracticePage = () => {
 	const dispatch = useDispatch();
 	const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
-	const environment = useSelector(RoutesSlice.selectEnvironment);
 	const routes: IRoutes = getRoutes();
 	// Displays first question if user refreshes the browser
 	useEffect(() => {

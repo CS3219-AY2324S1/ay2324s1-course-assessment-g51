@@ -21,7 +21,6 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { useDispatch, useSelector } from "react-redux";
 import * as UserSlice from "../redux/reducers/User/UserSlice";
-import * as RoutesSlice from "../redux/reducers/Routes/RoutesSlice";
 
 import axios from "axios";
 
@@ -66,8 +65,6 @@ const UserPage = () => {
 	const PromptUserDetails = "Please enter user details.";
 	const EmptyDetailsWarning = "User details cannot be empty!";
 	const DuplicateUsernameMsg = "Username already exists";
-
-	const environment = useSelector(RoutesSlice.selectEnvironment);
 	const routes: IRoutes = getRoutes();
 	// Gets user profile data.
 	useEffect(() => {

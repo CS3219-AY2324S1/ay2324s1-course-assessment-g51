@@ -90,10 +90,6 @@ const RedirectUserRoute = () => {
 };
 
 const RootApp = () => {
-	// const environment: string = process.env.REACT_APP_ENVIRONMENT as string;
-	// console.log("environment is: " + environment)
-	// const dispatch = useDispatch();
-	// dispatch(RoutesSlice.updateEnvironment(environment))
 	return (
 		<Provider store={store}>
 			<div id="app" style={appStyle}>

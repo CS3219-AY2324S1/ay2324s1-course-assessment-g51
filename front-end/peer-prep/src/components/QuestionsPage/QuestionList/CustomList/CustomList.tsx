@@ -6,7 +6,6 @@ import * as Style from "./styles"
 import { useDispatch, useSelector } from "react-redux";
 import * as QuestionSlice from "../../../redux/reducers/Question/QuestionSlice";
 import * as UserSlice from "../../../redux/reducers/User/UserSlice";
-import * as RoutesSlice from "../../../redux/reducers/Routes/RoutesSlice";
 
 import axios from 'axios';
 import { IRoutes, getRoutes } from "../../../Routes";
@@ -21,7 +20,6 @@ interface questionObject {
 
 const CustomList = () => {
     const currentQuestionId: string = useSelector(QuestionSlice.selectCurrentId);
-    const environment = useSelector(RoutesSlice.selectEnvironment);
     const routes: IRoutes = getRoutes()
     // Deletes current question
     const deleteQuestion = () => {
@@ -29,7 +27,8 @@ const CustomList = () => {
             .then(() => {
                 dispatch(QuestionSlice.deleteQuestion(currentId));
             })
-            .catch(() => {
+            .catch((error) => {
+                console.log(error)
             });
     }
 

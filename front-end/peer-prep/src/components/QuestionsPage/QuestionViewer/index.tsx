@@ -3,7 +3,6 @@ import * as Styles from "./styles";
 import { Stack, Chip, Button, Box, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux";
 import * as QuestionSlice from "../../redux/reducers/Question/QuestionSlice"
-import * as RoutesSlice from "../../redux/reducers/Routes/RoutesSlice"
 import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
@@ -19,7 +18,6 @@ const QuestionViewer = () => {
     const currentComplexity: string = useSelector(QuestionSlice.selectCurrentComplexity)
     const currentCategories: string[] = useSelector(QuestionSlice.selectCurrentCategories)
     const currentDescription: string = useSelector(QuestionSlice.selectCurrentDescription)
-    const environment = useSelector(RoutesSlice.selectEnvironment)
     const routes: IRoutes = getRoutes()
     // for initializing default values for the question creator based on the first data entry
     // will run only once!

@@ -28,6 +28,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as MatchSlice from "../redux/reducers/Match/MatchSlice"
 import CustomCircularProgress from './CustomCircularProgress';
+import { getRoutes, IRoutes } from "../Routes";
 
 const languages = ["python", "java", "javascript", "c#", "c++"];
 const steps = [
@@ -164,21 +165,12 @@ const FindPartner = () => {
 		</Stack>
 	)
 }
-const environment = process.env.REACT_APP_ENVIRONMENT
-let port = "";
-let socket: Socket;
-if (environment === "localhost") {
-	port = ":8000"
-	socket = io("http://" + environment + port + "/", {
-		transports: ["websocket"],
-		withCredentials: true,
-	});
-} else {
-	socket = io("https://" + environment + port + "/", {
-		transports: ["websocket"],
-		withCredentials: true,
-	});
-}
+
+const routes: IRoutes = getRoutes();
+const socket = io(routes.socketIO[0], {
+	transports: ["websocket"],
+	withCredentials: true,
+});
 
 const MatchingServicePopUp = () => {
 	const [activeStep, setActiveStep] = useState(0);

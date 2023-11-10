@@ -6,7 +6,6 @@ import SaveIcon from '@mui/icons-material/Save';
 import { TextField, Chip, Autocomplete, Select, FormControl, InputLabel, MenuItem, SelectChangeEvent, Tooltip, Snackbar, Alert, Button, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import * as QuestionSlice from "../../redux/reducers/Question/QuestionSlice"
-import * as RoutesSlice from "../../redux/reducers/Routes/RoutesSlice"
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -31,7 +30,6 @@ const QuestionCreator = () => {
     const numOfQuestions: number = useSelector(QuestionSlice.selectNumOfQuestions)
     const categoryBuffer: string = useSelector(QuestionSlice.selectCategoryBuffer)
     const isAddQuestionButtonToggled: boolean = useSelector(QuestionSlice.selectAddQuestionButtonStatus)
-    const environment = useSelector(RoutesSlice.selectEnvironment)
 
     const [isErrorSnackbarOpen, openErrorSnackbar] = React.useState(false)
     const [isSuccessSnackbarOpen, openSuccessSnackbar] = React.useState(false)

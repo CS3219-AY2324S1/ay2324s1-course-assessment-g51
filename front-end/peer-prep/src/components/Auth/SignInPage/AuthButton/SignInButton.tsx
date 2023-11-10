@@ -15,7 +15,6 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import * as UserSlice from "../../../redux/reducers/User/UserSlice";
-import * as RoutesSlice from "../../../redux/reducers/Routes/RoutesSlice";
 import axios from "axios";
 import { IRoutes, getRoutes } from "../../../Routes";
 
@@ -37,7 +36,6 @@ const SignInButton = ({
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin);
-	const environment = useSelector(RoutesSlice.selectEnvironment);
 	const routes: IRoutes = getRoutes();
 	provider.addScope("email");
 

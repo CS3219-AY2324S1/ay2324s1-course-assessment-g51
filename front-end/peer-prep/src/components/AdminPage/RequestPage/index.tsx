@@ -7,14 +7,12 @@ import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import * as RoutesSlice from "../../redux/reducers/Routes/RoutesSlice";
 import { useSelector } from "react-redux";
 import { IRoutes, getRoutes } from "../../Routes";
 
 const RequestPage = (props: any) => {
 	const navigate = useNavigate();
 	const [isClicked, setIsClicked] = useState(false);
-	const environment = useSelector(RoutesSlice.selectEnvironment);
 	const routes: IRoutes = getRoutes();
 	//back button brings it back to sign in
 	const iconHandler = () => {

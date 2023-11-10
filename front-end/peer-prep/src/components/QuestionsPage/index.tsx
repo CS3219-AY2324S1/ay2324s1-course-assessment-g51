@@ -1,9 +1,7 @@
-import React from "react";
 import { useEffect } from "react";
 
 import { useDispatch } from "react-redux";
 import * as QuestionSlice from "../redux/reducers/Question/QuestionSlice";
-import * as RoutesSlice from "../redux/reducers/Routes/RoutesSlice";
 
 // import components
 import QuestionCreator from "./QuestionCreator";

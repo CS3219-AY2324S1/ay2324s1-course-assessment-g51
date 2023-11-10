@@ -9,7 +9,7 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-ARG REACT_APP_ENVIRONMENT=localhost
+ARG REACT_APP_ENVIRONMENT=peerprepgroup51sem1y2023.xyz
 ENV REACT_APP_API_URL ${REACT_APP_ENVIRONMENT}
 
 # Copy the rest of the source code

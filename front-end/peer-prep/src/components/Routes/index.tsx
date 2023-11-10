@@ -2,7 +2,8 @@ const liveDomain = "peerprepgroup51sem1y2023.xyz"
 
 export interface IRoutes {
     questions: string,
-    profile: string[]
+    profile: string[],
+    socketIO: string[]
 
 }
 
@@ -15,19 +16,27 @@ const localhostRoutes = {
         "http://localhost:3100/users/request/",
         "http://localhost:3100/users/request",
         "http://localhost:3100/users/superAdmin/",
+    ],
+    socketIO: [
+        "https://localhost:8000/", // for matching service socket
+        "https://localhost:8576/", // for collab service socket
     ]
 
 }
 
 const liveRoutes = {
-    questions: "https://api" + liveDomain + "/api/questions",
+    questions: "https://api." + liveDomain + "/api/questions",
     profile: [
-        "https://" + liveDomain + "/users/profile/",
-        "https://" + liveDomain + "/users/admin/",
-        "https://" + liveDomain + "/users/admin",
-        "https://" + liveDomain + "/users/request/",
-        "https://" + liveDomain + "/users/request/",
-        "https://" + liveDomain + "/users/superAdmin/"
+        "https://api." + liveDomain + "/users/profile/",
+        "https://api." + liveDomain + "/users/admin/",
+        "https://api." + liveDomain + "/users/admin",
+        "https://api." + liveDomain + "/users/request/",
+        "https://api." + liveDomain + "/users/request/",
+        "https://api." + liveDomain + "/users/superAdmin/",
+    ],
+    socketIO: [
+        "https://api." + liveDomain + "/", // for matching service socket
+        "https://collab." + liveDomain + "/"  // for collab service socket
     ]
 }
 

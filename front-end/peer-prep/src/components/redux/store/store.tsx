@@ -3,7 +3,6 @@ import questionReducer from "../reducers/Question/QuestionSlice"
 import userReducer from "../reducers/User/UserSlice"
 import practiceReducer from "../reducers/Practice/PracticeSlice"
 import matchReducer from "../reducers/Match/MatchSlice"
-import routesReducer from "../reducers/Routes/RoutesSlice"
 
 const store = configureStore({
     // root reducer
@@ -17,8 +16,7 @@ const store = configureStore({
         question: questionReducer,
         user: userReducer,
         practice: practiceReducer,
-        match: matchReducer,
-        routes: routesReducer,
+        match: matchReducer
     }
 });
 
