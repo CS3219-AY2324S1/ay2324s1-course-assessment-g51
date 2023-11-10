@@ -19,14 +19,13 @@ export const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/", {
 	transports: ["websocket"],
 	withCredentials: true,
 });
-//export const socket = io("http://localhost:8576");
 
 const PracticePage = () => {
 	const dispatch = useDispatch();
 
 	// Uncomment line 21 and comment out line 22 to test UI after matched
-	//const partnerDetails = {"test":3};
-	const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
+	const partnerDetails = {"test":3};
+	//const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
 
 	// Displays first question if user refreshes the browser
 	useEffect(() => {
@@ -85,6 +84,9 @@ const PracticePage = () => {
 					<ChatView />
 				)}
 			</div>
+			<Button variant="contained" sx={Styles.leaveRoomButtonStyle}>
+				Leave Room
+			</Button>
 			<BackdropMatchingService />
 		</div>
 	);
