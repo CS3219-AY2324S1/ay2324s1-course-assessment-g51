@@ -29,23 +29,23 @@ export const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/", {
 
 const PracticePage = () => {
 	const dispatch = useDispatch();
-	const [leaveRoomConfirmation, setLeaveRoomConfirmation] = useState(false);
-	const [informLeftRoom, setInformLeftRoom] = useState(false);
+	const [isOpenLeaveRoomConfirmationDialog, setIsOpenLeaveRoomConfirmationDialog] = useState(false);
+	const [isOpenInformLeftRoomSnackbar, setIsOpenInformLeftRoomSnackbar] = useState(false);
 
 	const openLeaveRoomConfirmation = () => {
-		setLeaveRoomConfirmation(true);
+		setIsOpenLeaveRoomConfirmationDialog(true);
 	}
 
 	const closeLeaveRoomConfirmation = () => {
-		setLeaveRoomConfirmation(false);
+		setIsOpenLeaveRoomConfirmationDialog(false);
 	}
 	
 	const openInformLeftRoom = () => {
-		setInformLeftRoom(true);
+		setIsOpenInformLeftRoomSnackbar(true);
 	}
 
 	const closeInformLeftRoom = () => {
-		setInformLeftRoom(false);
+		setIsOpenInformLeftRoomSnackbar(false);
 	}
 
 	// Uncomment line 21 and comment out line 22 to test UI after matched
@@ -141,7 +141,7 @@ const PracticePage = () => {
 			}
 
 			<Dialog
-				open={leaveRoomConfirmation}
+				open={isOpenLeaveRoomConfirmationDialog}
 				onClose={closeLeaveRoomConfirmation}
 				aria-labelledby="alert-dialog-title"
 				aria-describedby="alert-dialog-description"
@@ -169,13 +169,13 @@ const PracticePage = () => {
 			</Dialog>
 
 			<Snackbar
-				open={informLeftRoom} 
+				open={isOpenInformLeftRoomSnackbar} 
 				onClose={closeInformLeftRoom}> 
 				<Alert 
 					onClose={closeInformLeftRoom} 
 					severity="info" 
 					sx={{ width: '100%' }}>
-						The other user has disconnected.
+						The other user has left the room
         		</Alert>
 			</Snackbar>
 				
