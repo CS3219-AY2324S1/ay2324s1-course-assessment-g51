@@ -5,7 +5,9 @@ import {
 	DialogTitle, 
 	DialogContent, 
 	DialogActions,
-	DialogContentText } from "@mui/material";
+	DialogContentText,
+	Snackbar,
+	Alert } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 import * as PracticeSlice from "../redux/reducers/Practice/PracticeSlice";
@@ -19,7 +21,6 @@ import ChatView from "./ChatView";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
-import { Navigate } from "react-router-dom";
 
 export const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/", {
 	transports: ["websocket"],
@@ -29,6 +30,7 @@ export const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/", {
 const PracticePage = () => {
 	const dispatch = useDispatch();
 	const [leaveRoomConfirmation, setLeaveRoomConfirmation] = useState(false);
+	const [informLeftRoom, setInformLeftRoom] = useState(false);
 
 	const openLeaveRoomConfirmation = () => {
 		setLeaveRoomConfirmation(true);
@@ -36,6 +38,14 @@ const PracticePage = () => {
 
 	const closeLeaveRoomConfirmation = () => {
 		setLeaveRoomConfirmation(false);
+	}
+	
+	const openInformLeftRoom = () => {
+		setInformLeftRoom(true);
+	}
+
+	const closeInformLeftRoom = () => {
+		setInformLeftRoom(false);
 	}
 
 	// Uncomment line 21 and comment out line 22 to test UI after matched
@@ -72,13 +82,17 @@ const PracticePage = () => {
 			.catch(() => {});
 	}, []);
 
-	const leaveRoomConfimation = () => {
-
-	}
+	// Listens for event where the other user disconnects
+	useEffect(() => {
+		socket.on("userDisconnect", () => {
+			openInformLeftRoom();
+		})
+	}, [socket])
 
 	const handleLeaveRoom = () => {
 		closeLeaveRoomConfirmation();
 		socket.disconnect();
+		socket.emit("userDisconnect")
 		// Sets match to be false
 		dispatch(MatchSlice.setPartnerDetails({
 			userId1: "",
@@ -125,6 +139,7 @@ const PracticePage = () => {
 							Leave Room
 					</Button> 	
 			}
+
 			<Dialog
 				open={leaveRoomConfirmation}
 				onClose={closeLeaveRoomConfirmation}
@@ -152,6 +167,18 @@ const PracticePage = () => {
 					</Button>
 				</DialogActions>
 			</Dialog>
+
+			<Snackbar
+				open={informLeftRoom} 
+				onClose={closeInformLeftRoom}> 
+				<Alert 
+					onClose={closeInformLeftRoom} 
+					severity="info" 
+					sx={{ width: '100%' }}>
+						The other user has disconnected.
+        		</Alert>
+			</Snackbar>
+				
 			
 			<BackdropMatchingService />
 		</div>
