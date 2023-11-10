@@ -18,8 +18,8 @@ const localhostRoutes = {
         "http://localhost:3100/users/superAdmin/",
     ],
     socketIO: [
-        "https://localhost:8000/", // for matching service socket
-        "https://localhost:8576/", // for collab service socket
+        "http://localhost:8000/", // for matching service socket
+        "http://localhost:8576/", // for collab service socket
     ]
 
 }
@@ -41,7 +41,7 @@ const liveRoutes = {
 }
 
 export const getRoutes = () => {
-    if (process.env.REACT_APP_ENVIRONMENT === "localhost") {
+    if (process.env.REACT_APP_ENVIRONMENT === "dev") {
         return localhostRoutes;
     } else {
         return liveRoutes;
