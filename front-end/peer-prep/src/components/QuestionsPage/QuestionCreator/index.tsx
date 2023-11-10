@@ -11,6 +11,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
+import { IRoutes, getRoutes } from "../../Routes";
 
 const QuestionCreator = () => {
     // for dispatching actions
@@ -35,16 +36,13 @@ const QuestionCreator = () => {
     const [isErrorSnackbarOpen, openErrorSnackbar] = React.useState(false)
     const [isSuccessSnackbarOpen, openSuccessSnackbar] = React.useState(false)
     const [snackbarMsg, giveSnackbarMsg] = React.useState("")
+    const routes: IRoutes = getRoutes();
     var duplicateCategoryErrorText: string = ""
     var duplicateCategoryError: boolean = false
-    let port = "";
-    if (environment == "localhost") {
-        port = ":8080"
-    }
     // Adds new question 
     const postQuestionData = () => {
         axios
-            .post(`https://` + environment + port + `/api/questions/`, {
+            .post(routes.questions + "/", {
                 category: currentCategories,
                 description: currentDescription,
                 complexity: currentComplexity,
@@ -74,7 +72,7 @@ const QuestionCreator = () => {
     const patchQuestionData = () => {
         axios
             .patch(
-                `https://` + environment + port + `/api/questions/${currentQuestionId}`,
+                routes.questions + `/${currentQuestionId}`,
                 {
                     category: currentCategories,
                     complexity: currentComplexity,
@@ -102,7 +100,7 @@ const QuestionCreator = () => {
     useEffect(() => {
         axios({
             method: "get",
-            url: `https://` + environment + port + `/api/questions`,
+            url: routes.questions,
         })
             .then((response) => {
                 const data = response.data;

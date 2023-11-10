@@ -21,7 +21,7 @@ import { ArrowForwardIos, ArrowBackIos } from "@mui/icons-material";
 import { ReactPropTypes, useEffect, useState } from "react";
 import React from "react";
 
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
 import { auth } from "../Auth/Firebase";
 import { useNavigate } from 'react-router-dom';
@@ -166,13 +166,19 @@ const FindPartner = () => {
 }
 const environment = process.env.REACT_APP_ENVIRONMENT
 let port = "";
+let socket: Socket;
 if (environment === "localhost") {
 	port = ":8000"
+	socket = io("http://" + environment + port + "/", {
+		transports: ["websocket"],
+		withCredentials: true,
+	});
+} else {
+	socket = io("https://" + environment + port + "/", {
+		transports: ["websocket"],
+		withCredentials: true,
+	});
 }
-const socket = io("https://" + environment + port + "/", {
-	transports: ["websocket"],
-	withCredentials: true,
-});
 
 const MatchingServicePopUp = () => {
 	const [activeStep, setActiveStep] = useState(0);

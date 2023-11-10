@@ -7,6 +7,7 @@ import * as RoutesSlice from "../../redux/reducers/Routes/RoutesSlice"
 import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
+import { IRoutes, getRoutes } from "../../Routes";
 
 const QuestionViewer = () => {
     // for dispatching actions
@@ -19,16 +20,13 @@ const QuestionViewer = () => {
     const currentCategories: string[] = useSelector(QuestionSlice.selectCurrentCategories)
     const currentDescription: string = useSelector(QuestionSlice.selectCurrentDescription)
     const environment = useSelector(RoutesSlice.selectEnvironment)
-    let port = ""
-    if (environment === "localhost") {
-        port = ":8080"
-    }
+    const routes: IRoutes = getRoutes()
     // for initializing default values for the question creator based on the first data entry
     // will run only once!
     useEffect(() => {
         axios({
             method: "get",
-            url: `https://` + environment + port + `/api/questions`,
+            url: routes.questions,
         })
             .then((response) => {
                 const data = response.data;

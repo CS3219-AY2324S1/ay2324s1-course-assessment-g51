@@ -9,6 +9,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+ARG REACT_APP_ENVIRONMENT=localhost
+ENV REACT_APP_API_URL ${REACT_APP_ENVIRONMENT}
+
 # Copy the rest of the source code
 COPY . .
 

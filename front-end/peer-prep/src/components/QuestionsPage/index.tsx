@@ -19,21 +19,18 @@ import axios from 'axios';
 
 import { auth } from "../Auth/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { IRoutes, getRoutes } from "../Routes";
 
 const QuestionsPage = () => {
     const dispatch = useDispatch();
     const [user, loading, error] = useAuthState(auth);
-    const environment = useSelector(RoutesSlice.selectEnvironment)
-    let port = ""
     const currentUserUid = user?.uid;
-
+    const routes: IRoutes = getRoutes();
     const getIsAdmin = () => {
-        if (environment == "localhost") {
-            port = ":3100"
-        }
+
         axios({
             method: "get",
-            url: `https://` + environment + port + `/users/admin/${currentUserUid}`,
+            url: routes.profile[1] + `${currentUserUid}`,
         })
             .then((response) => {
                 const data = response.data.data;
@@ -44,13 +41,10 @@ const QuestionsPage = () => {
     };
 
     useEffect(() => {
-        if (environment == "localhost") {
-            port = ":8080"
-        }
         getIsAdmin();
         axios({
             method: "get",
-            url: `https://` + environment + port + `/api/questions`,
+            url: routes.questions,
         })
             .then((response) => {
                 const data = response.data;

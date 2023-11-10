@@ -14,31 +14,37 @@ import CodeView from "./CodeView";
 import ChatView from "./ChatView";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { io } from "socket.io-client";
+import { Socket, io } from "socket.io-client";
+import { IRoutes, getRoutes } from "../Routes";
 
 const environment = process.env.REACT_APP_ENVIRONMENT
 let port = ""
+let newSocket: Socket;
 if (environment == "localhost") {
 	port = ":8576"
+	newSocket = io("http://" + environment + port + "/", {
+		transports: ["websocket"],
+		withCredentials: true,
+	});
+} else {
+	newSocket = io("https://" + environment + port + "/", {
+		transports: ["websocket"],
+		withCredentials: true,
+	});
 }
-export const socket = io("https://" + environment + port + "/", {
-	transports: ["websocket"],
-	withCredentials: true,
-});
+
+export const socket = newSocket;
 
 const PracticePage = () => {
 	const dispatch = useDispatch();
 	const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
 	const environment = useSelector(RoutesSlice.selectEnvironment);
-	let port = "";
-	if (environment == "localhost") {
-		port = ":8080"
-	}
+	const routes: IRoutes = getRoutes();
 	// Displays first question if user refreshes the browser
 	useEffect(() => {
 		axios({
 			method: "get",
-			url: `https://` + environment + port + `/api/questions`,
+			url: routes.questions,
 		})
 			.then((response) => {
 				const data = response.data;

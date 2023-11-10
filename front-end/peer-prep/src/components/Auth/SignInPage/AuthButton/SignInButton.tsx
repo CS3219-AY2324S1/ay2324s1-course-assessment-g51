@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as UserSlice from "../../../redux/reducers/User/UserSlice";
 import * as RoutesSlice from "../../../redux/reducers/Routes/RoutesSlice";
 import axios from "axios";
+import { IRoutes, getRoutes } from "../../../Routes";
 
 interface SignInButtonProps {
 	provider:
@@ -37,10 +38,7 @@ const SignInButton = ({
 	const dispatch = useDispatch();
 	const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin);
 	const environment = useSelector(RoutesSlice.selectEnvironment);
-	let port = ""
-	if (environment == "localhost") {
-		port = ":3100"
-	}
+	const routes: IRoutes = getRoutes();
 	provider.addScope("email");
 
 	const handleSignIn = () =>
@@ -53,7 +51,7 @@ const SignInButton = ({
 				// Checks if user is new.
 				axios({
 					method: "get",
-					url: `https://` + environment + port + `/users/profile/${uid}`,
+					url: routes.profile[0] + `${uid}`,
 				}).catch((error) => {
 					console.log(error);
 					dispatch(UserSlice.setIsFirstTimeLogin(true));

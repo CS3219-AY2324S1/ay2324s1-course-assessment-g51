@@ -9,16 +9,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import * as RoutesSlice from "../../redux/reducers/Routes/RoutesSlice";
 import { useSelector } from "react-redux";
+import { IRoutes, getRoutes } from "../../Routes";
 
 const RequestPage = (props: any) => {
 	const navigate = useNavigate();
 	const [isClicked, setIsClicked] = useState(false);
 	const environment = useSelector(RoutesSlice.selectEnvironment);
-	let port = "";
-	if (environment == "localhost") {
-		port = ":3100"
-	}
-
+	const routes: IRoutes = getRoutes();
 	//back button brings it back to sign in
 	const iconHandler = () => {
 		navigate("/home");
@@ -33,7 +30,7 @@ const RequestPage = (props: any) => {
 	//change requesting to yes
 	const buttonHandler = () => {
 		axios
-			.put(`https://` + environment + port + `/users/request/`, {
+			.put(routes.profile[3], {
 				toUpdate: [[props.uid, true]],
 			})
 			.catch((error) => {

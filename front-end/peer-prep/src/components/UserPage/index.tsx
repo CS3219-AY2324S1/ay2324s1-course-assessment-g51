@@ -26,6 +26,7 @@ import * as RoutesSlice from "../redux/reducers/Routes/RoutesSlice";
 import axios from "axios";
 
 import { auth } from "../Auth/Firebase";
+import { IRoutes, getRoutes } from "../Routes";
 
 const UserPage = () => {
 	// for dispatching actions
@@ -67,15 +68,12 @@ const UserPage = () => {
 	const DuplicateUsernameMsg = "Username already exists";
 
 	const environment = useSelector(RoutesSlice.selectEnvironment);
-	let port = "";
-	if (environment === "localhost") {
-		port = ":3100"
-	}
+	const routes: IRoutes = getRoutes();
 	// Gets user profile data.
 	useEffect(() => {
 		axios({
 			method: "get",
-			url: `https://` + environment + port + `/users/profile/${authUid}`,
+			url: routes.profile + `${authUid}`,
 		})
 			.then((response) => {
 				const data = response.data.data;
@@ -106,8 +104,7 @@ const UserPage = () => {
 	// First time creation for new user if user does not exist.
 	const postUserData = () => {
 		axios
-			//.post(`http://localhost:3100/users/profile/`, {
-			.post(`https://` + environment + port + `/users/profile/ `, {
+			.post(routes.profile[0], {
 				username: currentUsername,
 				email: currentEmail,
 				firstName: currentFirstName,
@@ -135,8 +132,7 @@ const UserPage = () => {
 	const putUserData = () => {
 		axios
 			.put(
-				`https://` + environment + port + `/users/profile/${authUid}`,
-				//`http://localhost:3100/users/profile/${authUid}`,
+				routes.profile[0] + `${authUid}`,
 				{
 					username: currentUsername,
 					email: currentEmail,
@@ -172,7 +168,7 @@ const UserPage = () => {
 	const deleteUserData = () => {
 		axios
 			.delete(
-				`https://` + environment + port + `/users/profile/${authUid}`
+				routes.profile[0] + `${authUid}`
 			)
 			.catch(() => { });
 	};

@@ -9,6 +9,7 @@ import * as UserSlice from "../../../redux/reducers/User/UserSlice";
 import * as RoutesSlice from "../../../redux/reducers/Routes/RoutesSlice";
 
 import axios from 'axios';
+import { IRoutes, getRoutes } from "../../../Routes";
 
 interface questionObject {
     _id: string,
@@ -21,13 +22,10 @@ interface questionObject {
 const CustomList = () => {
     const currentQuestionId: string = useSelector(QuestionSlice.selectCurrentId);
     const environment = useSelector(RoutesSlice.selectEnvironment);
-    let port = "";
-    if (environment === "localhost") {
-        port = ":8080"
-    }
+    const routes: IRoutes = getRoutes()
     // Deletes current question
     const deleteQuestion = () => {
-        axios.delete(`https://` + environment + port + `/api/questions/${currentQuestionId}`)
+        axios.delete(routes.questions + `/${currentQuestionId}`)
             .then(() => {
                 dispatch(QuestionSlice.deleteQuestion(currentId));
             })

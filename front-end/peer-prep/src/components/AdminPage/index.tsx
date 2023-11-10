@@ -4,28 +4,21 @@ import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState } from "react";
 import ManagePage from "./ManagePage";
-import { useSelector } from "react-redux";
-import * as RoutesSlice from "../redux/reducers/Routes/RoutesSlice";
+import { IRoutes, getRoutes } from "../Routes";
 
 const AdminPage = () => {
 	const [user, loading, error] = useAuthState(auth);
 	const [isAdmin, setIsAdmin] = useState(false);
-	const environment = useSelector(RoutesSlice.selectEnvironment);
-	let port = ""
-	if (environment == "localhost") {
-		port = ":3100"
-	}
 	if (loading) {
 		return <></>;
 	}
-
 	const currentUserUid = user?.uid;
-
+	const routes: IRoutes = getRoutes();
 	//check currentUser is admin or not
 	const getIsAdmin = () => {
 		axios({
 			method: "get",
-			url: `https://` + environment + port + `/users/admin/${currentUserUid}`,
+			url: routes.profile[1] + `${currentUserUid}`,
 		})
 			.then((response) => {
 				const data = response.data.data;

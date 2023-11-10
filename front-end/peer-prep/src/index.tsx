@@ -30,12 +30,11 @@ import Navbar from "./components/Navbar";
 import GoodbyePage from "./components/Auth/GoodbyePage";
 import VerificationPage from "./components/Auth/VerificationPage";
 import DeletePage from "./components/DeletePage";
-import MatchingServicePage from "./components/MatchingServicePopUp";
 
 import axios from "axios";
 import AdminPage from "./components/AdminPage";
 import PracticePage from "./components/PracticePage";
-import * as RoutesSlice from "./components/redux/reducers/Routes/RoutesSlice";
+import { IRoutes, getRoutes } from "./components/Routes/index"
 
 const ProtectedRoute = () => {
 	const [user, loading, error] = useAuthState(auth);
@@ -69,20 +68,15 @@ const RedirectUserRoute = () => {
 	const uid = user?.uid;
 	const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin);
 	const dispatch = useDispatch();
-	const environment = useSelector(RoutesSlice.selectEnvironment);
-	let port = "";
+	const routes: IRoutes = getRoutes()
 	if (loading) {
 		// the user object will be null if firebase is loading
 		// handle loading next time
 		return <></>;
 	}
-	if (environment === "localhost") {
-		console.log("hello world")
-		port = ":3100"
-	}
 	axios({
 		method: "get",
-		url: `https://` + environment + port + `/users/profile/${uid}`,
+		url: routes.profile[0] + `${uid}`,
 	}).catch((error) => {
 		console.log(error);
 		dispatch(UserSlice.setIsFirstTimeLogin(true));
@@ -96,10 +90,10 @@ const RedirectUserRoute = () => {
 };
 
 const RootApp = () => {
-	const environment: string = process.env.REACT_APP_ENVIRONMENT as string;
-	console.log("environment is: " + environment)
-	const dispatch = useDispatch();
-	dispatch(RoutesSlice.updateEnvironment(environment))
+	// const environment: string = process.env.REACT_APP_ENVIRONMENT as string;
+	// console.log("environment is: " + environment)
+	// const dispatch = useDispatch();
+	// dispatch(RoutesSlice.updateEnvironment(environment))
 	return (
 		<Provider store={store}>
 			<div id="app" style={appStyle}>
