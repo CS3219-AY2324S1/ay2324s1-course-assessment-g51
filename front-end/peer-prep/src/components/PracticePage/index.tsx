@@ -14,6 +14,7 @@ import ChatView from "./ChatView";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
+import { Navigate } from "react-router-dom";
 
 export const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/", {
 	transports: ["websocket"],
@@ -26,7 +27,7 @@ const PracticePage = () => {
 	// Uncomment line 21 and comment out line 22 to test UI after matched
 	//const partnerDetails = {"test":3};
 	const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
-	const isPartnerDetailsEmpty = Object.keys(partnerDetails).length === 0;
+	const isPartnerDetailsEmpty = partnerDetails.matchId === "";
 
 	// Displays first question if user refreshes the browser
 	useEffect(() => {
@@ -57,8 +58,19 @@ const PracticePage = () => {
 			.catch(() => {});
 	}, []);
 
+	const leaveRoomConfimation = () => {
+
+	}
+
 	const handleLeaveRoom = () => {
-		socket.emit("disconnect")
+		socket.disconnect();
+		// Sets match to be false
+		dispatch(MatchSlice.setPartnerDetails({
+			userId1: "",
+			userId2: "",
+			complexity: "",
+			matchId: "",
+			language: ""}));
 	}
 
 	let practicePageStyle;

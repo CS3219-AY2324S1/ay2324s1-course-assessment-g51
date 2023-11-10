@@ -8,8 +8,8 @@ interface IMatchState {
 }
 
 interface IPartnerDetails {
-    userId1: string,
-    userId2: string,
+    userId1: string
+    userId2: string
     complexity: string
     matchId: string
     language: string
@@ -20,7 +20,13 @@ const matchSlice = createSlice({
     initialState: {
         languagesChosen: ["python"],
         complexityChosen: "easy",
-        partnerDetails: {},
+        partnerDetails: {
+            userId1: "",
+            userId2: "",
+            complexity: "",
+            matchId: "",
+            language: ""
+        },
         matchResponse: ""
     } as IMatchState,
     reducers: {
