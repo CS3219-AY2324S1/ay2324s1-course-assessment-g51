@@ -60,7 +60,7 @@ services:
         volumes:
             - /var/lib/postgresql/data:/var/lib/postgresql/data
         ports:
-            - 5433:5433
+            - 5433:5432
 
     profile-service:
         container_name: profile-service
@@ -70,11 +70,11 @@ services:
         ports:
             - 3100:3100
         environment:
-            - POSTGRES_HOST="localhost"
-            - POSTGRES_PORT="5432"
-            - POSTGRES_USERNAME="postgres"
-            - POSTGRES_PASSWORD="example"
-            - POSTGRES_DATABASE="postgres"
+            - POSTGRES_HOST=localhost
+            - POSTGRES_PORT=5433
+            - POSTGRES_USERNAME=postgres
+            - POSTGRES_PASSWORD=example
+            - POSTGRES_DATABASE=postgres
         # volumes:
         #     - ./services/profile-service:/usr/src/app
 
