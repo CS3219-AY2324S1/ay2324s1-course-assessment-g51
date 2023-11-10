@@ -36,3 +36,7 @@ export const dialogContainerStyle = {
         width: "80vw"
     },
 }
+
+export const leaveRoomConfirmationButtonStyle = {
+    color: "red"
+}

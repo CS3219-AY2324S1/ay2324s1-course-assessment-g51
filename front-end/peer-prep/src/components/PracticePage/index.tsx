@@ -1,6 +1,11 @@
 import Button from "@mui/material/Button";
 import * as Styles from "./styles";
-import { Dialog } from "@mui/material";
+import { 	
+	Dialog, 
+	DialogTitle, 
+	DialogContent, 
+	DialogActions,
+	DialogContentText } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 import * as PracticeSlice from "../redux/reducers/Practice/PracticeSlice";
@@ -23,6 +28,15 @@ export const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/", {
 
 const PracticePage = () => {
 	const dispatch = useDispatch();
+	const [leaveRoomConfirmation, setLeaveRoomConfirmation] = useState(false);
+
+	const openLeaveRoomConfirmation = () => {
+		setLeaveRoomConfirmation(true);
+	}
+
+	const closeLeaveRoomConfirmation = () => {
+		setLeaveRoomConfirmation(false);
+	}
 
 	// Uncomment line 21 and comment out line 22 to test UI after matched
 	//const partnerDetails = {"test":3};
@@ -63,6 +77,7 @@ const PracticePage = () => {
 	}
 
 	const handleLeaveRoom = () => {
+		closeLeaveRoomConfirmation();
 		socket.disconnect();
 		// Sets match to be false
 		dispatch(MatchSlice.setPartnerDetails({
@@ -101,14 +116,42 @@ const PracticePage = () => {
 					<ChatView />
 				)}
 			</div>
+
 			{isPartnerDetailsEmpty 
 				? 	<></>	
 				:	<Button variant="contained" 
 						sx={Styles.leaveRoomButtonStyle}
-						onClick={handleLeaveRoom}>
+						onClick={openLeaveRoomConfirmation}>
 							Leave Room
 					</Button> 	
 			}
+			<Dialog
+				open={leaveRoomConfirmation}
+				onClose={closeLeaveRoomConfirmation}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
+			>
+				<DialogTitle id="alert-dialog-title">
+					{"Leave Room?"}
+				</DialogTitle>
+				<DialogContent>
+					<DialogContentText id="alert-dialog-description">
+						Are you sure you want to leave the room?
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={closeLeaveRoomConfirmation}>
+						Back
+					</Button>
+					<Button
+						onClick={handleLeaveRoom}
+						autoFocus
+						sx={Styles.leaveRoomConfirmationButtonStyle}
+					>
+						confirm
+					</Button>
+				</DialogActions>
+			</Dialog>
 			
 			<BackdropMatchingService />
 		</div>
