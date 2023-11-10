@@ -74,8 +74,12 @@ services:
             context: ../../../services/profile-service
         ports:
             - 3100:3100
-        env_file:
-            - ../../../services/profile-service/.env
+        environment:
+            - POSTGRES_HOST=host.docker.internal
+            - POSTGRES_PORT=5433
+            - POSTGRES_USERNAME=postgres
+            - POSTGRES_PASSWORD=example
+            - POSTGRES_DATABASE=postgres
         # volumes:
         #     - ./services/profile-service:/usr/src/app
         networks:
