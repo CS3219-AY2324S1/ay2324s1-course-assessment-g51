@@ -8,19 +8,17 @@ Welcome to Peer Prep, your ultimate destination for collaborative learning and p
 
 ## Features
 
-🔒 Authenticate with email/password, Google, Twitter, Facebook & Github
+🔒 Authenticate with email/password, Google, Twitter & Github
 
 👀 View questions curated by our team
 
-💬 Chat with other users \*
+💬 Chat with other users
 
-💻 Collaborate with other users with a live code-editor \*
+💻 Collaborate with other users with a live code-editor
 
-🔗 Match with other users based on question difficulty and chosen language \*
+🔗 Match with other users based on question difficulty
 
-✍️ Customize personal profile\*
-
-👁️ View main dashboard \*
+✍️ Customize personal profile
 
 `*` refers to ongoing development!
 
@@ -56,7 +54,7 @@ Welcome to Peer Prep, your ultimate destination for collaborative learning and p
 
 [3. Figma Wireframes](https://www.figma.com/file/KH7a2ZONAF1fZEdaRzTcm1/PeerPrep-Full-Wireframe?type=design&node-id=0%3A1&mode=design&t=siju64nLq9VpRDgM-1)
 
-## Run Locally (for the tech inclined)
+## Run Locally
 
 ### Prerequisites:
 
@@ -72,10 +70,10 @@ Clone the project
   git clone https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g51.git
 ```
 
-Go to the project directory & run Docker / Docker Desktop
+Go to Server-Configs
 
 ```bash
-  cd ~/ay2324s1-course-assessment-g51
+  cd ~/ay2324s1-course-assessment-g51/Server-Configs/Without-k8/dev
 ```
 
 Deploy all containers
