@@ -13,6 +13,11 @@ const amqpConnectionPromise = getQueueConnection(amqpUrl);
 const app = express();
 app.use(cors({ origin: "*" })); // Allow requests from any origin
 
+// Health check endpoint 
+app.get('/healthz', (_, res) => { 
+  res.status(200).send('Server is healthy'); 
+});
+
 const server = createServer(app);
 const io = new Server(server);
 
