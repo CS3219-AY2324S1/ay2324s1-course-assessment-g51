@@ -16,6 +16,13 @@ app.use(
 		origin: "*", // Allow requests from any origin
 	})
 );
+
+// Health check endpoint 
+app.get('/healthz', (_, res) => { 
+	res.status(200).send('Server is healthy'); 
+});
+
+
 const server = http.createServer(app);
 const io = new socketIo(server, {});
 
