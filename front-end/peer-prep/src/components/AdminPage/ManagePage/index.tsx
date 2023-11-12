@@ -9,18 +9,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Divider } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import ClearIcon from "@mui/icons-material/Clear";
+import { IRoutes, getRoutes } from "../../Routes";
 
 const ManagePage = (props: any) => {
 	const [admins, setAdmins] = useState([]);
 	const [requestors, setRequestors] = useState([]);
 	const [reload, setReload] = useState(false);
 	const [isSuperAdmin, setIsSuperAdmin] = useState(false);
-
 	//api call to get list of admins
+	const routes: IRoutes = getRoutes();
 	const getAllAdmin = () => {
 		axios({
 			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/users/admin/`,
+			url: routes.profile[1],
 		})
 			.then((response) => {
 				const data = response.data.data;
@@ -35,7 +36,7 @@ const ManagePage = (props: any) => {
 	const getAllRequestors = () => {
 		axios({
 			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/users/request/`,
+			url: routes.profile[3],
 		})
 			.then((response) => {
 				const data = response.data.data;
@@ -52,7 +53,7 @@ const ManagePage = (props: any) => {
 	const getisSuperAdmin = () => {
 		axios({
 			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/users/superAdmin/${props.uid}`,
+			url: routes.profile[5] + `${props.uid}`,
 		})
 			.then((response) => {
 				const data = response.data.data;
@@ -72,7 +73,7 @@ const ManagePage = (props: any) => {
 
 	const deleteButtonHandler = (currAdmin: any) => {
 		axios
-			.put(`https://api.peerprepgroup51sem1y2023.xyz/users/admin`, {
+			.put(routes.profile[2], {
 				toUpdate: [[currAdmin.uid, false]],
 			})
 			.then(() => {
@@ -85,13 +86,13 @@ const ManagePage = (props: any) => {
 
 	const tickButtonHandler = (currAdmin: any) => {
 		axios
-			.put(`https://api.peerprepgroup51sem1y2023.xyz/users/request`, {
+			.put(routes.profile[4], {
 				toUpdate: [[currAdmin.uid, false]],
 			})
 			.then(() => {
 				axios
 					.put(
-						`https://api.peerprepgroup51sem1y2023.xyz/users/admin`,
+						routes.profile[3],
 						{
 							toUpdate: [[currAdmin.uid, true]],
 						}
@@ -111,7 +112,7 @@ const ManagePage = (props: any) => {
 	const crossButtonHandler = (currAdmin: any) => {
 		console.log(currAdmin);
 		axios
-			.put(`https://api.peerprepgroup51sem1y2023.xyz/users/request`, {
+			.put(routes.profile[4], {
 				toUpdate: [[currAdmin.uid, false]],
 			})
 			.then(() => {

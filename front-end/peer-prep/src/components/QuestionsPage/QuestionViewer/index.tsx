@@ -6,6 +6,7 @@ import * as QuestionSlice from "../../redux/reducers/Question/QuestionSlice"
 import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
+import { IRoutes, getRoutes } from "../../Routes";
 
 const QuestionViewer = () => {
     // for dispatching actions
@@ -17,13 +18,13 @@ const QuestionViewer = () => {
     const currentComplexity: string = useSelector(QuestionSlice.selectCurrentComplexity)
     const currentCategories: string[] = useSelector(QuestionSlice.selectCurrentCategories)
     const currentDescription: string = useSelector(QuestionSlice.selectCurrentDescription)
-
+    const routes: IRoutes = getRoutes()
     // for initializing default values for the question creator based on the first data entry
     // will run only once!
     useEffect(() => {
         axios({
             method: "get",
-            url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
+            url: routes.questions,
         })
             .then((response) => {
                 const data = response.data;

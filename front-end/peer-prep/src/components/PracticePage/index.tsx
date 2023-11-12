@@ -11,28 +11,27 @@ import MatchingServicePopUp from "../MatchingServicePopUp";
 import QuestionView from "./QuestionView";
 import CodeView from "./CodeView";
 import ChatView from "./ChatView";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
+import { IRoutes, getRoutes } from "../Routes";
 
-export const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/", {
+
+const routes: IRoutes = getRoutes();
+export const socket = io(routes.socketIO[1], {
 	transports: ["websocket"],
 	withCredentials: true,
 });
-//export const socket = io("http://localhost:8576");
 
 const PracticePage = () => {
 	const dispatch = useDispatch();
-
-	// Uncomment line 21 and comment out line 22 to test UI after matched
-	//const partnerDetails = {"test":3};
 	const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
-
+	const routes: IRoutes = getRoutes();
 	// Displays first question if user refreshes the browser
 	useEffect(() => {
 		axios({
 			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/api/questions`,
+			url: routes.questions,
 		})
 			.then((response) => {
 				const data = response.data;
@@ -54,7 +53,7 @@ const PracticePage = () => {
 					)
 				);
 			})
-			.catch(() => {});
+			.catch(() => { });
 	}, []);
 
 	let practicePageStyle;
