@@ -10,6 +10,11 @@ app.use(cors({ origin: "*" })); // Allow requests from any origin.
 
 app.use("/api", questionRouter);
 
+// Health check endpoint 
+app.get('/healthz', (_, res) => { 
+  res.status(200).send('Server is healthy'); 
+});
+
 // catch-all route handling
 app.all("*", (_, res) => {
   res.status(404).send();
