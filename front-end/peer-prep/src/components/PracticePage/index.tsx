@@ -11,7 +11,6 @@ import MatchingServicePopUp from "../MatchingServicePopUp";
 import QuestionView from "./QuestionView";
 import CodeView from "./CodeView";
 import ChatView from "./ChatView";
-import { useEffect } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { IRoutes, getRoutes } from "../Routes";
@@ -27,34 +26,36 @@ const PracticePage = () => {
 	const dispatch = useDispatch();
 	const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
 	const routes: IRoutes = getRoutes();
+	const questionTitle = useSelector(QuestionSlice.selectCurrentTitle);
+
 	// Displays first question if user refreshes the browser
-	useEffect(() => {
+	if (questionTitle === "") {
 		axios({
 			method: "get",
 			url: routes.questions,
 		})
-			.then((response) => {
-				const data = response.data;
-				const firstQuestion = data[0];
-				dispatch(QuestionSlice.updateCurrentTitle(firstQuestion.title));
-				dispatch(
-					QuestionSlice.updateCurrentComplexity(
-						firstQuestion.complexity
-					)
-				);
-				dispatch(
-					QuestionSlice.updateAllCurrentCatogires(
-						firstQuestion.category
-					)
-				);
-				dispatch(
-					QuestionSlice.updateCurrentDescription(
-						firstQuestion.description
-					)
-				);
-			})
-			.catch(() => { });
-	}, []);
+		.then((response) => {
+			const data = response.data;
+			const firstQuestion = data[0];
+			dispatch(QuestionSlice.updateCurrentTitle(firstQuestion.title));
+			dispatch(
+				QuestionSlice.updateCurrentComplexity(
+					firstQuestion.complexity
+				)
+			);
+			dispatch(
+				QuestionSlice.updateAllCurrentCatogires(
+					firstQuestion.category
+				)
+			);
+			dispatch(
+				QuestionSlice.updateCurrentDescription(
+					firstQuestion.description
+				)
+			);
+		})
+		.catch(() => { });
+	}
 
 	let practicePageStyle;
 	if (Object.keys(partnerDetails).length === 0) {
