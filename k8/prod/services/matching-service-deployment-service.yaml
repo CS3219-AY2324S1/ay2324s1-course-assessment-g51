@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+    cloud.google.com/neg-status: '{"network_endpoint_groups":{"8000":"k8s1-632f34ab-defaul-matching-service-deployment-s-800-6691abe6"},"zones":["asia-southeast1-a","asia-southeast1-c"]}'
+  creationTimestamp: "2023-11-12T16:18:29Z"
+  labels:
+    app: matching-service-app
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:externalTrafficPolicy: {}
+        f:internalTrafficPolicy: {}
+        f:ports:
+          .: {}
+          k:{"port":8000,"protocol":"TCP"}:
+            .: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: GoogleCloudConsole
+    operation: Update
+    time: "2023-11-12T16:39:04Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:cloud.google.com/neg-status: {}
+    manager: glbc
+    operation: Update
+    subresource: status
+    time: "2023-11-12T20:22:08Z"
+  name: matching-service-deployment-service
+  namespace: default
+  resourceVersion: "1528286"
+  uid: 3feb0d72-c295-4f58-b354-cb115832b458
+spec:
+  clusterIP: 34.118.233.180
+  clusterIPs:
+  - 34.118.233.180
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: matching-service-app
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

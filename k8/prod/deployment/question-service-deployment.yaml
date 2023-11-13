@@ -1,0 +1,192 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    autopilot.gke.io/resource-adjustment: '{"input":{"containers":[{"name":"question-service-1"}]},"output":{"containers":[{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"name":"question-service-1"}]},"modified":true}'
+    autopilot.gke.io/warden-version: 2.7.41
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2023-11-12T16:41:47Z"
+  generation: 2
+  labels:
+    app: question-service-app
+  managedFields:
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:replicas: {}
+    manager: vpa-recommender
+    operation: Update
+    subresource: scale
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:progressDeadlineSeconds: {}
+        f:revisionHistoryLimit: {}
+        f:selector: {}
+        f:strategy:
+          f:rollingUpdate:
+            .: {}
+            f:maxSurge: {}
+            f:maxUnavailable: {}
+          f:type: {}
+        f:template:
+          f:metadata:
+            f:labels:
+              .: {}
+              f:app: {}
+          f:spec:
+            f:containers:
+              k:{"name":"question-service-1"}:
+                .: {}
+                f:env:
+                  .: {}
+                  k:{"name":"MONGODB_URI"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"PORT_NUMBER"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                f:image: {}
+                f:imagePullPolicy: {}
+                f:name: {}
+                f:resources: {}
+                f:terminationMessagePath: {}
+                f:terminationMessagePolicy: {}
+            f:dnsPolicy: {}
+            f:restartPolicy: {}
+            f:schedulerName: {}
+            f:securityContext: {}
+            f:terminationGracePeriodSeconds: {}
+    manager: GoogleCloudConsole
+    operation: Update
+    time: "2023-11-12T16:41:47Z"
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:deployment.kubernetes.io/revision: {}
+      f:status:
+        f:availableReplicas: {}
+        f:conditions:
+          .: {}
+          k:{"type":"Available"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:lastUpdateTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Progressing"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:lastUpdateTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+        f:observedGeneration: {}
+        f:readyReplicas: {}
+        f:replicas: {}
+        f:updatedReplicas: {}
+    manager: kube-controller-manager
+    operation: Update
+    subresource: status
+    time: "2023-11-12T17:43:23Z"
+  name: question-service-deployment
+  namespace: default
+  resourceVersion: "1416605"
+  uid: 9f86c70c-f075-432e-a543-da319b39fb13
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: question-service-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: question-service-app
+    spec:
+      containers:
+      - env:
+        - name: MONGODB_URI
+          valueFrom:
+            configMapKeyRef:
+              key: MONGODB_URI
+              name: question-service-deployment-config-szw7
+        - name: PORT_NUMBER
+          valueFrom:
+            configMapKeyRef:
+              key: PORT_NUMBER
+              name: question-service-deployment-config-szw7
+        image: registry.gitlab.com/peerprepgroup51sem1y2023/docker/question-service:latest
+        imagePullPolicy: Always
+        name: question-service-1
+        resources:
+          limits:
+            cpu: 500m
+            ephemeral-storage: 1Gi
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            ephemeral-storage: 1Gi
+            memory: 2Gi
+        securityContext:
+          capabilities:
+            drop:
+            - NET_RAW
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        key: kubernetes.io/arch
+        operator: Equal
+        value: amd64
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2023-11-12T16:41:47Z"
+    lastUpdateTime: "2023-11-12T16:44:28Z"
+    message: ReplicaSet "question-service-deployment-7cdffd5659" has successfully
+      progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2023-11-12T17:43:23Z"
+    lastUpdateTime: "2023-11-12T17:43:23Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
