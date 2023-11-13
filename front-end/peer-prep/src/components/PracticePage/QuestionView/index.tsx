@@ -17,7 +17,7 @@ const QuestionView = () => {
                     <Stack direction="row">
                         <Chip label={currentComplexity} sx={Styles.difficultyChipStyle}/>
                     </Stack>
-                    <Stack direction="row">
+                    <Stack direction="row" spacing={2}>
                         {currentCategories.map((category: string) => {
                             return (
                                 <Chip label={category} sx={Styles.categoryChipStyle}/>
