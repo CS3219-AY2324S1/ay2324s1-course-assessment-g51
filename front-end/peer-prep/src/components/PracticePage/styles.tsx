@@ -18,6 +18,14 @@ export const practicePageMatchedContainerStyle = {
     gridTemplateColumns: "1fr 1fr 1fr",
 }
 
+export const leaveRoomButtonStyle = {
+    position: "fixed",
+    bottom: 0,
+    right: 0,
+    marginRight: "2%",
+    marginBottom: "2%"
+}
+
 export const dialogContainerStyle = {
     height: "100vh",
     width: "100vw",
@@ -27,4 +35,8 @@ export const dialogContainerStyle = {
         minWidth: "80vw",
         width: "80vw"
     },
+}
+
+export const leaveRoomConfirmationButtonStyle = {
+    color: "red"
 }

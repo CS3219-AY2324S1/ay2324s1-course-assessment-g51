@@ -1,6 +1,14 @@
 import Button from "@mui/material/Button";
 import * as Styles from "./styles";
-import { Dialog } from "@mui/material";
+import {
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	DialogContentText,
+	Snackbar,
+	Alert,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 import * as PracticeSlice from "../redux/reducers/Practice/PracticeSlice";
@@ -11,10 +19,10 @@ import MatchingServicePopUp from "../MatchingServicePopUp";
 import QuestionView from "./QuestionView";
 import CodeView from "./CodeView";
 import ChatView from "./ChatView";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { IRoutes, getRoutes } from "../Routes";
-
 
 const routes: IRoutes = getRoutes();
 export const socket = io(routes.socketIO[1], {
@@ -24,7 +32,35 @@ export const socket = io(routes.socketIO[1], {
 
 const PracticePage = () => {
 	const dispatch = useDispatch();
+
+	const [
+		isOpenLeaveRoomConfirmationDialog,
+		setIsOpenLeaveRoomConfirmationDialog,
+	] = useState(false);
+	const [isOpenInformLeftRoomSnackbar, setIsOpenInformLeftRoomSnackbar] =
+		useState(false);
+
+	const openLeaveRoomConfirmation = () => {
+		setIsOpenLeaveRoomConfirmationDialog(true);
+	};
+
+	const closeLeaveRoomConfirmation = () => {
+		setIsOpenLeaveRoomConfirmationDialog(false);
+	};
+
+	const openInformLeftRoom = () => {
+		setIsOpenInformLeftRoomSnackbar(true);
+	};
+
+	const closeInformLeftRoom = () => {
+		setIsOpenInformLeftRoomSnackbar(false);
+	};
+
+	// Uncomment line 21 and comment out line 22 to test UI after matched
+	//const partnerDetails = {"test":3};
 	const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
+	const isPartnerDetailsEmpty = partnerDetails.matchId === "";
+
 	const routes: IRoutes = getRoutes();
 	const questionTitle = useSelector(QuestionSlice.selectCurrentTitle);
 
@@ -57,8 +93,33 @@ const PracticePage = () => {
 		.catch(() => { });
 	}
 
+	// Listens for event where the other user disconnects
+	useEffect(() => {
+		socket.on("userDisconnect", () => {
+			openInformLeftRoom();
+		});
+	}, [socket]);
+
+	const handleLeaveRoom = () => {
+		closeLeaveRoomConfirmation();
+
+		socket.emit("userDisconnect");
+		//socket.disconnect();
+		// Sets match to be false
+		dispatch(
+			MatchSlice.setPartnerDetails({
+				userId1: "",
+				userId2: "",
+				complexity: "",
+				matchId: "",
+				language: "",
+			})
+		);
+		dispatch(MatchSlice.setMatchResponse(""));
+	};
+
 	let practicePageStyle;
-	if (Object.keys(partnerDetails).length === 0) {
+	if (isPartnerDetailsEmpty) {
 		practicePageStyle = Styles.practicePageContainerStyle;
 	} else {
 		practicePageStyle = Styles.practicePageMatchedContainerStyle;
@@ -69,7 +130,7 @@ const PracticePage = () => {
 			<div id="PracticePage" style={practicePageStyle}>
 				<QuestionView />
 				<CodeView />
-				{Object.keys(partnerDetails).length === 0 ? (
+				{isPartnerDetailsEmpty ? (
 					<Button
 						sx={{ marginRight: "25%" }}
 						variant="contained"
@@ -85,6 +146,58 @@ const PracticePage = () => {
 					<ChatView />
 				)}
 			</div>
+
+			{isPartnerDetailsEmpty ? (
+				<></>
+			) : (
+				<Button
+					variant="contained"
+					sx={Styles.leaveRoomButtonStyle}
+					onClick={openLeaveRoomConfirmation}
+				>
+					Leave Room
+				</Button>
+			)}
+
+			<Dialog
+				open={isOpenLeaveRoomConfirmationDialog}
+				onClose={closeLeaveRoomConfirmation}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
+			>
+				<DialogTitle id="alert-dialog-title">
+					{"Leave Room?"}
+				</DialogTitle>
+				<DialogContent>
+					<DialogContentText id="alert-dialog-description">
+						Are you sure you want to leave the room?
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={closeLeaveRoomConfirmation}>Back</Button>
+					<Button
+						onClick={handleLeaveRoom}
+						autoFocus
+						sx={Styles.leaveRoomConfirmationButtonStyle}
+					>
+						confirm
+					</Button>
+				</DialogActions>
+			</Dialog>
+
+			<Snackbar
+				open={isOpenInformLeftRoomSnackbar}
+				onClose={closeInformLeftRoom}
+			>
+				<Alert
+					onClose={closeInformLeftRoom}
+					severity="info"
+					sx={{ width: "100%" }}
+				>
+					The other user has left the room
+				</Alert>
+			</Snackbar>
+
 			<BackdropMatchingService />
 		</div>
 	);

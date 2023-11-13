@@ -14,20 +14,19 @@ import {
 	Stepper,
 	Step,
 	StepLabel,
-	Button
+	Button,
 } from "@mui/material";
 import { ArrowForwardIos, ArrowBackIos } from "@mui/icons-material";
 
-import { ReactPropTypes, useEffect, useState } from "react";
-import React from "react";
+import { useEffect, useState } from "react";
 
 import { io, Socket } from "socket.io-client";
 
 import { auth } from "../Auth/Firebase";
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import * as MatchSlice from "../redux/reducers/Match/MatchSlice"
-import CustomCircularProgress from './CustomCircularProgress';
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import * as MatchSlice from "../redux/reducers/Match/MatchSlice";
+import CustomCircularProgress from "./CustomCircularProgress";
 import { getRoutes, IRoutes } from "../Routes";
 
 const languages = ["python", "java", "javascript", "c#", "c++"];
@@ -140,20 +139,20 @@ const QuestionSelection = () => {
 const FindPartner = () => {
 	let firstText;
 	let secondText;
-	let navigate = useNavigate()
-	const matchResponse = useSelector(MatchSlice.selectMatchResponse)
+	let navigate = useNavigate();
+	const matchResponse = useSelector(MatchSlice.selectMatchResponse);
 	if (matchResponse == "success") {
 		firstText = "Partner Found!";
 		secondText = "Redirecting you to the practice page...";
 	} else if (matchResponse == "failure") {
 		firstText = "No suitable match found...";
-		secondText = "Please try again!"
+		secondText = "Please try again!";
 	} else if (matchResponse == "error") {
 		firstText = "Something went wrong...";
-		secondText = "Please try again!"
+		secondText = "Please try again!";
 	} else {
 		firstText = "Searching for partner...";
-		secondText = "Hang Tight!"
+		secondText = "Hang Tight!";
 	}
 	return (
 		<Stack direction="row" spacing={10}>
@@ -163,11 +162,10 @@ const FindPartner = () => {
 			</Stack>
 			<CustomCircularProgress />
 		</Stack>
-	)
-}
+	);
+};
 
-const routes: IRoutes = getRoutes();
-const socket = io(routes.socketIO[0], {
+let socket = io("https://api.peerprepgroup51sem1y2023.xyz/", {
 	transports: ["websocket"],
 	withCredentials: true,
 });
@@ -180,7 +178,6 @@ const MatchingServicePopUp = () => {
 	const complexityChosen: string = useSelector(
 		MatchSlice.selectComplexityChosen
 	);
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const handleNext = () => {
@@ -217,6 +214,10 @@ const MatchingServicePopUp = () => {
 	}, [socket]);
 
 	const handleConnect = () => {
+		socket = io("https://api.peerprepgroup51sem1y2023.xyz/", {
+			transports: ["websocket"],
+			withCredentials: true,
+		});
 		socket.emit("match-request:create", {
 			userId: auth.currentUser?.uid,
 			complexity: complexityChosen,
@@ -236,44 +237,37 @@ const MatchingServicePopUp = () => {
 					);
 				})}
 			</Stepper>
-			{activeStep === steps.length ? (
-				<React.Fragment>
-					<Typography sx={{ mt: 2, mb: 1 }}>
-						All steps completed - you&apos;re finished
-					</Typography>
-				</React.Fragment>
-			) : (
-				<div style={Styles.mainContainerStyle}>
-					<IconButton
-						disabled={activeStep === 0}
-						onClick={handleBack}
-					>
-						<ArrowBackIos
-							sx={
-								activeStep === 0
-									? Styles.arrowStylesDisabled
-									: Styles.arrowStyle
-							}
-						/>
-					</IconButton>
+			<div style={Styles.mainContainerStyle}>
+				<IconButton
+					disabled={activeStep === 0}
+					onClick={handleBack}
+				>
+					<ArrowBackIos
+						sx={
+							activeStep === 0
+								? Styles.arrowStylesDisabled
+								: Styles.arrowStyle
+						}
+					/>
+				</IconButton>
 
-					{activeStep === 0 ? (
-						<LanguageSelection />
-					) : activeStep === 1 ? (
-						<DifficultySelection />
-					) : (
-						<FindPartner />
-					)}
+				{activeStep === 0 ? (
+					<LanguageSelection />
+				) : activeStep === 1 ? (
+					<DifficultySelection />
+				) : (
+					<FindPartner />
+				)}
 
-					<Button
-						onClick={activeStep === 1 ? handleConnect : handleNext}
-					>
-						{activeStep !== steps.length - 1 && (
+				{activeStep === steps.length - 1
+					? 	<></>
+					: 	<Button
+							onClick={activeStep === 1 ? handleConnect : handleNext}
+						>
 							<ArrowForwardIos sx={Styles.arrowStyle} />
-						)}
-					</Button>
-				</div>
-			)}
+						</Button>
+					}
+			</div>
 		</div>
 	);
 };
