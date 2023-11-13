@@ -14,7 +14,7 @@ import {
 	Stepper,
 	Step,
 	StepLabel,
-	Button
+	Button,
 } from "@mui/material";
 import { ArrowForwardIos, ArrowBackIos } from "@mui/icons-material";
 
@@ -24,10 +24,10 @@ import React from "react";
 import { io } from "socket.io-client";
 
 import { auth } from "../Auth/Firebase";
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import * as MatchSlice from "../redux/reducers/Match/MatchSlice"
-import CustomCircularProgress from './CustomCircularProgress';
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import * as MatchSlice from "../redux/reducers/Match/MatchSlice";
+import CustomCircularProgress from "./CustomCircularProgress";
 
 const languages = ["python", "java", "javascript", "c#", "c++"];
 const steps = [
@@ -139,20 +139,20 @@ const QuestionSelection = () => {
 const FindPartner = () => {
 	let firstText;
 	let secondText;
-	let navigate = useNavigate()
-	const matchResponse = useSelector(MatchSlice.selectMatchResponse)
+	let navigate = useNavigate();
+	const matchResponse = useSelector(MatchSlice.selectMatchResponse);
 	if (matchResponse == "success") {
 		firstText = "Partner Found!";
 		secondText = "Redirecting you to the practice page...";
 	} else if (matchResponse == "failure") {
 		firstText = "No suitable match found...";
-		secondText = "Please try again!"
+		secondText = "Please try again!";
 	} else if (matchResponse == "error") {
 		firstText = "Something went wrong...";
-		secondText = "Please try again!"
+		secondText = "Please try again!";
 	} else {
 		firstText = "Searching for partner...";
-		secondText = "Hang Tight!"
+		secondText = "Hang Tight!";
 	}
 	return (
 		<Stack direction="row" spacing={10}>
@@ -162,10 +162,10 @@ const FindPartner = () => {
 			</Stack>
 			<CustomCircularProgress />
 		</Stack>
-	)
-}
+	);
+};
 
-const socket = io("https://api.peerprepgroup51sem1y2023.xyz/", {
+let socket = io("https://api.peerprepgroup51sem1y2023.xyz/", {
 	transports: ["websocket"],
 	withCredentials: true,
 });
@@ -215,6 +215,10 @@ const MatchingServicePopUp = () => {
 	}, [socket]);
 
 	const handleConnect = () => {
+		socket = io("https://api.peerprepgroup51sem1y2023.xyz/", {
+			transports: ["websocket"],
+			withCredentials: true,
+		});
 		socket.emit("match-request:create", {
 			userId: auth.currentUser?.uid,
 			complexity: complexityChosen,

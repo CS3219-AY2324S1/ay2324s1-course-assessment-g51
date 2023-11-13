@@ -1,13 +1,14 @@
 import Button from "@mui/material/Button";
 import * as Styles from "./styles";
-import { 	
-	Dialog, 
-	DialogTitle, 
-	DialogContent, 
+import {
+	Dialog,
+	DialogTitle,
+	DialogContent,
 	DialogActions,
 	DialogContentText,
 	Snackbar,
-	Alert } from "@mui/material";
+	Alert,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 import * as PracticeSlice from "../redux/reducers/Practice/PracticeSlice";
@@ -29,24 +30,28 @@ export const socket = io("https://collab.peerprepgroup51sem1y2023.xyz/", {
 
 const PracticePage = () => {
 	const dispatch = useDispatch();
-	const [isOpenLeaveRoomConfirmationDialog, setIsOpenLeaveRoomConfirmationDialog] = useState(false);
-	const [isOpenInformLeftRoomSnackbar, setIsOpenInformLeftRoomSnackbar] = useState(false);
+	const [
+		isOpenLeaveRoomConfirmationDialog,
+		setIsOpenLeaveRoomConfirmationDialog,
+	] = useState(false);
+	const [isOpenInformLeftRoomSnackbar, setIsOpenInformLeftRoomSnackbar] =
+		useState(false);
 
 	const openLeaveRoomConfirmation = () => {
 		setIsOpenLeaveRoomConfirmationDialog(true);
-	}
+	};
 
 	const closeLeaveRoomConfirmation = () => {
 		setIsOpenLeaveRoomConfirmationDialog(false);
-	}
-	
+	};
+
 	const openInformLeftRoom = () => {
 		setIsOpenInformLeftRoomSnackbar(true);
-	}
+	};
 
 	const closeInformLeftRoom = () => {
 		setIsOpenInformLeftRoomSnackbar(false);
-	}
+	};
 
 	// Uncomment line 21 and comment out line 22 to test UI after matched
 	//const partnerDetails = {"test":3};
@@ -86,21 +91,26 @@ const PracticePage = () => {
 	useEffect(() => {
 		socket.on("userDisconnect", () => {
 			openInformLeftRoom();
-		})
-	}, [socket])
+		});
+	}, [socket]);
 
 	const handleLeaveRoom = () => {
 		closeLeaveRoomConfirmation();
-		socket.disconnect();
-		socket.emit("userDisconnect")
+
+		socket.emit("userDisconnect");
+		//socket.disconnect();
 		// Sets match to be false
-		dispatch(MatchSlice.setPartnerDetails({
-			userId1: "",
-			userId2: "",
-			complexity: "",
-			matchId: "",
-			language: ""}));
-	}
+		dispatch(
+			MatchSlice.setPartnerDetails({
+				userId1: "",
+				userId2: "",
+				complexity: "",
+				matchId: "",
+				language: "",
+			})
+		);
+		dispatch(MatchSlice.setMatchResponse(""));
+	};
 
 	let practicePageStyle;
 	if (isPartnerDetailsEmpty) {
@@ -131,14 +141,17 @@ const PracticePage = () => {
 				)}
 			</div>
 
-			{isPartnerDetailsEmpty 
-				? 	<></>	
-				:	<Button variant="contained" 
-						sx={Styles.leaveRoomButtonStyle}
-						onClick={openLeaveRoomConfirmation}>
-							Leave Room
-					</Button> 	
-			}
+			{isPartnerDetailsEmpty ? (
+				<></>
+			) : (
+				<Button
+					variant="contained"
+					sx={Styles.leaveRoomButtonStyle}
+					onClick={openLeaveRoomConfirmation}
+				>
+					Leave Room
+				</Button>
+			)}
 
 			<Dialog
 				open={isOpenLeaveRoomConfirmationDialog}
@@ -155,9 +168,7 @@ const PracticePage = () => {
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={closeLeaveRoomConfirmation}>
-						Back
-					</Button>
+					<Button onClick={closeLeaveRoomConfirmation}>Back</Button>
 					<Button
 						onClick={handleLeaveRoom}
 						autoFocus
@@ -169,17 +180,18 @@ const PracticePage = () => {
 			</Dialog>
 
 			<Snackbar
-				open={isOpenInformLeftRoomSnackbar} 
-				onClose={closeInformLeftRoom}> 
-				<Alert 
-					onClose={closeInformLeftRoom} 
-					severity="info" 
-					sx={{ width: '100%' }}>
-						The other user has left the room
-        		</Alert>
+				open={isOpenInformLeftRoomSnackbar}
+				onClose={closeInformLeftRoom}
+			>
+				<Alert
+					onClose={closeInformLeftRoom}
+					severity="info"
+					sx={{ width: "100%" }}
+				>
+					The other user has left the room
+				</Alert>
 			</Snackbar>
-				
-			
+
 			<BackdropMatchingService />
 		</div>
 	);
