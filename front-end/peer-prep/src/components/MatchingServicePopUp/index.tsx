@@ -18,8 +18,7 @@ import {
 } from "@mui/material";
 import { ArrowForwardIos, ArrowBackIos } from "@mui/icons-material";
 
-import { ReactPropTypes, useEffect, useState } from "react";
-import React from "react";
+import { useEffect, useState } from "react";
 
 import { io, Socket } from "socket.io-client";
 
@@ -179,7 +178,6 @@ const MatchingServicePopUp = () => {
 	const complexityChosen: string = useSelector(
 		MatchSlice.selectComplexityChosen
 	);
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const handleNext = () => {
@@ -239,44 +237,37 @@ const MatchingServicePopUp = () => {
 					);
 				})}
 			</Stepper>
-			{activeStep === steps.length ? (
-				<React.Fragment>
-					<Typography sx={{ mt: 2, mb: 1 }}>
-						All steps completed - you&apos;re finished
-					</Typography>
-				</React.Fragment>
-			) : (
-				<div style={Styles.mainContainerStyle}>
-					<IconButton
-						disabled={activeStep === 0}
-						onClick={handleBack}
-					>
-						<ArrowBackIos
-							sx={
-								activeStep === 0
-									? Styles.arrowStylesDisabled
-									: Styles.arrowStyle
-							}
-						/>
-					</IconButton>
+			<div style={Styles.mainContainerStyle}>
+				<IconButton
+					disabled={activeStep === 0}
+					onClick={handleBack}
+				>
+					<ArrowBackIos
+						sx={
+							activeStep === 0
+								? Styles.arrowStylesDisabled
+								: Styles.arrowStyle
+						}
+					/>
+				</IconButton>
 
-					{activeStep === 0 ? (
-						<LanguageSelection />
-					) : activeStep === 1 ? (
-						<DifficultySelection />
-					) : (
-						<FindPartner />
-					)}
+				{activeStep === 0 ? (
+					<LanguageSelection />
+				) : activeStep === 1 ? (
+					<DifficultySelection />
+				) : (
+					<FindPartner />
+				)}
 
-					<Button
-						onClick={activeStep === 1 ? handleConnect : handleNext}
-					>
-						{activeStep !== steps.length - 1 && (
+				{activeStep === steps.length - 1
+					? 	<></>
+					: 	<Button
+							onClick={activeStep === 1 ? handleConnect : handleNext}
+						>
 							<ArrowForwardIos sx={Styles.arrowStyle} />
-						)}
-					</Button>
-				</div>
-			)}
+						</Button>
+					}
+			</div>
 		</div>
 	);
 };
