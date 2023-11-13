@@ -56,40 +56,40 @@ const PracticePage = () => {
 		setIsOpenInformLeftRoomSnackbar(false);
 	};
 
-	// Uncomment line 21 and comment out line 22 to test UI after matched
-	//const partnerDetails = {"test":3};
 	const partnerDetails = useSelector(MatchSlice.selectPartnerDetails);
 	const isPartnerDetailsEmpty = partnerDetails.matchId === "";
 
 	const routes: IRoutes = getRoutes();
+	const questionTitle = useSelector(QuestionSlice.selectCurrentTitle);
+
 	// Displays first question if user refreshes the browser
-	useEffect(() => {
+	if (questionTitle === "") {
 		axios({
 			method: "get",
 			url: routes.questions,
 		})
-			.then((response) => {
-				const data = response.data;
-				const firstQuestion = data[0];
-				dispatch(QuestionSlice.updateCurrentTitle(firstQuestion.title));
-				dispatch(
-					QuestionSlice.updateCurrentComplexity(
-						firstQuestion.complexity
-					)
-				);
-				dispatch(
-					QuestionSlice.updateAllCurrentCatogires(
-						firstQuestion.category
-					)
-				);
-				dispatch(
-					QuestionSlice.updateCurrentDescription(
-						firstQuestion.description
-					)
-				);
-			})
-			.catch(() => {});
-	}, []);
+		.then((response) => {
+			const data = response.data;
+			const firstQuestion = data[0];
+			dispatch(QuestionSlice.updateCurrentTitle(firstQuestion.title));
+			dispatch(
+				QuestionSlice.updateCurrentComplexity(
+					firstQuestion.complexity
+				)
+			);
+			dispatch(
+				QuestionSlice.updateAllCurrentCatogires(
+					firstQuestion.category
+				)
+			);
+			dispatch(
+				QuestionSlice.updateCurrentDescription(
+					firstQuestion.description
+				)
+			);
+		})
+		.catch(() => { });
+	}
 
 	// Listens for event where the other user disconnects
 	useEffect(() => {
