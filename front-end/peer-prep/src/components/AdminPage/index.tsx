@@ -4,22 +4,21 @@ import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useState } from "react";
 import ManagePage from "./ManagePage";
+import { IRoutes, getRoutes } from "../Routes";
 
 const AdminPage = () => {
 	const [user, loading, error] = useAuthState(auth);
 	const [isAdmin, setIsAdmin] = useState(false);
-
 	if (loading) {
 		return <></>;
 	}
-
 	const currentUserUid = user?.uid;
-
+	const routes: IRoutes = getRoutes();
 	//check currentUser is admin or not
 	const getIsAdmin = () => {
 		axios({
 			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/users/admin/${currentUserUid}`,
+			url: routes.profile[1] + `${currentUserUid}`,
 		})
 			.then((response) => {
 				const data = response.data.data;

@@ -9,7 +9,7 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-ARG REACT_APP_ENVIRONMENT=dev
+ARG REACT_APP_ENVIRONMENT=prod
 ENV REACT_APP_ENVIRONMENT ${REACT_APP_ENVIRONMENT}
 
 # Copy the rest of the source code

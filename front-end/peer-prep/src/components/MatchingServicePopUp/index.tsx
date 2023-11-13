@@ -21,13 +21,14 @@ import { ArrowForwardIos, ArrowBackIos } from "@mui/icons-material";
 import { ReactPropTypes, useEffect, useState } from "react";
 import React from "react";
 
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
 import { auth } from "../Auth/Firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as MatchSlice from "../redux/reducers/Match/MatchSlice";
 import CustomCircularProgress from "./CustomCircularProgress";
+import { getRoutes, IRoutes } from "../Routes";
 
 const languages = ["python", "java", "javascript", "c#", "c++"];
 const steps = [

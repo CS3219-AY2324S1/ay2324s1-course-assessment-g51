@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+  creationTimestamp: "2023-11-12T16:02:52Z"
+  labels:
+    app: matching-service-db-app
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:internalTrafficPolicy: {}
+        f:ports:
+          .: {}
+          k:{"port":5432,"protocol":"TCP"}:
+            .: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: GoogleCloudConsole
+    operation: Update
+    time: "2023-11-12T16:02:52Z"
+  name: matching-service-db-deployment-service
+  namespace: default
+  resourceVersion: "1340020"
+  uid: 494ec9bb-7c85-4eb0-9340-b33ed3da5a48
+spec:
+  clusterIP: 34.118.230.104
+  clusterIPs:
+  - 34.118.230.104
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: matching-service-db-app
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

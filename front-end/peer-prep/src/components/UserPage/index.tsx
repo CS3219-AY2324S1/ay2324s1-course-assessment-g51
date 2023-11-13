@@ -25,6 +25,7 @@ import * as UserSlice from "../redux/reducers/User/UserSlice";
 import axios from "axios";
 
 import { auth } from "../Auth/Firebase";
+import { IRoutes, getRoutes } from "../Routes";
 
 const UserPage = () => {
 	// for dispatching actions
@@ -64,12 +65,12 @@ const UserPage = () => {
 	const PromptUserDetails = "Please enter user details.";
 	const EmptyDetailsWarning = "User details cannot be empty!";
 	const DuplicateUsernameMsg = "Username already exists";
-
+	const routes: IRoutes = getRoutes();
 	// Gets user profile data.
 	useEffect(() => {
 		axios({
 			method: "get",
-			url: `https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`,
+			url: routes.profile[0] + `${authUid}`,
 		})
 			.then((response) => {
 				const data = response.data.data;
@@ -100,8 +101,7 @@ const UserPage = () => {
 	// First time creation for new user if user does not exist.
 	const postUserData = () => {
 		axios
-			//.post(`http://localhost:3100/users/profile/`, {
-			.post(`https://api.peerprepgroup51sem1y2023.xyz/users/profile/`, {
+			.post(routes.profile[0], {
 				username: currentUsername,
 				email: currentEmail,
 				firstName: currentFirstName,
@@ -129,8 +129,7 @@ const UserPage = () => {
 	const putUserData = () => {
 		axios
 			.put(
-				`https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`,
-				//`http://localhost:3100/users/profile/${authUid}`,
+				routes.profile[0] + `${authUid}`,
 				{
 					username: currentUsername,
 					email: currentEmail,
@@ -166,7 +165,7 @@ const UserPage = () => {
 	const deleteUserData = () => {
 		axios
 			.delete(
-				`https://api.peerprepgroup51sem1y2023.xyz/users/profile/${authUid}`
+				routes.profile[0] + `${authUid}`
 			)
 			.catch(() => { });
 	};

@@ -1,0 +1,152 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/backends: '{"k8s1-632f34ab-defaul-collaboration-service-deployme-85-ce162a91":"HEALTHY","k8s1-632f34ab-defaul-matching-service-deployment-s-800-6691abe6":"HEALTHY","k8s1-632f34ab-defaul-profile-service-deployment-se-310-2be4595e":"HEALTHY","k8s1-632f34ab-defaul-question-service-deployment-s-808-fb83050f":"HEALTHY","k8s1-632f34ab-default-front-end-deployment-service-300-2a24e59e":"HEALTHY","k8s1-632f34ab-default-postgres-deployment-service-5432-2fad4624":"UNHEALTHY","k8s1-632f34ab-kube-system-default-http-backend-80-13fcc799":"HEALTHY"}'
+    ingress.kubernetes.io/forwarding-rule: k8s2-fr-18ezotre-default-my-nginx-ingress-hxitp85q
+    ingress.kubernetes.io/target-proxy: k8s2-tp-18ezotre-default-my-nginx-ingress-hxitp85q
+    ingress.kubernetes.io/url-map: k8s2-um-18ezotre-default-my-nginx-ingress-hxitp85q
+    nginx.ingress.kubernetes.io/affinity: ip
+    nginx.ingress.kubernetes.io/websocket-services: collaboration-service-deployment-service
+  creationTimestamp: "2023-11-11T19:54:51Z"
+  finalizers:
+  - networking.gke.io/ingress-finalizer-V2
+  generation: 21
+  managedFields:
+  - apiVersion: networking.k8s.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations: {}
+    manager: kubectl-client-side-apply
+    operation: Update
+    time: "2023-11-11T19:54:51Z"
+  - apiVersion: networking.k8s.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:nginx.ingress.kubernetes.io/affinity: {}
+          f:nginx.ingress.kubernetes.io/websocket-services: {}
+      f:spec:
+        f:rules: {}
+    manager: GoogleCloudConsole
+    operation: Update
+    time: "2023-11-13T06:33:43Z"
+  - apiVersion: networking.k8s.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:ingress.kubernetes.io/backends: {}
+          f:ingress.kubernetes.io/forwarding-rule: {}
+          f:ingress.kubernetes.io/target-proxy: {}
+          f:ingress.kubernetes.io/url-map: {}
+        f:finalizers:
+          .: {}
+          v:"networking.gke.io/ingress-finalizer-V2": {}
+      f:status:
+        f:loadBalancer:
+          f:ingress: {}
+    manager: glbc
+    operation: Update
+    subresource: status
+    time: "2023-11-13T06:35:29Z"
+  name: my-nginx-ingress
+  namespace: default
+  resourceVersion: "1957854"
+  uid: 1e2d590b-a68b-452c-9c2e-0eb216e9e169
+spec:
+  rules:
+  - host: app2.peerprepgroup51sem1y2023.xyz
+    http:
+      paths:
+      - backend:
+          service:
+            name: front-end-deployment-service
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+  - host: collabk8.peerprepgroup51sem1y2023.xyz
+    http:
+      paths:
+      - backend:
+          service:
+            name: collaboration-service-deployment-service
+            port:
+              number: 8576
+        path: /
+        pathType: Prefix
+      - backend:
+          service:
+            name: collaboration-service-deployment-service
+            port:
+              number: 8576
+        path: /healthz
+        pathType: Prefix
+  - host: questionsk8.peerprepgroup51sem1y2023.xyz
+    http:
+      paths:
+      - backend:
+          service:
+            name: question-service-deployment-service
+            port:
+              number: 8080
+        path: /api
+        pathType: Prefix
+      - backend:
+          service:
+            name: question-service-deployment-service
+            port:
+              number: 8080
+        path: /healthz
+        pathType: Prefix
+  - host: usersk8.peerprepgroup51sem1y2023.xyz
+    http:
+      paths:
+      - backend:
+          service:
+            name: profile-service-deployment-service
+            port:
+              number: 3100
+        path: /users
+        pathType: Prefix
+      - backend:
+          service:
+            name: profile-service-deployment-service
+            port:
+              number: 3100
+        path: /healthz
+        pathType: Prefix
+  - host: matchk8.peerprepgroup51sem1y2023.xyz
+    http:
+      paths:
+      - backend:
+          service:
+            name: matching-service-deployment-service
+            port:
+              number: 8000
+        path: /
+        pathType: Prefix
+      - backend:
+          service:
+            name: matching-service-deployment-service
+            port:
+              number: 8000
+        path: /healthz
+        pathType: Prefix
+  - host: postgresk8.peerprepgroup51sem1y2023.xyz
+    http:
+      paths:
+      - backend:
+          service:
+            name: postgres-deployment-service
+            port:
+              number: 5432
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - ip: 34.36.130.164

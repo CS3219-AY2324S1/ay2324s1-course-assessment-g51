@@ -31,6 +31,11 @@ app.use(
 	})
 );
 
+// Health check endpoint 
+app.get('/healthz', (_, res) => { 
+	res.status(200).send('Server is healthy'); 
+});
+
 //app.use(cors());
 app.use(bodyParser.json());
 

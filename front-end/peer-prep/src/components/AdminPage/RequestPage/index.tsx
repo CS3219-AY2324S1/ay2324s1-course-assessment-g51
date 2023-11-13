@@ -7,11 +7,13 @@ import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { IRoutes, getRoutes } from "../../Routes";
 
 const RequestPage = (props: any) => {
 	const navigate = useNavigate();
 	const [isClicked, setIsClicked] = useState(false);
-
+	const routes: IRoutes = getRoutes();
 	//back button brings it back to sign in
 	const iconHandler = () => {
 		navigate("/home");
@@ -26,7 +28,7 @@ const RequestPage = (props: any) => {
 	//change requesting to yes
 	const buttonHandler = () => {
 		axios
-			.put(`https://api.peerprepgroup51sem1y2023.xyz/users/request/`, {
+			.put(routes.profile[3], {
 				toUpdate: [[props.uid, true]],
 			})
 			.catch((error) => {

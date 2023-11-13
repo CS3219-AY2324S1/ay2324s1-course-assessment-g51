@@ -30,11 +30,11 @@ import Navbar from "./components/Navbar";
 import GoodbyePage from "./components/Auth/GoodbyePage";
 import VerificationPage from "./components/Auth/VerificationPage";
 import DeletePage from "./components/DeletePage";
-import MatchingServicePage from "./components/MatchingServicePopUp";
 
 import axios from "axios";
 import AdminPage from "./components/AdminPage";
 import PracticePage from "./components/PracticePage";
+import { IRoutes, getRoutes } from "./components/Routes/index"
 
 const ProtectedRoute = () => {
 	const [user, loading, error] = useAuthState(auth);
@@ -68,7 +68,7 @@ const RedirectUserRoute = () => {
 	const uid = user?.uid;
 	const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin);
 	const dispatch = useDispatch();
-
+	const routes: IRoutes = getRoutes()
 	if (loading) {
 		// the user object will be null if firebase is loading
 		// handle loading next time
@@ -76,7 +76,7 @@ const RedirectUserRoute = () => {
 	}
 	axios({
 		method: "get",
-		url: `https://api.peerprepgroup51sem1y2023.xyz/users/profile/${uid}`,
+		url: routes.profile[0] + `${uid}`,
 	}).catch((error) => {
 		console.log(error);
 		dispatch(UserSlice.setIsFirstTimeLogin(true));

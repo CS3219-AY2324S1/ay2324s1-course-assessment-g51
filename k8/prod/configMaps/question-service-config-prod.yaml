@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-    name: question-service-config-prod
-    namespace: prod
-data:
-    MONGODB_URI: mongodb://mongodb-headless.prod.svc.cluster.local:27017/question-service-api
-    PORT_NUMBER: "8080"

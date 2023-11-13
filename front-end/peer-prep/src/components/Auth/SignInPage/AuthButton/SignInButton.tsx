@@ -15,15 +15,15 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import * as UserSlice from "../../../redux/reducers/User/UserSlice";
-
 import axios from "axios";
+import { IRoutes, getRoutes } from "../../../Routes";
 
 interface SignInButtonProps {
 	provider:
-		| GoogleAuthProvider
-		| FacebookAuthProvider
-		| GithubAuthProvider
-		| TwitterAuthProvider;
+	| GoogleAuthProvider
+	| FacebookAuthProvider
+	| GithubAuthProvider
+	| TwitterAuthProvider;
 	iconImage: string;
 	iconImageAlt: string;
 }
@@ -36,7 +36,7 @@ const SignInButton = ({
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const isNewUser = useSelector(UserSlice.selectIsFirstTimeLogin);
-
+	const routes: IRoutes = getRoutes();
 	provider.addScope("email");
 
 	const handleSignIn = () =>
@@ -49,7 +49,7 @@ const SignInButton = ({
 				// Checks if user is new.
 				axios({
 					method: "get",
-					url: `https://api.peerprepgroup51sem1y2023.xyz/users/profile/${uid}`,
+					url: routes.profile[0] + `${uid}`,
 				}).catch((error) => {
 					console.log(error);
 					dispatch(UserSlice.setIsFirstTimeLogin(true));

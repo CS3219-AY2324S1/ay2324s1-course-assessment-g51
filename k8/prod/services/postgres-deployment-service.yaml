@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+    cloud.google.com/neg-status: '{"network_endpoint_groups":{"5432":"k8s1-632f34ab-default-postgres-deployment-service-5432-2fad4624"},"zones":["asia-southeast1-a","asia-southeast1-c"]}'
+  creationTimestamp: "2023-11-12T16:20:50Z"
+  labels:
+    app: postgres-app
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:internalTrafficPolicy: {}
+        f:ports:
+          .: {}
+          k:{"port":5432,"protocol":"TCP"}:
+            .: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: GoogleCloudConsole
+    operation: Update
+    time: "2023-11-12T16:20:50Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:cloud.google.com/neg-status: {}
+    manager: glbc
+    operation: Update
+    subresource: status
+    time: "2023-11-13T06:33:43Z"
+  name: postgres-deployment-service
+  namespace: default
+  resourceVersion: "1956613"
+  uid: 011faed6-a24f-4c23-ae30-1a8584a09e6f
+spec:
+  clusterIP: 34.118.227.49
+  clusterIPs:
+  - 34.118.227.49
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: postgres-app
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
