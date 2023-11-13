@@ -92,7 +92,7 @@ const ManagePage = (props: any) => {
 			.then(() => {
 				axios
 					.put(
-						routes.profile[3],
+						routes.profile[2],
 						{
 							toUpdate: [[currAdmin.uid, true]],
 						}
