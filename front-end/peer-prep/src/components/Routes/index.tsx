@@ -40,9 +40,27 @@ const liveRoutes = {
     ]
 }
 
+const gkeRoutes = {
+    questions: "https://questionsk8." + liveDomain + "/api/questions",
+    profile: [
+        "https://usersk8." + liveDomain + "/users/profile/",
+        "https://usersk8." + liveDomain + "/users/admin/",
+        "https://usersk8." + liveDomain + "/users/admin",
+        "https://usersk8." + liveDomain + "/users/request/",
+        "https://usersk8." + liveDomain + "/users/request",
+        "https://usersk8." + liveDomain + "/users/superAdmin/",
+    ],
+    socketIO: [
+        "https://matchk8." + liveDomain + "/",
+        "https://collabk8." + liveDomain + "/"
+    ]
+}
+
 export const getRoutes = () => {
     if (process.env.REACT_APP_ENVIRONMENT === "dev") {
         return localhostRoutes;
+    } else if (process.env.REACT_APP_ENVIRONMENT === "gke") {
+        return gkeRoutes;
     } else {
         return liveRoutes;
     }
