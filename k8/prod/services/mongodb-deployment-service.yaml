@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+  creationTimestamp: "2023-11-12T17:04:47Z"
+  labels:
+    app: mongodb-app
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:internalTrafficPolicy: {}
+        f:ports:
+          .: {}
+          k:{"port":27017,"protocol":"TCP"}:
+            .: {}
+            f:name: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+          k:{"port":27017,"protocol":"UDP"}:
+            .: {}
+            f:name: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: GoogleCloudConsole
+    operation: Update
+    time: "2023-11-12T17:04:47Z"
+  name: mongodb-deployment-service
+  namespace: default
+  resourceVersion: "1388216"
+  uid: c471a07a-6d37-48ec-a4aa-62a0e478da9a
+spec:
+  clusterIP: 34.118.230.24
+  clusterIPs:
+  - 34.118.230.24
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: 27017-to-27017-tcp
+    port: 27017
+    protocol: TCP
+    targetPort: 27017
+  - name: 27017-to-27017-udp
+    port: 27017
+    protocol: UDP
+    targetPort: 27017
+  selector:
+    app: mongodb-app
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

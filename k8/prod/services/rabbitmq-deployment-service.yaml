@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+  creationTimestamp: "2023-11-12T15:59:24Z"
+  labels:
+    app: rabbitmq-app
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:internalTrafficPolicy: {}
+        f:ports:
+          .: {}
+          k:{"port":5672,"protocol":"TCP"}:
+            .: {}
+            f:name: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+          k:{"port":15672,"protocol":"TCP"}:
+            .: {}
+            f:name: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: GoogleCloudConsole
+    operation: Update
+    time: "2023-11-12T15:59:24Z"
+  name: rabbitmq-deployment-service
+  namespace: default
+  resourceVersion: "1337389"
+  uid: 3d514fee-3072-4fec-97fd-f02743b7a8a5
+spec:
+  clusterIP: 34.118.236.54
+  clusterIPs:
+  - 34.118.236.54
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: 5672-to-5672-tcp
+    port: 5672
+    protocol: TCP
+    targetPort: 5672
+  - name: 15672-to-15672-tcp
+    port: 15672
+    protocol: TCP
+    targetPort: 15672
+  selector:
+    app: rabbitmq-app
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
