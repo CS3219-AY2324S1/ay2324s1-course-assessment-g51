@@ -31,7 +31,7 @@ const liveRoutes = {
         "https://api." + liveDomain + "/users/admin/",
         "https://api." + liveDomain + "/users/admin",
         "https://api." + liveDomain + "/users/request/",
-        "https://api." + liveDomain + "/users/request/",
+        "https://api." + liveDomain + "/users/request",
         "https://api." + liveDomain + "/users/superAdmin/",
     ],
     socketIO: [
