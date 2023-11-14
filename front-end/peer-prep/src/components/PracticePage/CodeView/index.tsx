@@ -4,6 +4,9 @@ import { socket } from "../index";
 import Editor from "@monaco-editor/react";
 import { useSelector } from "react-redux";
 import * as MatchSlice from "../../redux/reducers/Match/MatchSlice";
+import MaterialUISwitch from "./icon";
+import SelectSmall from "./dropdown";
+import * as PracticeSlice from "../../redux/reducers/Practice/PracticeSlice";
 
 interface IPartnerDetails {
 	userId1: string;
@@ -22,9 +25,12 @@ interface IMessageData {
 
 const CodeView = () => {
 	const [code, setCode] = useState("");
+	const [theme, setTheme] = useState("");
 	const partnerDetails: IPartnerDetails = useSelector(
 		MatchSlice.selectPartnerDetails
 	);
+	const language: string = useSelector(PracticeSlice.selectLanguageState);
+
 	const roomId = partnerDetails.matchId;
 
 	useEffect(() => {
@@ -45,14 +51,33 @@ const CodeView = () => {
 			isMine: true,
 		});
 	};
+
+	const handleToggleTheme = () => {
+		if (theme == "vs-dark") {
+			setTheme("");
+		} else {
+			setTheme("vs-dark");
+		}
+	};
+
 	return (
 		<div style={Styles.CodeViewContainerStyle}>
+			<div style={Styles.topBarContainerStyle}>
+				<div>
+					<SelectSmall />
+				</div>
+				<div style={Styles.iconContainerStyle}>
+					<MaterialUISwitch onChange={handleToggleTheme} />
+				</div>
+			</div>
+
 			<Editor
-				defaultLanguage="javascript"
+				height="93%"
 				defaultValue=""
-				language="javascript"
+				language={language}
 				value={code}
 				onChange={handleCodeChange}
+				theme={theme}
 			/>
 		</div>
 	);

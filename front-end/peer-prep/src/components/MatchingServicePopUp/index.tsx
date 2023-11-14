@@ -119,7 +119,7 @@ const DifficultySelection = () => {
 			>
 				<MenuItem value={"easy"}>Easy</MenuItem>
 				<MenuItem value={"medium"}>Medium</MenuItem>
-				<MenuItem value={"hard"}>Hard</MenuItem>
+				<MenuItem value={"difficult"}>Difficult</MenuItem>
 			</Select>
 		</FormControl>
 	);
@@ -238,10 +238,7 @@ const MatchingServicePopUp = () => {
 				})}
 			</Stepper>
 			<div style={Styles.mainContainerStyle}>
-				<IconButton
-					disabled={activeStep === 0}
-					onClick={handleBack}
-				>
+				<IconButton disabled={activeStep === 0} onClick={handleBack}>
 					<ArrowBackIos
 						sx={
 							activeStep === 0
@@ -259,14 +256,15 @@ const MatchingServicePopUp = () => {
 					<FindPartner />
 				)}
 
-				{activeStep === steps.length - 1
-					? 	<></>
-					: 	<Button
-							onClick={activeStep === 1 ? handleConnect : handleNext}
-						>
-							<ArrowForwardIos sx={Styles.arrowStyle} />
-						</Button>
-					}
+				{activeStep === steps.length - 1 ? (
+					<></>
+				) : (
+					<Button
+						onClick={activeStep === 1 ? handleConnect : handleNext}
+					>
+						<ArrowForwardIos sx={Styles.arrowStyle} />
+					</Button>
+				)}
 			</div>
 		</div>
 	);
