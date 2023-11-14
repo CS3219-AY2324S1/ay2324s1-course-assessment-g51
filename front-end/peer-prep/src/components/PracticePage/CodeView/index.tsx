@@ -62,9 +62,13 @@ const CodeView = () => {
 
 	return (
 		<div style={Styles.CodeViewContainerStyle}>
-			<div>
-				<SelectSmall />
-				<MaterialUISwitch onChange={handleToggleTheme} />
+			<div style={Styles.topBarContainerStyle}>
+				<div>
+					<SelectSmall />
+				</div>
+				<div style={Styles.iconContainerStyle}>
+					<MaterialUISwitch onChange={handleToggleTheme} />
+				</div>
 			</div>
 
 			<Editor

@@ -29,7 +29,13 @@ const SelectSmall = () => {
 
 	useEffect(() => {
 		if (partnerDetails.language !== "") {
-			dispatch(PracticeSlice.setLanguage(partnerDetails.language));
+			if (partnerDetails.language === "c++") {
+				dispatch(PracticeSlice.setLanguage("cpp"));
+			} else if (partnerDetails.language === "c#") {
+				dispatch(PracticeSlice.setLanguage("csharp"));
+			} else {
+				dispatch(PracticeSlice.setLanguage(partnerDetails.language));
+			}
 			setIsDisabled(true);
 		} else {
 			setIsDisabled(false);
