@@ -65,7 +65,7 @@ If successful, returns `201 Created` and the following response attributes:
 #### Get questions
 
 ```http
-  GET /api/questions
+GET /api/questions
 ```
 
 with the following query parameters:
@@ -93,7 +93,7 @@ If successful, returns `200 OK` and an array of JSON objects with the following 
 #### Get question by id
 
 ```http
-  GET /api/questions/:id
+GET /api/questions/:id
 ```
 
 with the following route parameter:
@@ -115,7 +115,7 @@ If successful, returns `200 OK` and a JSON object with the following attributes:
 #### Update question by id
 
 ```http
-  PATCH /api/questions/:id
+PATCH /api/questions/:id
 ```
 
 with the following route parameter:
@@ -146,7 +146,7 @@ If successful, returns `200 OK` and a JSON object with the following attributes:
 #### Delete question by id
 
 ```http
-  DELETE /api/questions/:id
+DELETE /api/questions/:id
 ```
 
 with the following route parameter:
