@@ -25,7 +25,7 @@ _Preferred setup method is via docker compose._
 ### Steps
 
 1. Clone the project root repository.
-2. `cd` into the project directory.
+2. `cd` into the project directory, and then `cd` into `Server-Configs/Without-K8/dev`.
 3. Build the service by running `docker compose up --build matching-service`, then wait for the container to start up.
 
 After running the above steps, the server will be available at [localhost:8000](localhost:8000). Visiting the url should return a 404 error status code - it means the server is running and responding to client requests.

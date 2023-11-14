@@ -23,21 +23,24 @@ Follow these steps to run this service locally.
 _Preferred setup method is via docker compose._
 
 - Docker Desktop
+- (optional, highly recommended) database tool with support for MongoDB, i.e. MongoDB Compass
 
 ### Steps
 
 1. Clone the project root repository.
-2. `cd` into the project directory.
+2. `cd` into the project directory, and then `cd` into `Server-Configs/Without-K8/dev`.
 3. Build the service by running `docker compose up --build question-service`, then wait for the container to start up.
 
 After running the above steps, the server will be available at [localhost:8080](localhost:8080). Visiting the url should return a 404 error status code - it means the server is running and responding to client requests.
+
+To obtain a view of the MongoDB database, start your database tool and connect to `mongodb://localhost:27017`.
 
 ## API Reference
 
 #### Create a question
 
 ```http
-  POST /api/questions
+POST /api/questions
 ```
 
 with a JSON as request body payload:
@@ -62,7 +65,7 @@ If successful, returns `201 Created` and the following response attributes:
 #### Get questions
 
 ```http
-  GET /api/questions
+GET /api/questions
 ```
 
 with the following query parameters:
@@ -90,7 +93,7 @@ If successful, returns `200 OK` and an array of JSON objects with the following 
 #### Get question by id
 
 ```http
-  GET /api/questions/:id
+GET /api/questions/:id
 ```
 
 with the following route parameter:
@@ -112,7 +115,7 @@ If successful, returns `200 OK` and a JSON object with the following attributes:
 #### Update question by id
 
 ```http
-  PATCH /api/questions/:id
+PATCH /api/questions/:id
 ```
 
 with the following route parameter:
@@ -143,7 +146,7 @@ If successful, returns `200 OK` and a JSON object with the following attributes:
 #### Delete question by id
 
 ```http
-  DELETE /api/questions/:id
+DELETE /api/questions/:id
 ```
 
 with the following route parameter:
