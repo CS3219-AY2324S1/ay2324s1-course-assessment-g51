@@ -1,5 +1,5 @@
 export const CodeViewContainerStyle = {
-	backgroundColor: "#131B25",
+	backgroundColor: "pink",
 	height: "80%",
 	width: "90%",
 	minHeight: "50px",
