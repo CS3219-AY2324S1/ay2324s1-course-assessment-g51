@@ -4,10 +4,10 @@ import { Server as socketIo } from "socket.io";
 import cors from "cors";
 
 interface IMessageData {
-	message: string;
-	roomId: string;
-	socketId: string;
-	isMine: boolean;
+		message: string;
+		roomId: string;
+		socketId: string;
+		isMine: boolean;
 }
 
 const app = express();
