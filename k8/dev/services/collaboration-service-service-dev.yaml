@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: collaboration-service-service-dev
+  namespace: dev
+spec:
+  selector:
+    app: collaboration-service-api
+  ports:
+    - name: "8576"
+      port: 8576
+      targetPort: 8576
+  type: NodePort # Use NodePort for localtesting / port forwarding
+status:
+  loadBalancer: {}
