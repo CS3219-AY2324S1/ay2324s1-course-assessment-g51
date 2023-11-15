@@ -202,7 +202,7 @@ If successful, returns `200 OK` and a JSON object with the following attributes:
 }
 ```
 
-The data object will contain an array of user object with attribute shown below. eg. [user1, user2, user3...]
+The data object will contain an array of user object that isAdmin is true with attribute shown below. eg. [user1, user2, user3...]
 
 In user object we have the following
 
@@ -237,6 +237,74 @@ An example of a payload is
 ```
 
 If successful, returns `201 OK` and a JSON object with the following attributes:
+
+```javascript
+{
+    "success": true,
+    "message": "Success",
+    "data": []
+}
+```
+
+The data object will contain the array shown below
+
+```javascript
+[[uid1, true],[uid2, false],[],...]
+```
+
+## API Reference for requesting to be admin
+
+#### Get all admins
+
+```http
+GET /users/request
+```
+
+If successful, returns `200 OK` and a JSON object with the following attributes:
+
+```javascript
+{
+    "success": true,
+    "message": "Success",
+    "data": []
+}
+```
+
+The data object will contain an array of user object that isRequest is true with attribute shown below. eg. [user1, user2, user3...]
+
+In user object we have the following
+
+| Attribute           | Type    | Description                                  |      |
+| :------------------ | :------ | :------------------------------------------- | :--- |
+| `username`          | string  | Unique username by users.                    |
+| `email`             | string  | Users email used to sign up.                 |
+| `uid`               | string  | Unique UID is given by firebase.             |
+| `firstName`         | string  | User's first name.                           |
+| `lastName`          | string  | User's last name.                            |
+| `age`               | number  | User's age.                                  |
+| `isAdmin`           | boolean | Whether the user is admin or not.            |
+| `isRequestingAdmin` | boolean | Whether the user is requesting admin or not. |
+| `isSuperAdmin`      | boolean | Whether the user is super admin or not.      |
+
+#### Update user profile to set user isRequstingAdmin attribute to true or false
+
+```http
+PUT /users/request
+```
+
+with a JSON as request body payload:
+
+| Attribute  | Type  | Description                              | Required |
+| :--------- | :---- | :--------------------------------------- | :------- |
+| `toUpdate` | array | Contains the uid and boolean for isAdmin | yes      |
+
+An example of a payload is
+
+```javascript
+{ "toUpdate": [[uid1, true],[uid2, false],[],...]}
+```
+
+If successful, returns `201` and a JSON object with the following attributes:
 
 ```javascript
 {
