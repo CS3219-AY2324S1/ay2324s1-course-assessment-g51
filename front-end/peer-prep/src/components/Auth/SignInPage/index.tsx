@@ -25,13 +25,11 @@ import { Navigate, useNavigate } from "react-router-dom";
 import SignInButton from "./AuthButton/SignInButton";
 import {
 	GoogleAuthProvider,
-	FacebookAuthProvider,
 	GithubAuthProvider,
 	TwitterAuthProvider,
 } from "firebase/auth";
 
 import googleIconImage from "../../../images/GoogleIcon.png";
-import facebookIconImage from "../../../images/FacebookIcon.png";
 import githubIconImage from "../../../images/GithubIcon.png";
 import twitterIconImage from "../../../images/TwitterIcon.png";
 
@@ -232,11 +230,6 @@ const EmailAndPasswordContainer = () => {
 					provider={new GoogleAuthProvider()}
 					iconImage={googleIconImage}
 					iconImageAlt="googleIcon"
-				/>
-				<SignInButton
-					provider={new FacebookAuthProvider()}
-					iconImage={facebookIconImage}
-					iconImageAlt="facebookIcon"
 				/>
 				<SignInButton
 					provider={new GithubAuthProvider()}

@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../Firebase";
 import {
 	GoogleAuthProvider,
-	FacebookAuthProvider,
 	GithubAuthProvider,
 	TwitterAuthProvider,
 	signInWithPopup,
@@ -21,7 +20,6 @@ import { IRoutes, getRoutes } from "../../../Routes";
 interface SignInButtonProps {
 	provider:
 	| GoogleAuthProvider
-	| FacebookAuthProvider
 	| GithubAuthProvider
 	| TwitterAuthProvider;
 	iconImage: string;
