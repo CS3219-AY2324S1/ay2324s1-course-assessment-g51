@@ -341,3 +341,35 @@ If successful, returns `200 OK` and a JSON object with the following attributes:
 ```
 
 The data object will contain value will contain a boolean true if user is admin or false if user is not an super admin.
+
+## Database design and consideration
+
+Our database is design as such
+
+![](./docs/dbmodel.JPG)
+
+1. Username is unique so that different users can identify each other in our app
+2. UID is our primary key as it will not be null and unique since it is given by firebase during after a user sign up and authenticated
+
+## Robustness
+
+### we perform validation check to ensure inputs does not cause our server to crash. If it fails the validation check we will send an error to the client with respective messages.
+
+1. We ensure all fields in the body is filled
+2. We ensure age is not negative
+3. We ensure age is not larger than 1000 to prevent users from keying in values larger than an integer to crash the database. We also prevent user from keying in large values in the frontend for added protection
+4. We will check and ensure username is unique
+
+## Admin Role Allocation
+
+### How admin works in peerprep
+1. Only admins can add, delete and update question bank
+2. To become an admin a user must request to be an admin
+![](./docs/request-admin.JPG)
+3. Other admins can accept other users to become admin
+![](./docs/accept-admin.JPG)
+4. Admins are not allowed to delete other admins
+![](./docs/adminlist.JPG)
+5. Thus we created a super admin who has the power to remove admin
+![](./docs/deleteadmin.JPG)
+6. This adding of super admin is done manually via the database because number of super admin will be small
