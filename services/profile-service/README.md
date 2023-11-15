@@ -8,11 +8,11 @@ The service implements a REST API server using Express.js. It interfaces with a 
 
 The high-level architecture of the service can be described with this diagram:
 
-![](./docs/diagrams/architecture-diagram.png)
+![](./docs/architecture-diagram.JPG)
 
 The service follows a conventional Model-View-Controller design pattern:
 
-![](./docs/diagrams/mvc-pattern.png)
+![](./docs/MVC-profile.JPG)
 
 ## Getting Started
 
@@ -29,11 +29,11 @@ _Preferred setup method is via docker compose._
 
 1. Clone the project root repository.
 2. `cd` into the project directory, and then `cd` into `Server-Configs/Without-K8/dev`.
-3. Build the service by running `docker compose up --build profile-service`, then wait for the container to start up.
+3. Build the service by running `docker compose up -d`, then wait for the container to start up.
 
-After running the above steps, the server will be available at [localhost:3100](localhost:3100). ******Visiting the url should return a 404 error status code - it means the server is running and responding to client requests.
+After running the above steps, the server will be available at [localhost:3100](localhost:3100).
 
-To obtain a view of the postgreSQL database, start your database tool and connect to `*******`.
+To obtain a view of the postgreSQL database, start your database tool and connect to localhost at port 5433 with password example.
 
 ## API Reference for CRUD
 
@@ -254,7 +254,7 @@ The data object will contain the array shown below
 
 ## API Reference for requesting to be admin
 
-#### Get all admins
+#### Get all user that is requesting to be admin
 
 ```http
 GET /users/request
@@ -319,6 +319,7 @@ The data object will contain the array shown below
 ```javascript
 [[uid1, true],[uid2, false],[],...]
 ```
+
 ## API reference for super admin
 
 #### Check user is super admin or not by uid
