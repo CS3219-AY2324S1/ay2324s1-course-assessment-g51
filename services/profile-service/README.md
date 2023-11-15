@@ -319,3 +319,24 @@ The data object will contain the array shown below
 ```javascript
 [[uid1, true],[uid2, false],[],...]
 ```
+## API reference for super admin
+
+#### Check user is super admin or not by uid
+
+```http
+GET /users/superAdmin/:uid
+```
+
+with the uid as route parameter:
+
+If successful, returns `200 OK` and a JSON object with the following attributes:
+
+```javascript
+{
+    "success": true,
+    "message": "Success",
+    "data": boolean
+}
+```
+
+The data object will contain value will contain a boolean true if user is admin or false if user is not an super admin.
