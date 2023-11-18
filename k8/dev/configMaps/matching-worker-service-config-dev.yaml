@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: matching-worker-service-config-dev
+    namespace: dev
+data:
+    AMQP_URL: amqp://rabbitmq-service-dev:5672
+    DATABASE_URL: postgresql://root:secret@matching-service-db-headless:5432/matching_service?schema=public

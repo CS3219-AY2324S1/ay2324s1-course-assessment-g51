@@ -1,0 +1,62 @@
+[
+        {
+            "Id" : "1",
+            "Title": "Reverse a String",
+            "Categories": ["Strings", "Algorithms"],
+            "Complexity": "Easy"
+        },
+        {
+            "Id": "2",
+            "Title": "Linked List Cycle Detection",
+            "Categories": ["Data Structures", "Algorithms"],
+            "Complexity": "Easy"
+        },
+        {
+            "Id": "3",
+            "Title": "Roman to Integer",
+            "Categories": ["Algorithms"],
+            "Complexity": "Easy"
+        },
+        {
+            "Id": "4",
+            "Title": "Add Binary",
+            "Categories": ["Bit Manipulation", "Algorithms"],
+            "Complexity": "Easy"
+        },
+        {
+            "Id": "5",
+            "Title": "Fibonacci Number",
+            "Categories": ["Recursion", "Algorithms"],
+            "Complexity": "Easy"
+        },
+        {
+            "Id": "6",
+            "Title": "Implement Stack using Queues ",
+            "Categories": ["Data Structures"],
+            "Complexity": "Easy"
+        },
+        {
+            "Id": "7",
+            "Title": "Combine Two Tables",
+            "Categories": ["Databases"],
+            "Complexity": "Easy"
+        },
+        {
+            "Id": "8",
+            "Title": "Repeated DNA Sequences",
+            "Categories": ["Algorithms", "Bit Manipulation"],
+            "Complexity": "Medium"
+        },
+        {
+            "Id": "9",
+            "Title": "Course Schedule",
+            "Categories": ["Data Structures", "Algorithms"],
+            "Complexity": "Medium"
+        },
+        {
+            "Id": "10",
+            "Title": "LRU Cache Design",
+            "Categories": ["Data Structures"],
+            "Complexity": "Medium"
+        }
+]

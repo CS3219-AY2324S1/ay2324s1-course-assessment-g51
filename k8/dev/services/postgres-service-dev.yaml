@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-headless
+  namespace: dev
+spec:
+  clusterIP: None # This makes it a headless service
+  selector:
+    app: postgres # Select the pods by their labels
+  ports:
+    - protocol: TCP
+      port: 5432 # Port used for Postgres

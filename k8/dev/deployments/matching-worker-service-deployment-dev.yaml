@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: matching-worker-service-deployment-dev # Name of the deployment
+    namespace: dev # Namespace in which the deployment will be created
+spec:
+    # replicas: 1 # Number of desired replicas
+    selector:
+        matchLabels:
+            app: matching-worker-service # Label selector for the pods controlled by this deployment
+    strategy:
+        type: Recreate # Deployment strategy, which recreates all pods when updating
+    template:
+        metadata:
+            labels:
+                app: matching-worker-service # Label for pods created by this template
+        spec:
+            containers:
+                - name: matching-worker-service # Name of the container
+                  image: matching-worker-service # Docker image for the container
+                  imagePullPolicy: Never
+                  # image: registry.gitlab.com/peerprepgroup51sem1y2023/docker/matching-worker-service:latest
+                  ports:
+                      - containerPort: 8000 # Port on which the container listens
+                  resources:
+                      requests:
+                          memory: "150Mi" # Request 256MB of memory
+                          cpu: "100m" # Request 0.1 CPU (100 milliCPU)
+                      limits:
+                          memory: "200Mi" # Limit memory to 512MB
+                          cpu: "200m" # Limit CPU to 0.2 CPU (200 milliCPU)
+                  env:
+                      - name: AMQP_URL
+                        valueFrom:
+                            configMapKeyRef:
+                                name: matching-worker-service-config-dev
+                                key: AMQP_URL
+                      - name: DATABASE_URL
+                        valueFrom:
+                            configMapKeyRef:
+                                name: matching-worker-service-config-dev
+                                key: DATABASE_URL
+            # restartPolicy: "OnFailure" # Restart policy for the pods
+status: {} # Empty status section

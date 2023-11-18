@@ -1,0 +1,166 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    autopilot.gke.io/resource-adjustment: '{"input":{"containers":[{"name":"frontend-1"}]},"output":{"containers":[{"limits":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"requests":{"cpu":"500m","ephemeral-storage":"1Gi","memory":"2Gi"},"name":"frontend-1"}]},"modified":true}'
+    autopilot.gke.io/warden-version: 2.7.41
+    deployment.kubernetes.io/revision: "2"
+  creationTimestamp: "2023-11-11T20:13:23Z"
+  generation: 3
+  labels:
+    app: front-end-app
+  managedFields:
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:replicas: {}
+    manager: vpa-recommender
+    operation: Update
+    subresource: scale
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:progressDeadlineSeconds: {}
+        f:revisionHistoryLimit: {}
+        f:selector: {}
+        f:strategy:
+          f:rollingUpdate:
+            .: {}
+            f:maxSurge: {}
+            f:maxUnavailable: {}
+          f:type: {}
+        f:template:
+          f:metadata:
+            f:labels:
+              .: {}
+              f:app: {}
+          f:spec:
+            f:containers:
+              k:{"name":"frontend-1"}:
+                .: {}
+                f:image: {}
+                f:imagePullPolicy: {}
+                f:name: {}
+                f:resources: {}
+                f:terminationMessagePath: {}
+                f:terminationMessagePolicy: {}
+            f:dnsPolicy: {}
+            f:restartPolicy: {}
+            f:schedulerName: {}
+            f:securityContext: {}
+            f:terminationGracePeriodSeconds: {}
+    manager: GoogleCloudConsole
+    operation: Update
+    time: "2023-11-13T06:17:44Z"
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:deployment.kubernetes.io/revision: {}
+      f:status:
+        f:availableReplicas: {}
+        f:conditions:
+          .: {}
+          k:{"type":"Available"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:lastUpdateTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Progressing"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:lastUpdateTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+        f:observedGeneration: {}
+        f:readyReplicas: {}
+        f:replicas: {}
+        f:updatedReplicas: {}
+    manager: kube-controller-manager
+    operation: Update
+    subresource: status
+    time: "2023-11-13T06:21:32Z"
+  name: front-end-deployment
+  namespace: default
+  resourceVersion: "1947970"
+  uid: b3d795fb-ffeb-4e0a-9275-bfec593661c6
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: front-end-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: front-end-app
+    spec:
+      containers:
+      - image: registry.gitlab.com/peerprepgroup51sem1y2023/docker/frontend-gke:latest
+        imagePullPolicy: Always
+        name: frontend-1
+        resources:
+          limits:
+            cpu: 500m
+            ephemeral-storage: 1Gi
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            ephemeral-storage: 1Gi
+            memory: 2Gi
+        securityContext:
+          capabilities:
+            drop:
+            - NET_RAW
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        key: kubernetes.io/arch
+        operator: Equal
+        value: amd64
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2023-11-11T20:13:23Z"
+    lastUpdateTime: "2023-11-13T06:19:56Z"
+    message: ReplicaSet "front-end-deployment-55754b9799" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2023-11-13T06:21:32Z"
+    lastUpdateTime: "2023-11-13T06:21:32Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 3
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: profile-service-deployment-dev # Name of the deployment
+    namespace: dev # Namespace in which the deployment will be created
+spec:
+    replicas: 3 # Number of desired replicas
+    selector:
+        matchLabels:
+            app: profile-service-api # Label selector for the pods controlled by this deployment
+    strategy:
+        type: RollingUpdate # Deployment strategy, which recreates all pods when updating
+    template:
+        metadata:
+            labels:
+                app: profile-service-api # Label for pods created by this template
+        spec:
+            containers:
+                - name: profile-service-api # Name of the container
+                  image: profile-service # Docker image for the container
+                  imagePullPolicy: Never
+                  ports:
+                      - containerPort: 3100 # Port on which the container listens
+                  resources:
+                      requests:
+                          memory: "150Mi" # Request 256MB of memory
+                          cpu: "100m" # Request 0.1 CPU (100 milliCPU)
+                      limits:
+                          memory: "200Mi" # Limit memory to 512MB
+                          cpu: "200m" # Limit CPU to 0.2 CPU (200 milliCPU)
+                  env:
+                      - name: POSTGRES_HOST
+                        valueFrom:
+                            configMapKeyRef:
+                                name: postgres-config-dev
+                                key: POSTGRES_HOST
+                      - name: POSTGRES_PORT
+                        valueFrom:
+                            configMapKeyRef:
+                                name: postgres-config-dev
+                                key: POSTGRES_PORT
+                      - name: POSTGRES_USERNAME
+                        valueFrom:
+                            configMapKeyRef:
+                                name: postgres-config-dev
+                                key: POSTGRES_USERNAME
+                      - name: POSTGRES_PASSWORD
+                        valueFrom:
+                            configMapKeyRef:
+                                name: postgres-config-dev
+                                key: POSTGRES_PASSWORD
+                      - name: POSTGRES_DATABASE
+                        valueFrom:
+                            configMapKeyRef:
+                                name: postgres-config-dev
+                                key: POSTGRES_DATABASE
+            restartPolicy: Always # Restart policy for the pods
+status: {} # Empty status section
